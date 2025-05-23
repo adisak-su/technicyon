@@ -55,12 +55,11 @@ function isActive2($data1, $data2)
                 <a href="#" class="d-block"><?php echo $_SESSION['adminName']; ?></a>
             </div>
         </div>
-        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        <!-- <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="ml-auto">
-                <!-- <input class="toggle-event" type="checkbox" name="status" checked data-toggle="toggle" data-on="light mode" data-off="dark mode" data-onstyle="primary" data-style="ios" onclick="changeDarkMode(this);"> -->
                 <input class="toggle" id="darkMode" type="checkbox" name="status" checked data-toggle="toggle" data-on="light mode" data-off="dark mode" data-onstyle="primary" data-style="ios" onchange="changeDarkMode(this);">
             </div>
-        </div>
+        </div> -->
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-item">
