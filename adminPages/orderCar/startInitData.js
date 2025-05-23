@@ -264,7 +264,8 @@ async function getTableStatus() {
                                     // );
                                 });
                                 return true;
-                            } catch {
+                            } catch (err) {
+                                console.log(err)
                                 return false;
                             }
                         };
