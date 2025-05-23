@@ -1,9 +1,15 @@
 <?php
 
+    $host = "sql112.infinityfree.com";
+    $dbname = "if0_37024302_technicyon";
+    $usernameDB = "if0_37024302";
+    $passwordDB = "0eFpDlHa6nX18";
+
     $host = "localhost";
     $dbname = "pp283mcn_tanasarn";
     $usernameDB = "pp283mcn_ppcard";
     $passwordDB = "PpCom2831";
+
 
     $host = "localhost";
     $dbname = "tanasarn";
