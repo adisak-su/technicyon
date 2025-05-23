@@ -4,6 +4,8 @@ html {
     /* font-family: 'Sarabun', cursive !important; */
     /* font-family: 'Mali', cursive !important; */
     font-size: 0.95rem !important;
+    font-family: "Tangerine", sans-serif;
+    font-family: "Sarabun", sans-serif;
 }
 
 .bg {
@@ -20,7 +22,7 @@ html {
 .toggle-off.ios {
     border-radius: 20px;
     font-weight: 500 !important;
-    font-size: 1.0rem !important;
+    font-size: 1rem !important;
     height: auto !important;
 }
 
@@ -31,7 +33,7 @@ html {
 .toggle-on.btn {
     padding-right: 19px;
     font-weight: 700 !important;
-    font-size: 1.0rem !important;
+    font-size: 1rem !important;
 }
 
 .btn {
@@ -93,7 +95,7 @@ button {
     justify-content: center;
     width: 70px;
     gap: 1px;
-   .item {
+    .item {
         min-width: 16px;
         min-height: 16px;
         background-color: rgb(228, 228, 228);
@@ -169,12 +171,47 @@ button {
     -ms-transform: translate(-50%, -50%);
     -o-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
-    background: -moz-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0) 45%, rgba(191, 128, 11, 1) 51%, rgba(255, 255, 255, 0) 57%, rgba(255, 255, 255, 0) 100%);
+    background: -moz-linear-gradient(
+        top,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0) 45%,
+        rgba(191, 128, 11, 1) 51%,
+        rgba(255, 255, 255, 0) 57%,
+        rgba(255, 255, 255, 0) 100%
+    );
     /* background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(255, 255, 255, 0)), color-stop(45%, rgba(255, 255, 255, 0)), color-stop(51%, rgba(191, 128, 11, 1)), color-stop(57%, rgba(255, 255, 255, 0)), color-stop(100%, rgba(255, 255, 255, 0))); */
-    background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0) 45%, rgba(191, 128, 11, 1) 51%, rgba(255, 255, 255, 0) 57%, rgba(255, 255, 255, 0) 100%);
-    background: -o-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0) 45%, rgba(191, 128, 11, 1) 51%, rgba(255, 255, 255, 0) 57%, rgba(255, 255, 255, 0) 100%);
-    background: -ms-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0) 45%, rgba(191, 128, 11, 1) 51%, rgba(255, 255, 255, 0) 57%, rgba(255, 255, 255, 0) 100%);
-    background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0) 45%, rgba(191, 128, 11, 1) 51%, rgba(255, 255, 255, 0) 57%, rgba(255, 255, 255, 0) 100%);
+    background: -webkit-linear-gradient(
+        top,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0) 45%,
+        rgba(191, 128, 11, 1) 51%,
+        rgba(255, 255, 255, 0) 57%,
+        rgba(255, 255, 255, 0) 100%
+    );
+    background: -o-linear-gradient(
+        top,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0) 45%,
+        rgba(191, 128, 11, 1) 51%,
+        rgba(255, 255, 255, 0) 57%,
+        rgba(255, 255, 255, 0) 100%
+    );
+    background: -ms-linear-gradient(
+        top,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0) 45%,
+        rgba(191, 128, 11, 1) 51%,
+        rgba(255, 255, 255, 0) 57%,
+        rgba(255, 255, 255, 0) 100%
+    );
+    background: linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0) 45%,
+        rgba(191, 128, 11, 1) 51%,
+        rgba(255, 255, 255, 0) 57%,
+        rgba(255, 255, 255, 0) 100%
+    );
 }
 
 .myTimeline:after {
@@ -188,7 +225,7 @@ button {
     width: 20px;
     height: 20px;
     top: -5px;
-    background: #F2BB13;
+    background: #f2bb13;
     text-align: center;
     line-height: 1.2;
     position: relative;

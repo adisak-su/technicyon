@@ -32,7 +32,7 @@
     $tb_ordersale_change = "ordersale_change";
     $tb_invoice_payment = "invoice_payment";
     
-    $shopName = "ร้านธนสาร";
+    $shopName = "เทคนิคอะไหล่ยนต์";
     $startOtherID = 1000000;
 
 ?>

@@ -77,7 +77,7 @@ $endDate = date("Y-m-d")
                                 ยอดขายช่วงวันที่
                             </div>
                             <div class="card-tools" style="padding:10px;">
-                                <a href="form-create.php" class="btn btn-primary btn-sm"><i class="fas fa-plus"> เพิ่มรายการขาย</i></a>
+                                <a href="form-create.php" class="button btn btn-primary btn-sm"><i class="fas fa-plus"> เพิ่มรายการขาย</i></a>
                                 <!-- <button type="button" class="btn btn-primary btn-sm">
                                     <i class="fas fa-plus"> เพิ่มรายการขาย</i>
                                 </button> -->

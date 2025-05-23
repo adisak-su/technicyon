@@ -11,4 +11,3 @@
 //     }
 // });
 
-$("body").removeClass("dark-mode");

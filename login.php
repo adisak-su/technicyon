@@ -27,11 +27,17 @@
     <!-- stylesheet -->
     <!-- <link href="https://fonts.googleapis.com/css?family=Mali" rel="stylesheet"> -->
     <!-- <link href="https://fonts.googleapis.com/css2?family=Sarabun&display=swap" rel="stylesheet"> -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="assets/css/adminlte.min.css">
-    <link rel="stylesheet" href="assets/css/style.css">
+    <!-- <link rel="stylesheet" href="assets/css/style.css"> -->
     <link rel="stylesheet" href="plugins/toastr/toastr.min.css">
 
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/style.css?<?php echo time(); ?>">
+    
 </head>
 
 <body>
@@ -41,7 +47,7 @@
             <div class="col-md-6">
                 <div class="card shadow p-3">
                     <div class="card-header">
-                        <h3 class="text-center font-weight-bold"> เข้าสู่ระบบ <?php echo $shopName; ?></h3>
+                        <h3 class="text-center font-weight-bold"><?php echo $shopName; ?></h3>
                     </div>
                     <div class="card-body">
                         <form id="formData">

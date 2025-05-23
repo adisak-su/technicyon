@@ -102,7 +102,7 @@ require_once("../../service/configData.php");
                             <div class="card">
                                 <div class="card-header d-flex justify-content-between">
                                     <div class="mr-auto my-font-size" style="line-height: 2.1rem">รายการขาย</div>
-                                    <a href="index.php" class="btn btn-warning btn-sm">กลับหน้าหลัก</a>
+                                    <a href="index.php" class="button btn btn-warning btn-sm">กลับหน้าหลัก</a>
                                 </div>
                                 <div class="card-body">
                                     <div class="row">
