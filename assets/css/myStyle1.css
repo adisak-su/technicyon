@@ -1,0 +1,159 @@
+.string-clip {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.btn-50 {
+    border-radius: 50%;
+}
+
+.btn-12px {
+    border-radius: 12px;
+}
+
+.btn-25px {
+    border-radius: 25px;
+}
+
+btn {
+    border-radius: 25px;
+}
+
+button {
+    border-radius: 25px;
+}
+
+body {
+    font-size: 1.5rem !important;
+}
+
+/* div {
+    font-size: 1.5rem !important;
+    height: auto !important;
+} */
+
+div,input,label,select {
+    font-size: 1.5rem !important;
+    height: auto !important;
+}
+
+@media (min-width: 414px) {
+
+    /* iPhone */
+    body {
+        font-size: 1rem !important;
+    }
+
+    div,input,label,select {
+        font-size: 1rem !important;
+        height: auto !important;
+    }
+    
+    /* thead {
+        font-size: 1rem;
+    }
+
+    tbody {
+        font-size: 1rem;
+    }
+
+    tbody .text-body {
+        font-size: 1rem;
+    } */
+}
+
+@media (min-width: 600px) {
+
+    /* Huwei */
+    body {
+        font-size: 1rem !important;
+    }
+    div,input,label,select {
+        font-size: 1rem !important;
+        height: auto !important;
+    }
+    
+    /* thead {
+        font-size: 1.5rem !important;
+    }
+
+    tbody {
+        font-size: 1.5rem;
+    }
+
+    tbody .text-body {
+        font-size: 1.5rem;
+    } */
+
+}
+
+@media (min-width: 736px) {
+
+    /* iPhone */
+    body {
+        font-size: 1.5rem !important;
+    }
+
+    div,input,label,select {
+        font-size: 1.5rem !important;
+        height: auto !important;
+    }
+
+    /* thead {
+        font-size: 2rem;
+    }
+
+    tbody {
+        font-size: 2rem;
+    }
+
+    tbody .text-body {
+        font-size: 2rem;
+    } */
+}
+
+@media (min-width: 960px) {
+
+    /* Huwei */
+    body {
+        font-size: 1.5rem !important;
+    }
+    div,input,label,select {
+        font-size: 1.5rem !important;
+        height: auto !important;
+    }
+    /* thead {
+        font-size: 1.5rem !important;
+    }
+    tbody {
+        font-size: 1.5rem;
+    }
+
+    tbody .text-body {
+        font-size: 1.5rem;
+    } */
+}
+
+@media (min-width: 1024px) {
+
+    /* iPad */
+    body {
+        font-size: 1.5rem !important;
+    }
+    div,input,label,select {
+        font-size: 1.5rem !important;
+        height: auto !important;
+    }
+    /* thead {
+        font-size: 1.5rem !important;
+    }
+
+    tbody {
+        font-size: 1.5rem;
+    }
+
+    tbody .text-body {
+        font-size: 1.5rem;
+    } */
+}
