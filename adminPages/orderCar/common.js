@@ -100,3 +100,5 @@ function setStorage(key, value, expires) {
     }
     return true;
 }
+
+$("body").removeClass("dark-mode");
