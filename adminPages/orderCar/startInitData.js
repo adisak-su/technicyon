@@ -210,13 +210,23 @@ async function getTableStatus() {
                             // urls.push(
                             //     "service/readTable.php?status=1&tableName=" + tableName
                             // );
-                            if (tableName === "usercar") {
-                                tableNameExpire.push(tableName);
-                                urls.push("service/getUserCar.php");
-                            } else if (tableName === "product") {
-                                tableNameExpire.push(tableName);
-                                urls.push("service/getProduct.php");
+                            switch(tableName) {
+                                case "usercar" :
+                                    tableNameExpire.push(tableName);
+                                    urls.push("service/getUserCar.php");
+                                    break;
+                                // case "product" :
+                                //     tableNameExpire.push(tableName);
+                                //     urls.push("service/getProduct.php");
+                                //     break;
                             }
+                            // if (tableName === "usercar") {
+                            //     tableNameExpire.push(tableName);
+                            //     urls.push("service/getUserCar.php");
+                            // } else if (tableName === "product") {
+                            //     tableNameExpire.push(tableName);
+                            //     urls.push("service/getProduct.php");
+                            // }
                             // else if (
                             //     !(
                             //         tableName == "sales" ||
