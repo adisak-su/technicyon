@@ -211,14 +211,14 @@ async function getTableStatus() {
                             //     "service/readTable.php?status=1&tableName=" + tableName
                             // );
                             switch(tableName) {
-                                case "usercar" :
-                                    tableNameExpire.push(tableName);
-                                    urls.push("service/getUserCar.php");
-                                    break;
-                                // case "product" :
+                                // case "usercar" :
                                 //     tableNameExpire.push(tableName);
-                                //     urls.push("service/getProduct.php");
+                                //     urls.push("service/getUserCar.php");
                                 //     break;
+                                case "product" :
+                                    tableNameExpire.push(tableName);
+                                    urls.push("service/getProduct.php");
+                                    break;
                             }
                             // if (tableName === "usercar") {
                             //     tableNameExpire.push(tableName);
