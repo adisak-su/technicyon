@@ -1,0 +1,67 @@
+name: FTP Deployment
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  web-deploy-shoppings-infinityfreeapp-com:
+    name: Deploy website on shoppings-infinityfreeapp-com
+    runs-on: ubuntu-latest
+    steps:
+    - name: Get latest code
+      uses: actions/checkout@v3
+
+    - name: Push files
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+      with:
+        server: ftpupload.net
+        username: if0_37024302
+        password: 0eFpDlHa6nX18
+        server-dir: /shoppings.infinityfreeapp.com/htdocs/  # เปลี่ยนเป็นเส้นทางที่ถูกต้องของเว็บไซต์
+
+  web-deploy-malee-liveblog365-com:
+          name: Deploy website on malee-liveblog365-com
+          runs-on: ubuntu-latest
+          steps:
+          - name: Get latest code
+            uses: actions/checkout@v3
+      
+          - name: Push files
+            uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+            with:
+              server: ftpupload.net
+              username: lblog_33340447
+              password: Adisak12345678
+              server-dir: /htdocs/  # เปลี่ยนเป็นเส้นทางที่ถูกต้องของเว็บไซต์
+
+  web-deploy-yin-pp2831-com:
+          name: Deploy website on yin-pp2831-com
+          runs-on: ubuntu-latest
+          steps:
+          - name: Get latest code
+            uses: actions/checkout@v3
+      
+          - name: Push files
+            uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+            with:
+              server: ftp.pp2831.com
+              username: yin@pp2831.com
+              password: ${{ secrets.FTP_PASSWORD }}
+              server-dir: /  # เปลี่ยนเป็นเส้นทางที่ถูกต้องของเว็บไซต์
+
+  web-deploy-malee-pp2831-com:
+          name: Deploy website on malee-pp2831-com
+          runs-on: ubuntu-latest
+          steps:
+          - name: Get latest code
+            uses: actions/checkout@v3
+                  
+          - name: Push files
+            uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+            with:
+              server: ftp.pp2831.com
+              username: tee@pp2831.com
+              password: ${{ secrets.FTP_PASSWORD_TEE }}
+              server-dir: /malee.pp2831.com/  # เปลี่ยนเป็นเส้นทางที่ถูกต้องของเว็บไซต์

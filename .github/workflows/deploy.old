@@ -1,0 +1,47 @@
+name: FTP Deployment
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  ftp-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Setup FTP credentials
+        run: |
+          echo "Host ${FTP_SERVER}" >> ~/.netrc
+          echo "  user ${FTP_USERNAME}" >> ~/.netrc
+          echo "  password ${FTP_PASSWORD}" >> ~/.netrc
+          chmod 600 ~/.netrc
+          
+      - name: Init Git FTP
+        run: |
+          git ftp init --user ${{ secrets.FTP_USERNAME }} --passwd ${{ secrets.FTP_PASSWORD }} ftp://${{ secrets.FTP_SERVER }}/thaiwater-standard/
+      - name: Debug Information
+        run: |
+          echo "Debug Information:"
+          df -h
+          free -m
+          ps aux --sort -rss | head -n 10
+
+      - name: Git-ftp push
+        run: git ftp push --user ${{ secrets.FTP_USERNAME }} --passwd ${{ secrets.FTP_PASSWORD }} ftp://${{ secrets.FTP_SERVER }}/thaiwater-standard/
+      
+
+      # Delay between pushes (optional)
+      - name: Delay between pushes
+        run: sleep 5m
+
+      - name: FTP Deploy
+        uses: SamKirkland/FTP-Deploy-Action@4.1.0
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./  # เปลี่ยนตามที่ตั้งของไฟล์ WordPress
+          server-dir: /htdocs/thaiwater-standard/  # เปลี่ยนเป็นเส้นทางที่ถูกต้องของเว็บไซต์
