@@ -102,6 +102,7 @@ require_once("../../service/configData.php");
                             <div class="card">
                                 <div class="card-header d-flex justify-content-between">
                                     <div class="mr-auto my-font-size" style="line-height: 2.1rem">รายการขาย</div>
+                                    <div class="button btn btn-warning btn-sm" onclick="initDataFromDB();">getDatabase</div>
                                     <a href="index.php" class="button btn btn-warning btn-sm">กลับหน้าหลัก</a>
                                 </div>
                                 <div class="card-body">
@@ -246,16 +247,24 @@ require_once("../../service/configData.php");
         //         });
         // });
 
-
-        $(document).ready(async function() {
-            $("*").dblclick(function(e) {
-                //e.preventDefault();
-            });
+        async function initDataFromDB() {
             loaderScreen("show");
             await startCheckDataExpired();
             allProduct = await readDataFromDB("product");
             allUserCar = await readDataFromDB("usercar");
             loaderScreen("hide");
+        }
+
+        $(document).ready(async function() {
+            $("*").dblclick(function(e) {
+                //e.preventDefault();
+            });
+            await initDataFromDB();
+            // loaderScreen("show");
+            // await startCheckDataExpired();
+            // allProduct = await readDataFromDB("product");
+            // allUserCar = await readDataFromDB("usercar");
+            // loaderScreen("hide");
             // // await list();
             // await tableProducts();
 
