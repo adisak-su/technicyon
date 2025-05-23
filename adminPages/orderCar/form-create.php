@@ -26,16 +26,28 @@ require_once("../../service/configData.php");
     <style>
         /* input */
         .inputStyle {
+            /* background-image: url('../../assets/img/search22.png');
+            background-position: 10px 12px;
+            background-repeat: no-repeat; */
             width: 100%;
-            padding: 15px 20px;
+            /* padding: 15px 20px; */
             padding: 0.375rem 0.75rem;
+            padding: 8px 20px 8px 20px;
+            padding: 8px 20px;
+            /* padding: 12px 20px 12px 40px; */
             box-sizing: border-box;
             /* color: var(--dark-active-list); */
             /* border: 2px solid var(--dark-border); */
             border-radius: 15px;
             box-sizing: border-box;
             /* background: var(--dark-input); */
+        }
 
+        .inputStyleIcon {
+            background-image: url('../../assets/img/search22.png');
+            background-position: 10px 8px;
+            background-repeat: no-repeat;
+            padding: 8px 20px 8px 40px;
         }
 
         .cursorHand {
@@ -96,7 +108,7 @@ require_once("../../service/configData.php");
                                     <div class="row">
                                         <div class="col-12 col-md-6">
                                             <label for="searchCarID">ทะเบียนรถ</label>
-                                            <input class="inputStyle cursorHand" type="text" id="searchCarID" list="optionCarID" onkeyup="dataFilterCarID();" onchange="setDataCarID(this.value);" autocomplete="off" placeholder="ทะเบียนรถ">
+                                            <input class="inputStyle inputStyleIcon cursorHand" type="text" id="searchCarID" list="optionCarID" onkeyup="dataFilterCarID();" onchange="setDataCarID(this.value);" autocomplete="off" placeholder="ทะเบียนรถ">
                                             <datalist id="optionCarID">
                                             </datalist>
                                         </div>
@@ -123,7 +135,7 @@ require_once("../../service/configData.php");
                                     <div class="row disabled" id="rowProductSale">
                                         <div class="col-12 col-md-6">
                                             <label for="searchProductID">รหัสสินค้า</label>
-                                            <input class="inputStyle cursorHand" type="text" id="searchProductID" list="optionProductID" onkeyup="dataFilterProductID();" onchange="setDataProductID(this.value);" autocomplete="off" placeholder="รหัสสินค้า/ชื่อสินค้า">
+                                            <input class="inputStyle inputStyleIcon cursorHand" type="text" id="searchProductID" list="optionProductID" onkeyup="dataFilterProductID();" onchange="setDataProductID(this.value);" autocomplete="off" placeholder="รหัสสินค้า/ชื่อสินค้า">
                                             <datalist id="optionProductID">
                                             </datalist>
                                         </div>
@@ -600,7 +612,7 @@ require_once("../../service/configData.php");
             // $("#productID").val(objProductSale.product.productID);
         }
 
-        
+
 
         $(document).ready(function() {
             // getDatabase();

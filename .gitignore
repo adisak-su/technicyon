@@ -1,0 +1,10 @@
+# ignore ALL .log files
+*.log
+
+# ignore ALL files in ANY directory named temp
+# images/
+service/configServer.php
+service/configData.php
+# service/configServerData.php
+# service/configServerDataTest.php
+# adminPages/manager/images/

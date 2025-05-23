@@ -11,7 +11,7 @@ async function initDB() {
                 db.createObjectStore('books', {keyPath: 'name'});
               });
             */
-    db = await idb.openDb("MyyStoreDB", 1, (db) => {
+    db = await idb.openDb("TechnicyonDB", 1, (db) => {
         db.createObjectStore("product", {
             keyPath: "productid",
         });

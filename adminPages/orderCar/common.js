@@ -4,7 +4,7 @@
     returns:
         <boolean> : telling if operation succeeded
  */
-const StorageName = "MyStore_";
+const StorageName = "Technicyon_";
 function removeStorage(name) {
     try {
         localStorage.removeItem(name);
