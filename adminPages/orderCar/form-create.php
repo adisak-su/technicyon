@@ -214,7 +214,7 @@ require_once("../../service/configData.php");
     <?php include_once('../../includes/pagesDatatableScript.php') ?>
 
     <script src="https://cdn.jsdelivr.net/npm/idb@3.0.2/build/idb.min.js"></script>
-    <script src="common.js?<?php echo time(); ?>"></script>
+    <!-- <script src="common.js?<?php echo time(); ?>"></script> -->
     <script src="startInitData.js?<?php echo time(); ?>"></script>
 
     <script type="text/javascript">
