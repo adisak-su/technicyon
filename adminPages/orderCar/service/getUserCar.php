@@ -14,7 +14,7 @@ try {
 
 	$response = [
 		'status' => true,
-		'message' => json_encode($result)
+		'message' => $result
 	];
 } catch (PDOException $ex) {
 	$response = [

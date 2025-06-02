@@ -12,7 +12,7 @@
 
 
     $host = "localhost";
-    $dbname = "tanasarn";
+    $dbname = "mystore";
     $usernameDB = "root";
     $passwordDB = "";
 

@@ -1,3 +1,3 @@
 <?php 
-    header('Location: orderCar');
+    header('Location: products');
 ?>

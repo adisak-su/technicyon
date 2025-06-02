@@ -13,29 +13,12 @@
     <!-- Favicons -->
     <?php include_once('includes/favicons.php'); ?>
 
-    <!-- Favicons -->
-    <!-- <link rel="apple-touch-icon" sizes="180x180" href="assets/img/favicons/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicons/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicons/favicon-16x16.png">
-    <link rel="manifest" href="assets/img/favicons/site.webmanifest">
-    <link rel="mask-icon" href="assets/img/favicons/safari-pinned-tab.svg" color="#5bbad5">
-    <link rel="shortcut icon" href="assets/img/favicons/favicon.ico">
-    <meta name="msapplication-TileColor" content="#da532c">
-    <meta name="msapplication-config" content="assets/img/favicons/browserconfig.xml">
-    <meta name="theme-color" content="#ffffff"> -->
-
-    <!-- stylesheet -->
-    <!-- <link href="https://fonts.googleapis.com/css?family=Mali" rel="stylesheet"> -->
-    <!-- <link href="https://fonts.googleapis.com/css2?family=Sarabun&display=swap" rel="stylesheet"> -->
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="assets/css/adminlte.min.css">
-    <!-- <link rel="stylesheet" href="assets/css/style.css"> -->
     <link rel="stylesheet" href="plugins/toastr/toastr.min.css">
-
     <link rel="stylesheet" href="assets/css/style.css?<?php echo time(); ?>">
     
 </head>
@@ -65,7 +48,6 @@
                         </form>
                     </div>
                     <footer class="text-secondary text-center">
-                        <!-- คลิกเข้าสู่ระบบได้ทันที (โหมดทดสอบไม่มีฐานข้อมูล) <span class="text-pink">♥️</span> -->
                     </footer>
                 </div>
             </div>
@@ -97,20 +79,8 @@
                             setTimeout(() => {
                                 window.location.href = 'index.php'
                             }, 800);
-
-
-                        // if(resp.permission === "admin" || resp.permission === "superadmin") {
-                        //     setTimeout(() => {
-                        //         window.location.href = 'pages/dashboard'
-                        //     }, 800);
-                        // } else {
-                        //     setTimeout(() => {
-                        //         window.location.href = 'pos/'
-                        //     }, 800);
-                        // }
                     } else {
                         message = `${resp.message}`;
-                        // toastr.error("มีข้อผิดพลาดเกินขึ้น โปรดติดต่อผู้ดูแลระบบ : message", {
                         toastr.error(message, {
                             timeOut: 100,
                             closeOnHover: true

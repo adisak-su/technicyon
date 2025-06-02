@@ -9,13 +9,14 @@ try {
 
 	$sql = "SELECT productid,name,groupname,suppliername,typename,price0, price1, price2, price3 FROM product ORDER BY name";
 	$sql = "SELECT productid,name,price0, price1, price2, price3 FROM product ORDER BY name";
+	$sql = "SELECT * FROM product ORDER BY name";
 	$stmt = $conn->prepare($sql);
 	$stmt->execute();
 	$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 	$response = [
 		'status' => true,
-		'message' => json_encode($result)
+		'message' => $result
 	];
 } catch (PDOException $ex) {
 	$response = [

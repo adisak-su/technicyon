@@ -21,6 +21,12 @@ async function initDB() {
         db.createObjectStore("usercar", {
             keyPath: "idcar",
         });
+        db.createObjectStore("groupname", {
+            keyPath: "groupname",
+        });
+        db.createObjectStore("typename", {
+            keyPath: "typename",
+        });
     });
 
     // await list();
@@ -73,7 +79,7 @@ async function saveProductsToDB(products) {
     });
 }
 
-async function _saveDataToDB(params, items) {
+async function _saveDataToDB2(params, items) {
     let tx = db.transaction(params, "readwrite");
     // await tx.objectStore(params).clear();
     try {
@@ -83,6 +89,25 @@ async function _saveDataToDB(params, items) {
     } catch (err) {
         alert(err.message());
     }
+}
+
+async function saveDataToDB2(params, items) {
+    let tx = db.transaction(params, "readwrite");
+    items.forEach((item) => {
+        try {
+            tx.objectStore(params).add(item);
+        } catch (err) {
+            alert(err.message());
+            // return;
+            throw err;
+            // if (err.productid == "ConstraintError") {
+            //     alert("Such product exists already");
+            //     // await addProduct();
+            // } else {
+            //     throw err;
+            // }
+        }
+    });
 }
 
 async function saveDataToDB(params, items) {
@@ -102,42 +127,6 @@ async function saveDataToDB(params, items) {
             // } else {
             //     throw err;
             // }
-        }
-    });
-
-}
-
-async function _saveProductsToDB(products) {
-    let tx = db.transaction("products", "readwrite");
-    products.forEach((item) => {
-        let productid = item.productid;
-        let name = item.name;
-        let groupname = item.groupname;
-        let suppliername = item.suppliername;
-        let typename = item.typename;
-        let price0 = item.price0;
-        let price1 = item.price1;
-        let price2 = item.price2;
-        let price3 = item.price3;
-        try {
-            tx.objectStore("products").add({
-                productid,
-                name,
-                groupname,
-                suppliername,
-                typename,
-                price0,
-                price1,
-                price2,
-                price3,
-            });
-        } catch (err) {
-            if (err.productid == "ConstraintError") {
-                alert("Such product exists already");
-                // await addProduct();
-            } else {
-                throw err;
-            }
         }
     });
 }
@@ -210,14 +199,30 @@ async function getTableStatus() {
                             // urls.push(
                             //     "service/readTable.php?status=1&tableName=" + tableName
                             // );
-                            switch(tableName) {
-                                // case "usercar" :
-                                //     tableNameExpire.push(tableName);
-                                //     urls.push("service/getUserCar.php");
-                                //     break;
-                                case "product" :
+                            switch (tableName) {
+                                case "groupname":
+                                    tableNameExpire.push(tableName);
+                                    urls.push("service/getGroupName.php");
+                                    break;
+                                case "typename":
+                                    tableNameExpire.push(tableName);
+                                    urls.push("service/getTypeName.php");
+                                    break;
+                                case "usercar":
+                                    tableNameExpire.push(tableName);
+                                    urls.push("service/getUserCar.php");
+                                    break;
+                                case "usercar":
+                                    tableNameExpire.push(tableName);
+                                    urls.push("service/getUserCar.php");
+                                    break;
+                                case "product":
                                     tableNameExpire.push(tableName);
                                     urls.push("service/getProduct.php");
+                                    // tableNameExpire.push(tableName + "1");
+                                    // urls.push("service/getProduct.php");
+                                    // tableNameExpire.push(tableName + "2");
+                                    // urls.push("service/getProduct2.php");
                                     break;
                             }
                             // if (tableName === "usercar") {
@@ -253,11 +258,28 @@ async function getTableStatus() {
                                     requests.map((r) => r.json())
                                 );
                                 tableNameExpire.forEach((tableName, index) => {
-                                    let resultItems = JSON.parse(results[index].message);
-                                    saveDataToDB(
-                                        tableName,
-                                        resultItems
-                                    );
+                                    let resultItems = results[index].message;
+                                    // switch (tableName) {
+                                    //     case "usercar":
+                                    //         saveDataToDB(
+                                    //             tableName,
+                                    //             resultItems
+                                    //         );
+                                    //         break;
+                                    //     case "product1":
+                                    //         saveDataToDB(
+                                    //             tableName,
+                                    //             resultItems
+                                    //         );
+                                    //         break;
+                                    //     case "product2":
+                                    //         saveDataToDB2(
+                                    //             tableName,
+                                    //             resultItems
+                                    //         );
+                                    //         break;
+                                    // }
+                                    saveDataToDB(tableName, resultItems);
                                     // if(tableName == "product") {
                                     //     listProducts = resultItems;
                                     // }
@@ -275,7 +297,7 @@ async function getTableStatus() {
                                 });
                                 return true;
                             } catch (err) {
-                                console.log(err)
+                                console.log(err);
                                 return false;
                             }
                         };
