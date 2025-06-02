@@ -493,7 +493,8 @@ require_once("../../service/configData.php");
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <!-- <script src="common.js?<?php echo time(); ?>"></script> -->
-    <script src="startInitData.js?<?php echo time(); ?>"></script>
+    <!-- <script src="startInitData.js?<?php echo time(); ?>"></script> -->
+    <script src="../indexedDB/indexedDB.js?<?php echo time(); ?>"></script>
 
     <script type="text/javascript">
         var arrProductSale = [];
@@ -560,6 +561,24 @@ require_once("../../service/configData.php");
                 allUserCar = await readDataFromDB("usercar");
                 allTypeName = await readDataFromDB("typename");
                 allGroupName = await readDataFromDB("groupname");
+            } catch (err) {
+                alert(err);
+            }
+
+            loaderScreen("hide");
+        }
+
+        async function initDataFromDB() {
+
+            loaderScreen("show");
+            try {
+                await openDB();
+                // products = await loadDataFromDB("products");
+                // await startCheckDataExpired();
+                allProduct = await loadDataFromDB("products");
+                allUserCar = await loadDataFromDB("usercars");
+                allTypeName = await loadDataFromDB("typenames");
+                allGroupName = await loadDataFromDB("groupnames");
             } catch (err) {
                 alert(err);
             }
