@@ -13,10 +13,4 @@
     <link rel="stylesheet" href="../../assets/css/switch.css?<?php echo time(); ?>">
     <link rel="stylesheet" href="../../assets/css/loading.css?<?php echo time(); ?>">
     <link rel="stylesheet" href="../../assets/css/style.css?<?php echo time(); ?>">
-    <link rel="stylesheet" href="../../assets/css/myStyle.css?<?php echo time(); ?>">
-    <style type="text/css">
-		body{
-			font-family: 'Tangerine', sans-serif;
-			font-family: 'Sarabun', sans-serif;
-		}
-	</style>
+    <!-- <link rel="stylesheet" href="../../assets/css/myStyle.css?<?php echo time(); ?>"> -->

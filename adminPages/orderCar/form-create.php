@@ -24,7 +24,8 @@ require_once("../../service/configData.php");
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-    <link href="css/table.css?<?php echo time(); ?>" rel="stylesheet">
+    <link href="../css/table.css?<?php echo time(); ?>" rel="stylesheet">
+    <link rel="stylesheet" href="../menus/menuheader.css?<?php echo time();?>">
 
     <style>
         /* input */
@@ -85,7 +86,7 @@ require_once("../../service/configData.php");
         label {
             color: blue;
             font-size: 24px;
-            font-family: sans-serif;
+            /* font-family: sans-serif; */
         }
 
         /* input {
@@ -254,12 +255,13 @@ require_once("../../service/configData.php");
 
 </head>
 
-<body class="hold-transition sidebar-mini dark-mode">
-    <div class="wrapper">
+<body class="sidebar-collapse">
+      <div class="wrapper">
         <!-- Menu -->
         <?php include_once('../includes/sidebar.php') ?>
         <div class="content-wrapper">
             <div class="content-header">
+              <?php include_once("../menus/menuheader.php"); ?>
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
@@ -350,7 +352,7 @@ require_once("../../service/configData.php");
                                                 </div>
                                                 <div class="col-4 col-md-3">
                                                     <label for="productPrice" class="col-form-label">ราคา/หน่วย</label>
-                                                    <input type="text" class="inputStyle text-right" id="productPrice" onclick="selectElement(this);" value="0" onkeyup="computePrice();" onkeypress="return isNumber(event);" onchange="computePrice();">
+                                                    <input type="text" class="inputStyle text-right" id="productPrice" onclick="selectElement(this);" value="0" onkeyup="computePrice();" onkeypress="return isNumber(event);" onchange="computePrice();" onfocus="selectElement(this);">
                                                 </div>
                                                 <div class="col-4 col-md-3">
                                                     <label for="productPriceTotal" class="col-form-label">ราคา</label>
@@ -645,11 +647,11 @@ require_once("../../service/configData.php");
         }
 
         function setDataCarID(element) {
-            let userCar = allUserCar.filter(item => item.idcar == element);
+            let userCar = allUserCar.filter(item => item.carId == element);
             if (userCar.length) {
                 $("#CarID_Name").val(userCar[0].name);
 
-                $("#userCarID").val(userCar[0].idcar);
+                $("#userCarID").val(userCar[0].carId);
                 $("#userCarName").val(userCar[0].name);
 
                 $("#rowProductSale").removeClass('disabled');
@@ -663,13 +665,13 @@ require_once("../../service/configData.php");
         }
 
         function setDataProductID(productid) {
-            let Product = allProduct.filter(item => item.productid == productid);
+            let Product = allProduct.filter(item => item.productId == productid);
             if (Product.length) {
-                $("#txtProductSaleID").val(Product[0].productid);
+                $("#txtProductSaleID").val(Product[0].productId);
                 $("#txtProductSaleName").val(Product[0].name);
 
                 $("#Product_Name").val(Product[0].name);
-                $("#productPrice").val(Product[0].price1);
+                $("#productPrice").val(Product[0].price3); // ราคาขายหลังร้าน
 
                 $("#btnAdd").prop('disabled', false);
                 computePrice();
@@ -691,10 +693,10 @@ require_once("../../service/configData.php");
         function setDataProductEdit(element) {
 
 
-            $("#txtProductSaleID").val(element.productID);
+            $("#txtProductSaleID").val(element.productId);
             $("#txtProductSaleName").val(element.name);
 
-            $("#searchProductID").val(element.productID);
+            $("#searchProductID").val(element.productId);
             $("#Product_Name").val(element.name);
             $("#productPrice").val(element.price);
             $("#productQty").val(element.qty);
@@ -702,18 +704,16 @@ require_once("../../service/configData.php");
             computePrice();
             $("#productPrice").focus();
             $("#productPrice").select();
-
-
         }
 
         function setDataProductName(productName) {
             let Product = allProduct.filter(item => item.name == productName);
             if (Product.length) {
-                $("#txtProductSaleID").val(Product[0].productid);
+                $("#txtProductSaleID").val(Product[0].productId);
                 $("#txtProductSaleName").val(Product[0].name);
 
-                $("#searchProductID").val(Product[0].productid);
-                $("#productPrice").val(Product[0].price1);
+                $("#searchProductID").val(Product[0].productId);
+                $("#productPrice").val(Product[0].price3);  // ราคาขายหลังร้าน
                 $("#btnAdd").prop('disabled', false);
                 computePrice();
                 $("#productPrice").focus();
@@ -742,10 +742,10 @@ require_once("../../service/configData.php");
             datalist.innerHTML = ''; // Clear existing options
             if (filter == "" || filter.length < 3) return;
 
-            let tmpCar = allUserCar.filter(option => option.idcar.includes(filter) || option.name.includes(filter)) // Filter options
+            let tmpCar = allUserCar.filter(option => option.carId.includes(filter) || option.name.includes(filter)) // Filter options
             tmpCar.forEach(option => {
                 const newOption = document.createElement('option');
-                newOption.value = option.idcar;
+                newOption.value = option.carId;
                 newOption.innerText = option.name;
                 datalist.appendChild(newOption);
             });
@@ -772,10 +772,10 @@ require_once("../../service/configData.php");
             datalist.innerHTML = ''; // Clear existing options
             if (filter == "" || filter.length < 3) return;
 
-            let options = allProduct.filter(option => option.productid.includes(filter));
+            let options = allProduct.filter(option => option.productId.includes(filter));
             options.forEach(option => {
                 const newOption = document.createElement('option');
-                newOption.value = option.productid;
+                newOption.value = option.productId;
                 newOption.innerText = option.name;
                 datalist.appendChild(newOption);
             });
@@ -791,10 +791,10 @@ require_once("../../service/configData.php");
 
             /*
             allProduct
-                .filter(option => option.productid.includes(filter)) // Filter options
+                .filter(option => option.productId.includes(filter)) // Filter options
                 .forEach(option => {
                     const newOption = document.createElement('option');
-                    newOption.value = option.productid;
+                    newOption.value = option.productId;
                     newOption.innerText = option.name;
                     datalist.appendChild(newOption);
                     if(!eventProcess) return;
@@ -807,7 +807,7 @@ require_once("../../service/configData.php");
             let html = "";
             for (i = 0; i < options.length; i++) {
                 option = options[i];
-                html += `<option value="${option.productid}">${option.name}</option>`;
+                html += `<option value="${option.productId}">${option.name}</option>`;
             }
             element.innerHTML = html;
             //return html;
@@ -818,7 +818,7 @@ require_once("../../service/configData.php");
         //     for(i=0;i<options.length;i++) {
         //             option = options[i];
         //             const newOption = document.createElement('option');
-        //             newOption.value = option.productid;
+        //             newOption.value = option.productId;
         //             newOption.innerText = option.name;
         //             element.appendChild(newOption);
         //             if(!eventProcess) break;
@@ -872,7 +872,7 @@ require_once("../../service/configData.php");
             });
             
             arrFilter.forEach(filter => {
-                tmpProducts = tmpProducts.filter(option => option.productid.toLowerCase().includes(filter.toLowerCase()));
+                tmpProducts = tmpProducts.filter(option => option.productId.toLowerCase().includes(filter.toLowerCase()));
             });
             */
 
@@ -885,7 +885,7 @@ require_once("../../service/configData.php");
             });
             let body = "";
             tmpProducts.forEach(option => {
-                let onClick = `onclick="setProductOnSelected('${option.productid}');"`;
+                let onClick = `onclick="setProductOnSelected('${option.productId}');"`;
                 let tr = `
                               <tr ${onClick}>
                                   <td>${option.name}</td>
@@ -928,7 +928,7 @@ require_once("../../service/configData.php");
             });
             let body = "";
             tmpProducts.forEach(option => {
-                let onClick = `onclick="setProductOnSelected('${option.productid}');"`;
+                let onClick = `onclick="setProductOnSelected('${option.productId}');"`;
                 let tr = `
                               <tr ${onClick}>
                                   <td>${option.name}</td>
@@ -940,18 +940,47 @@ require_once("../../service/configData.php");
             $("#showProductTable").html(body);
 
         }
+        
+        let productIdSelected = "";
+        
+        function setViewProductModal() {
+           $('#viewProductModal').on('show.bs.modal', function (event) {
+              //var button = $(event.relatedTarget) // Button that triggered the modal
+              //var recipient = button.data('whatever') // Extract info from data-* attributes
+              var modal = $(this)
+              //modal.find('.modal-title').text('New message to ' + recipient)
+              //modal.find('.modal-body input').val(recipient)
+              productIdSelected = "";
+           });
+           $('#viewProductModal').on('hide.bs.modal', function (event) {
+              //var button = $(event.relatedTarget) // Button that triggered the modal
+              //var recipient = button.data('whatever') // Extract info from data-* attributes
+              //var modal = $(this)
+              //modal.find('.modal-title').text('New message to ' + recipient)
+              //modal.find('.modal-body input').val(recipient);
+              /*
+              if(productIdSelected !== "") {
+                 $("#searchProductID").val(productIdSelected);
+                 setTimeout(setDataProductID, 500,productIdSelected);
+              }
+              */
+           });
+        }
 
-        function setProductOnSelected(productid) {
-            //alert(productid);
+        function setProductOnSelected(productId) {
+            //alert(productId);
+            productIdSelected = productId;
             $('#viewProductModal').modal('hide');
-            $("#searchProductID").val(productid);
-            setDataProductID(productid);
+            $("#searchProductID").val(productId);
+            setTimeout(setDataProductID, 500,productIdSelected);
+            //$("#searchProductID").val(productId);
+            //setDataProductID(productId);
 
             //setTimeout(elementFocus("productPrice"), 3000);
         }
 
-        function elementFocus(element) {
-            alert(1);
+        function elementFocus() {
+            //alert(1);
             //$(`#${element}`).focus();
 
             $("#productPrice").focus();
@@ -960,7 +989,7 @@ require_once("../../service/configData.php");
 
         function editArrayProductSale(index) {
             //alert(index);
-            //$("#searchProductID").val(productid);
+            //$("#searchProductID").val(productId);
             let element = arrProductSale[index];
             setDataProductEdit(element);
         }
@@ -1052,7 +1081,7 @@ require_once("../../service/configData.php");
                     return;
                 }
                 /*
-                if (arrProductSale.find((element) => element.productID == $("#txtProductSaleID").val())) {
+                if (arrProductSale.find((element) => element.productId == $("#txtProductSaleID").val())) {
                     toastr.error('รายการสินค้านี้มีอยู่แล้ว!!!', {
                         timeOut: 5000,
                         closeOnHover: true
@@ -1062,18 +1091,18 @@ require_once("../../service/configData.php");
                 }
                 */
 
-                let findIndex = arrProductSale.findIndex((element) => element.productID == $("#txtProductSaleID").val());
+                let findIndex = arrProductSale.findIndex((element) => element.productId == $("#txtProductSaleID").val());
 
                 if (findIndex == -1) {
                     arrProductSale.push({
-                        productID: $("#txtProductSaleID").val(),
+                        productId: $("#txtProductSaleID").val(),
                         name: $("#Product_Name").val(),
                         price: $("#productPrice").val(),
                         qty: $("#productQty").val(),
                     });
                 } else {
                     arrProductSale[findIndex] = {
-                        productID: $("#txtProductSaleID").val(),
+                        productId: $("#txtProductSaleID").val(),
                         name: $("#Product_Name").val(),
                         price: $("#productPrice").val(),
                         qty: $("#productQty").val(),
@@ -1104,7 +1133,7 @@ require_once("../../service/configData.php");
             if (confirm) {
                 loaderScreen("show");
                 for (index = 0; index < arrProductSale.length; index++) {
-                    if (arrProductSale[index].productID == id) {
+                    if (arrProductSale[index].productId == id) {
                         //alert(index);
                         arrProductSale = deleteArray(arrProductSale, index);
                         showTableProductSale(arrProductSale);
@@ -1117,7 +1146,7 @@ require_once("../../service/configData.php");
 
         async function _editArrayProductSale(id) {
             for (index = 0; index < arrProductSale.length; index++) {
-                if (arrProductSale[index].productID == id) {
+                if (arrProductSale[index].productId == id) {
                     setProductSale(arrProductSale[index]);
                     // arrProductSale = deleteArray(arrProductSale, index);
                     // showTableProductSale(arrProductSale);
@@ -1166,8 +1195,8 @@ require_once("../../service/configData.php");
         function setProductSaleOption() {
             $("#productID").val(objProductSale.productSale.id);
             $("#productName").val(objProductSale.productSale.name);
-            // $("#productID").val(objProductSale.product.productID);
-            // $("#productID").val(objProductSale.product.productID);
+            // $("#productID").val(objProductSale.product.productId);
+            // $("#productID").val(objProductSale.product.productId);
         }
 
         $(document).ready(function() {
@@ -1195,7 +1224,7 @@ require_once("../../service/configData.php");
             count = 1;
             total = 0;
             arrayProductSale.forEach((element, index) => {
-                ID = element.productID;
+                ID = element.productId;
                 total += element.price * element.qty;
                 myHTML += `<tr><th class="fixed-side" scope="row">${count++}</th>`;
                 myHTML += `<td class="fixed-side td-name string-clip">${element.name}</td><td class="text-right">${element.qty}</td><td class="text-right">${addCommas(element.price)}</td><td class="text-right">${addCommas(element.price*element.qty)}</td>`;
@@ -1229,6 +1258,8 @@ require_once("../../service/configData.php");
             showTableProductSale(arrProductSale);
             renderGroupFilterOptions();
             renderTypeFilterOptions();
+            
+            setViewProductModal();
 
             // $('#filterProvince').select2({
             //     // width: '200px'

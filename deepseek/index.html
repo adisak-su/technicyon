@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="th">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>ระบบอู่ซ่อมรถ - รายการรถทั้งหมด</title>
+        <!-- Bootstrap 4 CSS -->
+        <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        />
+        <!-- Font Awesome -->
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+        />
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="css/style.css" />
+    </head>
+    <body>
+        <!-- Navigation Bar -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <a class="navbar-brand" href="#">อู่ซ่อมรถ ดีดี</a>
+            <button
+                class="navbar-toggler"
+                type="button"
+                data-toggle="collapse"
+                data-target="#navbarNav"
+            >
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="index.html"
+                            >รายการรถ <span class="sr-only">(current)</span></a
+                        >
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="addCarBtn"
+                            >เพิ่มรถใหม่</a
+                        >
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="add-repair.html"
+                            >บันทึกการซ่อม</a
+                        >
+                    </li>
+                    <!-- ในส่วนของ Navigation Bar เพิ่ม Dropdown -->
+                    <li class="nav-item dropdown">
+                        <a
+                            class="nav-link dropdown-toggle"
+                            href="#"
+                            id="navbarDropdown"
+                            role="button"
+                            data-toggle="dropdown"
+                        >
+                            <i class="fas fa-database"></i> จัดการข้อมูล
+                        </a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#" id="exportDataBtn"
+                                >สำรองข้อมูล</a
+                            >
+                            <a class="dropdown-item" href="#" id="importDataBtn"
+                                >กู้คืนข้อมูล</a
+                            >
+                            <div class="dropdown-divider"></div>
+                            <a
+                                class="dropdown-item text-danger"
+                                href="#"
+                                id="resetDataBtn"
+                                >รีเซ็ตข้อมูล</a
+                            >
+                        </div>
+                    </li>
+                </ul>
+                <form class="form-inline ml-auto">
+                    <input
+                        class="form-control mr-sm-2"
+                        type="search"
+                        placeholder="ค้นหาทะเบียนรถ..."
+                        id="searchInput"
+                    />
+                    <button
+                        class="btn btn-outline-light my-2 my-sm-0"
+                        type="button"
+                        id="searchBtn"
+                    >
+                        ค้นหา
+                    </button>
+                </form>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="container-fluid mt-4">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0">รายการรถทั้งหมด</h5>
+                </div>
+                <div class="card-body">
+                    <!-- Car Table -->
+                    <div class="table-responsive">
+                        <table
+                            class="table table-striped table-hover table-bordered"
+                            id="carTable"
+                        >
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>#</th>
+                                    <th>ทะเบียนรถ</th>
+                                    <th>ยี่ห้อ</th>
+                                    <th>รุ่น</th>
+                                    <th>ปีที่ผลิต</th>
+                                    <th>เจ้าของรถ</th>
+                                    <th>เบอร์โทร</th>
+                                    <th>จำนวนการซ่อม</th>
+                                    <th>การดำเนินการ</th>
+                                </tr>
+                            </thead>
+                            <tbody id="carTableBody">
+                                <!-- Data will be loaded here by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Pagination -->
+                    <nav aria-label="Page navigation">
+                        <ul
+                            class="pagination justify-content-center"
+                            id="pagination"
+                        >
+                            <!-- Pagination will be loaded here by JavaScript -->
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add/Edit Car Modal -->
+        <div
+            class="modal fade"
+            id="carModal"
+            tabindex="-1"
+            role="dialog"
+            aria-labelledby="carModalLabel"
+            aria-hidden="true"
+        >
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="carModalLabel">
+                            เพิ่มรถใหม่
+                        </h5>
+                        <button
+                            type="button"
+                            class="close"
+                            data-dismiss="modal"
+                            aria-label="Close"
+                        >
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="carForm">
+                            <input type="hidden" id="carId" />
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="licensePlate"
+                                        >ทะเบียนรถ
+                                        <span class="text-danger"
+                                            >*</span
+                                        ></label
+                                    >
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        id="licensePlate"
+                                        required
+                                    />
+                                    <div class="invalid-feedback">
+                                        กรุณากรอกทะเบียนรถ
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="brand"
+                                        >ยี่ห้อ
+                                        <span class="text-danger"
+                                            >*</span
+                                        ></label
+                                    >
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        id="brand"
+                                        required
+                                    />
+                                    <div class="invalid-feedback">
+                                        กรุณากรอกยี่ห้อรถ
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="model"
+                                        >รุ่น
+                                        <span class="text-danger"
+                                            >*</span
+                                        ></label
+                                    >
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        id="model"
+                                        required
+                                    />
+                                    <div class="invalid-feedback">
+                                        กรุณากรอกรุ่นรถ
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="year"
+                                        >ปีที่ผลิต
+                                        <span class="text-danger"
+                                            >*</span
+                                        ></label
+                                    >
+                                    <input
+                                        type="number"
+                                        class="form-control"
+                                        id="year"
+                                        min="1900"
+                                        max="2099"
+                                        required
+                                    />
+                                    <div class="invalid-feedback">
+                                        กรุณากรอกปีที่ผลิต
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="owner"
+                                        >เจ้าของรถ
+                                        <span class="text-danger"
+                                            >*</span
+                                        ></label
+                                    >
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        id="owner"
+                                        required
+                                    />
+                                    <div class="invalid-feedback">
+                                        กรุณากรอกชื่อเจ้าของรถ
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="phone"
+                                        >เบอร์โทร
+                                        <span class="text-danger"
+                                            >*</span
+                                        ></label
+                                    >
+                                    <input
+                                        type="tel"
+                                        class="form-control"
+                                        id="phone"
+                                        required
+                                    />
+                                    <div class="invalid-feedback">
+                                        กรุณากรอกเบอร์โทร
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button
+                            type="button"
+                            class="btn btn-secondary"
+                            data-dismiss="modal"
+                        >
+                            ปิด
+                        </button>
+                        <button
+                            type="button"
+                            class="btn btn-primary"
+                            id="saveCarBtn"
+                        >
+                            บันทึก
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Delete Confirmation Modal -->
+        <div
+            class="modal fade"
+            id="deleteModal"
+            tabindex="-1"
+            role="dialog"
+            aria-labelledby="deleteModalLabel"
+            aria-hidden="true"
+        >
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-danger text-white">
+                        <h5 class="modal-title" id="deleteModalLabel">
+                            ยืนยันการลบ
+                        </h5>
+                        <button
+                            type="button"
+                            class="close"
+                            data-dismiss="modal"
+                            aria-label="Close"
+                        >
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        คุณแน่ใจหรือไม่ว่าต้องการลบรถทะเบียน
+                        <strong id="deleteCarPlate"></strong>?
+                        <p class="text-danger">
+                            การดำเนินการนี้ไม่สามารถยกเลิกได้!
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button
+                            type="button"
+                            class="btn btn-secondary"
+                            data-dismiss="modal"
+                        >
+                            ยกเลิก
+                        </button>
+                        <button
+                            type="button"
+                            class="btn btn-danger"
+                            id="confirmDeleteBtn"
+                        >
+                            ลบ
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- เพิ่ม Modal สำหรับ Import Data -->
+        <div
+            class="modal fade"
+            id="importDataModal"
+            tabindex="-1"
+            role="dialog"
+            aria-labelledby="importDataModalLabel"
+            aria-hidden="true"
+        >
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="importDataModalLabel">
+                            นำเข้าข้อมูล
+                        </h5>
+                        <button
+                            type="button"
+                            class="close"
+                            data-dismiss="modal"
+                            aria-label="Close"
+                        >
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="backupFile"
+                                >เลือกไฟล์ข้อมูล (.json)</label
+                            >
+                            <input
+                                type="file"
+                                class="form-control-file"
+                                id="backupFile"
+                                accept=".json"
+                            />
+                        </div>
+                        <div class="alert alert-warning">
+                            <strong>คำเตือน!</strong>
+                            การนำเข้าข้อมูลจะทับข้อมูลปัจจุบันทั้งหมด
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button
+                            type="button"
+                            class="btn btn-secondary"
+                            data-dismiss="modal"
+                        >
+                            ยกเลิก
+                        </button>
+                        <button
+                            type="button"
+                            class="btn btn-primary"
+                            id="confirmImportBtn"
+                        >
+                            นำเข้าข้อมูล
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- jQuery, Popper.js, Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <!-- Custom JS -->
+        <script src="js/script.js"></script>
+    </body>
+</html>

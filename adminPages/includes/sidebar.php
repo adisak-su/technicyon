@@ -20,7 +20,8 @@ function isActive2($data1, $data2)
 ?>
 
 <!-- Navbar -->
-<nav class="main-header navbar navbar-expand navbar-white navbar-light">
+<!-- <nav class="main-header navbar navbar-expand navbar-white navbar-light"> -->
+<nav class="main-header navbar navbar-white navbar-light">
     <ul class="navbar-nav">
         <li class="nav-item">
             <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
@@ -87,7 +88,7 @@ function isActive2($data1, $data2)
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link <?php echo isActive('productSale') ?>">
+                    <a href="#" class="nav-link <?php echo isActive('products') ?>">
                         <i class="nav-icon fa fa-bars"></i>
                         <p>รายการสินค้า
                             <i class="fas fa-angle-left right"></i>
@@ -95,7 +96,7 @@ function isActive2($data1, $data2)
                     </a>
                     <ul class="nav nav-treeview" style="display: none;">
                         <li class="nav-item">
-                            <a href="../productSale/index.php" class="nav-link <?php echo isActive2('productSale','index.php') ?>">
+                            <a href="../products/index.php" class="nav-link <?php echo isActive2('products','index.php') ?>">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>รายการสินค้าขาย</p>
                             </a>

@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="th">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>ระบบอู่ซ่อมรถ - รายละเอียดรถ</title>
+        <!-- Bootstrap 4 CSS -->
+        <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        />
+        <!-- Font Awesome -->
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+        />
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="css/style.css" />
+    </head>
+    <body>
+        <!-- Navigation Bar -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <a class="navbar-brand" href="#">อู่ซ่อมรถ ดีดี</a>
+            <button
+                class="navbar-toggler"
+                type="button"
+                data-toggle="collapse"
+                data-target="#navbarNav"
+            >
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">รายการรถ</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#"
+                            >รายละเอียดรถ
+                            <span class="sr-only">(current)</span></a
+                        >
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="container-fluid mt-4">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0" id="carDetailTitle">รายละเอียดรถ</h5>
+                </div>
+                <div class="card-body">
+                    <div class="text-center">
+                        <button id="add_repair" class="btn btn-primary mr-2">
+                            <i class="fas fa-plus"></i> เพิ่มการซ่อมใหม่
+                        </button>
+                        <a
+                            href="add-repair.html?id=${car.id}"
+                            class="btn btn-success mr-2"
+                        >
+                            <i class="fas fa-plus"></i> เพิ่มการซ่อมใหม่
+                        </a>
+                        <button class="btn btn-primary" id="editCarBtn">
+                            แก้ไขข้อมูลรถ
+                        </button>
+                        <a href="index.html" class="btn btn-secondary"
+                            >กลับสู่รายการรถ</a
+                        >
+                    </div>
+                    <!-- Nav Tabs -->
+                    <ul class="nav nav-tabs" id="carDetailTabs" role="tablist">
+                        <li class="nav-item">
+                            <a
+                                class="nav-link active"
+                                id="car-info-tab"
+                                data-toggle="tab"
+                                href="#car-info"
+                                role="tab"
+                                >ข้อมูลรถ</a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a
+                                class="nav-link"
+                                id="repair-history-tab"
+                                data-toggle="tab"
+                                href="#repair-history"
+                                role="tab"
+                                >ประวัติการซ่อม</a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a
+                                class="nav-link disabled"
+                                id="repair-details-tab"
+                                data-toggle="tab"
+                                href="#repair-details"
+                                role="tab"
+                                >รายละเอียดการซ่อม</a
+                            >
+                        </li>
+                    </ul>
+
+                    <!-- Tab Content -->
+                    <div
+                        class="tab-content p-3 border border-top-0 rounded-bottom"
+                        id="carDetailTabsContent"
+                    >
+                        <!-- Car Info Tab -->
+                        <div
+                            class="tab-pane fade show active"
+                            id="car-info"
+                            role="tabpanel"
+                        >
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="card mb-3">
+                                        <div class="card-header bg-light">
+                                            <h6 class="mb-0">ข้อมูลรถ</h6>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row mb-2">
+                                                <div
+                                                    class="col-sm-4 font-weight-bold"
+                                                >
+                                                    ทะเบียนรถ:
+                                                </div>
+                                                <div
+                                                    class="col-sm-8"
+                                                    id="detail-licensePlate"
+                                                ></div>
+                                            </div>
+                                            <div class="row mb-2">
+                                                <div
+                                                    class="col-sm-4 font-weight-bold"
+                                                >
+                                                    ยี่ห้อ:
+                                                </div>
+                                                <div
+                                                    class="col-sm-8"
+                                                    id="detail-brand"
+                                                ></div>
+                                            </div>
+                                            <div class="row mb-2">
+                                                <div
+                                                    class="col-sm-4 font-weight-bold"
+                                                >
+                                                    รุ่น:
+                                                </div>
+                                                <div
+                                                    class="col-sm-8"
+                                                    id="detail-model"
+                                                ></div>
+                                            </div>
+                                            <div class="row mb-2">
+                                                <div
+                                                    class="col-sm-4 font-weight-bold"
+                                                >
+                                                    ปีที่ผลิต:
+                                                </div>
+                                                <div
+                                                    class="col-sm-8"
+                                                    id="detail-year"
+                                                ></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card mb-3">
+                                        <div class="card-header bg-light">
+                                            <h6 class="mb-0">
+                                                ข้อมูลเจ้าของรถ
+                                            </h6>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row mb-2">
+                                                <div
+                                                    class="col-sm-4 font-weight-bold"
+                                                >
+                                                    ชื่อเจ้าของ:
+                                                </div>
+                                                <div
+                                                    class="col-sm-8"
+                                                    id="detail-owner"
+                                                ></div>
+                                            </div>
+                                            <div class="row mb-2">
+                                                <div
+                                                    class="col-sm-4 font-weight-bold"
+                                                >
+                                                    เบอร์โทร:
+                                                </div>
+                                                <div
+                                                    class="col-sm-8"
+                                                    id="detail-phone"
+                                                ></div>
+                                            </div>
+                                            <div class="row mb-2">
+                                                <div
+                                                    class="col-sm-4 font-weight-bold"
+                                                >
+                                                    จำนวนการซ่อม:
+                                                </div>
+                                                <div
+                                                    class="col-sm-8"
+                                                    id="detail-repairCount"
+                                                ></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <button class="btn btn-primary" id="editCarBtn">
+                                    แก้ไขข้อมูลรถ
+                                </button>
+                                <a href="index.html" class="btn btn-secondary"
+                                    >กลับสู่รายการรถ</a
+                                >
+                            </div>
+                        </div>
+
+                        <!-- Repair History Tab -->
+                        <div
+                            class="tab-pane fade"
+                            id="repair-history"
+                            role="tabpanel"
+                        >
+                            <div class="table-responsive">
+                                <table
+                                    class="table table-striped table-hover table-bordered"
+                                >
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th>เลขบิล</th>
+                                            <th>วันที่ซ่อม</th>
+                                            <th>รายการซ่อม</th>
+                                            <th>ค่าแรง</th>
+                                            <th>ค่าอะไหล่</th>
+                                            <th>รวมทั้งสิ้น</th>
+                                            <th>ดำเนินการ</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="repairHistoryBody">
+                                        <!-- Data will be loaded here by JavaScript -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Repair Details Tab -->
+                        <div
+                            class="tab-pane fade"
+                            id="repair-details"
+                            role="tabpanel"
+                        >
+                            <div class="card">
+                                <div class="card-header bg-light">
+                                    <h6 class="mb-0">
+                                        รายละเอียดการซ่อม - บิลเลขที่
+                                        <span id="repair-billNo"></span>
+                                    </h6>
+                                    <div class="text-center mt-3">
+                                        <button
+                                            id="print-repair"
+                                            class="btn btn-primary mr-2"
+                                        >
+                                            <i class="fas fa-print"></i>
+                                            พิมพ์ใบซ่อม
+                                        </button>
+                                        <!-- <button id="print-repair"
+                                            class="btn btn-primary mr-2"
+                                            onclick="window.location.href='print-repair.html?id=${repair.id}'"
+                                        >
+                                            <i class="fas fa-print"></i>
+                                            พิมพ์ใบซ่อม
+                                        </button> -->
+                                        <button
+                                            class="btn btn-secondary"
+                                            onclick="$('#repair-history-tab').tab('show')"
+                                        >
+                                            <i class="fas fa-arrow-left"></i>
+                                            กลับสู่ประวัติการซ่อม
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row mb-3">
+                                        <div class="col-md-4">
+                                            <strong>วันที่ซ่อม:</strong>
+                                            <span id="repair-date"></span>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <strong>ผู้รับงาน:</strong>
+                                            <span id="repair-mechanic"></span>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <strong>สถานะ:</strong>
+                                            <span id="repair-status"></span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-md-12">
+                                            <strong>หมายเหตุ:</strong>
+                                            <span id="repair-notes"></span>
+                                        </div>
+                                    </div>
+
+                                    <h6 class="mt-4 mb-3">รายการอะไหล่</h6>
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered">
+                                            <thead class="thead-light">
+                                                <tr>
+                                                    <th>ลำดับ</th>
+                                                    <th>ชื่ออะไหล่</th>
+                                                    <th>จำนวน</th>
+                                                    <th>ราคาต่อหน่วย</th>
+                                                    <th>รวม</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="repairPartsBody">
+                                                <!-- Data will be loaded here by JavaScript -->
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <td
+                                                        colspan="4"
+                                                        class="text-right font-weight-bold"
+                                                    >
+                                                        ค่าอะไหล่รวม
+                                                    </td>
+                                                    <td
+                                                        class="font-weight-bold"
+                                                        id="partsTotal"
+                                                    ></td>
+                                                </tr>
+                                                <tr>
+                                                    <td
+                                                        colspan="4"
+                                                        class="text-right font-weight-bold"
+                                                    >
+                                                        ค่าแรง
+                                                    </td>
+                                                    <td
+                                                        class="font-weight-bold"
+                                                        id="laborCost"
+                                                    ></td>
+                                                </tr>
+                                                <tr class="table-active">
+                                                    <td
+                                                        colspan="4"
+                                                        class="text-right font-weight-bold"
+                                                    >
+                                                        รวมทั้งสิ้น
+                                                    </td>
+                                                    <td
+                                                        class="font-weight-bold"
+                                                        id="repairTotal"
+                                                    ></td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-center mt-3">
+                                <button
+                                    class="btn btn-secondary"
+                                    onclick="$('#repair-history-tab').tab('show')"
+                                >
+                                    กลับสู่ประวัติการซ่อม
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add/Edit Car Modal (Same as index.html) -->
+        <div
+            class="modal fade"
+            id="carModal"
+            tabindex="-1"
+            role="dialog"
+            aria-labelledby="carModalLabel"
+            aria-hidden="true"
+        >
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="carModalLabel">
+                            เพิ่มรถใหม่
+                        </h5>
+                        <button
+                            type="button"
+                            class="close"
+                            data-dismiss="modal"
+                            aria-label="Close"
+                        >
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="carForm">
+                            <input type="hidden" id="carId" />
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="licensePlate"
+                                        >ทะเบียนรถ
+                                        <span class="text-danger"
+                                            >*</span
+                                        ></label
+                                    >
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        id="licensePlate"
+                                        required
+                                    />
+                                    <div class="invalid-feedback">
+                                        กรุณากรอกทะเบียนรถ
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="brand"
+                                        >ยี่ห้อ
+                                        <span class="text-danger"
+                                            >*</span
+                                        ></label
+                                    >
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        id="brand"
+                                        required
+                                    />
+                                    <div class="invalid-feedback">
+                                        กรุณากรอกยี่ห้อรถ
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="model"
+                                        >รุ่น
+                                        <span class="text-danger"
+                                            >*</span
+                                        ></label
+                                    >
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        id="model"
+                                        required
+                                    />
+                                    <div class="invalid-feedback">
+                                        กรุณากรอกรุ่นรถ
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="year"
+                                        >ปีที่ผลิต
+                                        <span class="text-danger"
+                                            >*</span
+                                        ></label
+                                    >
+                                    <input
+                                        type="number"
+                                        class="form-control"
+                                        id="year"
+                                        min="1900"
+                                        max="2099"
+                                        required
+                                    />
+                                    <div class="invalid-feedback">
+                                        กรุณากรอกปีที่ผลิต
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="owner"
+                                        >เจ้าของรถ
+                                        <span class="text-danger"
+                                            >*</span
+                                        ></label
+                                    >
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        id="owner"
+                                        required
+                                    />
+                                    <div class="invalid-feedback">
+                                        กรุณากรอกชื่อเจ้าของรถ
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="phone"
+                                        >เบอร์โทร
+                                        <span class="text-danger"
+                                            >*</span
+                                        ></label
+                                    >
+                                    <input
+                                        type="tel"
+                                        class="form-control"
+                                        id="phone"
+                                        required
+                                    />
+                                    <div class="invalid-feedback">
+                                        กรุณากรอกเบอร์โทร
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button
+                            type="button"
+                            class="btn btn-secondary"
+                            data-dismiss="modal"
+                        >
+                            ปิด
+                        </button>
+                        <button
+                            type="button"
+                            class="btn btn-primary"
+                            id="saveCarBtn"
+                        >
+                            บันทึก
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- jQuery, Popper.js, Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <!-- Custom JS -->
+        <script src="js/script.js"></script>
+        <script></script>
+    </body>
+</html>

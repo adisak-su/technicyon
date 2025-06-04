@@ -7,6 +7,7 @@
     <title>Product Management</title>
     <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
     <link rel="stylesheet" href="../../assets/css/adminlte.min.css">
+    <link rel="stylesheet" href="../../assets/css/style.css">
     <style>
         .progress-label {
             font-size: 14px;
@@ -67,7 +68,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" id="closeModalBtn" disabled>Close</button>
+                    <button type="button" class="btn btn-secondary boxx" data-dismiss="modal" id="closeModalBtn" disabled>Close</button>
                 </div>
             </div>
         </div>
@@ -152,6 +153,66 @@
                 const transaction = db.transaction([storeName], 'readwrite');
                 const store = transaction.objectStore(storeName);
 
+               
+
+                
+                    let count = 0;
+                    let total = data.length;
+
+                    if (total === 0) {
+                        resolve();
+                        return;
+                    }
+
+                    // Update progress every 10 items or when complete
+                    const updateProgress = () => {
+                        const progress = Math.floor((count / total) * 100);
+                        document.getElementById(`${storeName}-progress`).style.width = `${progress}%`;
+
+                        // Update overall progress
+                        const productsProgress = document.getElementById('products-progress').style.width;
+                        const customersProgress = document.getElementById('customers-progress').style.width;
+
+                        const productsPercent = parseInt(productsProgress) || 0;
+                        const customersPercent = parseInt(customersProgress) || 0;
+                        const overallPercent = Math.floor((productsPercent + customersPercent) / 2);
+
+                        document.getElementById('overall-progress').style.width = `${overallPercent}%`;
+                    };
+
+                    // Store each item
+                    data.forEach(item => {
+                        const request = store.put(item);
+
+                        request.onsuccess = () => {
+                            count++;
+                            if (count % 10 === 0 || count === total) {
+                                updateProgress();
+                            }
+
+                            if (count === total) {
+                                resolve();
+                            }
+                        };
+
+                        request.onerror = (event) => {
+                            console.error(`Error storing item in ${storeName}:`, event.target.error);
+                            reject(event.target.error);
+                        };
+                    });
+                    saveLastSyncTime(storeName,lastSyncTime)
+                
+
+                
+            });
+        };
+        
+        const storeDataOld = (storeName, data) => {
+            return new Promise((resolve, reject) => {
+                //const transaction = db.transaction([storeName], 'readwrite');
+                const transaction = db.transaction([storeName], 'readwrite');
+                const store = transaction.objectStore(storeName);
+
                 // Clear existing data
                 const clearRequest = store.clear();
 
@@ -209,6 +270,7 @@
                 };
             });
         };
+        
         Date.prototype.addHours = function(h) {
             this.setHours(this.getHours() + h);
             return this;
@@ -220,6 +282,7 @@
                 document.getElementById(`${progressKey}-progress`).style.width = '0%';
 
                 const lastSyncTime = await getLastSyncTime(progressKey);
+                //const lastSyncTime = "empty";
                 const response = await fetch(`syncFromApi/${endpoint}`, {
                     method: 'POST',
                     headers: {

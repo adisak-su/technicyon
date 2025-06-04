@@ -6,25 +6,21 @@ http_response_code(200);
 try {
 	$DB = new Database();
 	$conn = $DB->connect();
-	if (isset($_POST["productId"]) && !empty($_POST["productId"])) {
-		// $data = json_decode(file_get_contents("php://input"));
-		// var_dump($data);
-		$productId = $_POST["productId"];
+	if ('DELETE' === $_SERVER['REQUEST_METHOD']) {
+		$data = json_decode(file_get_contents("php://input"));
+		var_dump($data);
+		$productId = $data->productId;
 		$params = [
 			"productId" => $productId
 		];
 		$sql = "DELETE FROM products WHERE productId=:productId";
 		$stmt = $conn->prepare($sql);
 		$stmt->execute($params);
-		$response = [
-			'status' => true
-		];
-	} else {
+		$response = "OK";
+	}
+	else {
 		http_response_code(500);
-		$response = [
-			'status' => false,
-			'message' => "Error Data"
-		];
+		$response = "Error Method";
 	}
 } catch (PDOException $ex) {
 	$response = [

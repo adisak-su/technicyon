@@ -1,7 +1,7 @@
 <?php
-require_once("service/configData.php");
-session_start(); //ประกาศ การใช้งาน session
-session_destroy(); // ลบตัวแปร session ทั้งหมด
+    require_once("service/configData.php");
+    session_start(); //ประกาศ การใช้งาน session
+    session_destroy(); // ลบตัวแปร session ทั้งหมด
 ?>
 <!DOCTYPE html>
 <html>
@@ -20,7 +20,7 @@ session_destroy(); // ลบตัวแปร session ทั้งหมด
     <link rel="stylesheet" href="assets/css/adminlte.min.css">
     <link rel="stylesheet" href="plugins/toastr/toastr.min.css">
     <link rel="stylesheet" href="assets/css/style.css?<?php echo time(); ?>">
-
+    
 </head>
 
 <body>
@@ -44,7 +44,7 @@ session_destroy(); // ลบตัวแปร session ทั้งหมด
                                 <input type="password" id="password" name="password" class="form-control" placeholder="password" value="123">
                             </div>
 
-                            <button name="submit" class="btn btn-primary btn-block boxx" type="submit" name="LoginBT" id="LoginBT"> เข้าสู่ระบบ</button>
+                            <button name="submit" class="btn btn-primary btn-block" type="submit" name="LoginBT" id="LoginBT"> เข้าสู่ระบบ</button>
                         </form>
                     </div>
                     <footer class="text-secondary text-center">
@@ -76,9 +76,9 @@ session_destroy(); // ลบตัวแปร session ทั้งหมด
                      */
                     if (resp.status) {
                         toastr.success('เข้าสู่ระบบเรียบร้อย');
-                        setTimeout(() => {
-                            window.location.href = 'index.php'
-                        }, 800);
+                            setTimeout(() => {
+                                window.location.href = 'index.php'
+                            }, 800);
                     } else {
                         message = `${resp.message}`;
                         toastr.error(message, {
@@ -88,15 +88,7 @@ session_destroy(); // ลบตัวแปร session ทั้งหมด
                     }
                 })
             })
-        });
-
-        function checkEnter(event) {
-            //alert(event.keyCode);
-            if (event.key === 'Enter' || event.keyCode === 13 || event.which === 13) {
-                // Your code here - what you want to happen when Enter is pressed
-                alert("Enter key was pressed");
-            }
-        }
+        })
     </script>
 
 </body>

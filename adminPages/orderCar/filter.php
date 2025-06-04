@@ -16,15 +16,6 @@
       font: 16px Arial;
     }
 
-    /*the container must be positioned relative:*/
-    .autocomplete {
-      position: relative;
-      display: inline-block;
-      display: flex;
-      justify-content: space-between;
-
-    }
-
     /*
 input {
   border: 1px solid transparent;
@@ -45,20 +36,9 @@ input[type=submit] {
 }
 */
     .inputStyle {
-      /* background-image: url('../../assets/img/search22.png');
-            background-position: 10px 12px;
-            background-repeat: no-repeat; */
       width: 100%;
-      /* width: calc(100% - 50px); */
-      /* padding: 15px 20px; */
       padding: 8px 20px;
-      /* padding: 12px 20px 12px 40px; */
-      /*box-sizing: border-box;*/
-      /* color: var(--dark-active-list); */
-      /*border: 2px solid blue; */
       border-radius: 15px;
-      /*box-sizing: border-box;*/
-      /* background: var(--dark-input); */
     }
 
     .inputStyle:focus {
@@ -69,7 +49,6 @@ input[type=submit] {
     .inputStyleFind {
       width: calc(100% - 50px);
     }
-
 
     .inputStyleIcon {
       background-image: url('../../assets/img/search22.png');
@@ -95,6 +74,15 @@ input[type=submit] {
 
     .cursorHand {
       cursor: pointer;
+    }
+
+    /*the container must be positioned relative:*/
+    .autocomplete {
+      position: relative;
+      display: inline-block;
+      display: flex;
+      justify-content: space-between;
+
     }
 
     .autocomplete-items {
@@ -204,11 +192,13 @@ input[type=submit] {
   <?php include_once('../../includes/pagesDatatableScript.php') ?>
 
   <script src="https://cdn.jsdelivr.net/npm/idb@3.0.2/build/idb.min.js"></script>
-  <script src="startInitData.js?<?php echo time(); ?>"></script>
+
+  <!-- <script src="startInitData.js?<?php echo time(); ?>"></script> -->
+  <script src="../indexedDB/indexedDB.js"></script>
   <script>
     async function initDataFromDB() {
       //loaderScreen("show");
-      await startCheckDataExpired();
+      // await startCheckDataExpired();
       allProduct = await readDataFromDB("product");
       allUserCar = await readDataFromDB("usercar");
       /*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
@@ -222,7 +212,7 @@ input[type=submit] {
       $("*").dblclick(function(e) {
         //e.preventDefault();
       });
-      await initDataFromDB();
+      // await initDataFromDB();
       //showTableProductSale(arrProductSale);
       // loaderScreen("show");
       // await startCheckDataExpired();
@@ -234,6 +224,21 @@ input[type=submit] {
 
       // console.table(listProducts);
 
+    });
+
+    let products = [];
+    let allProduct = [];
+    let allUserCar = [];
+    $(document).ready(async function() {
+      await openDB();
+      // products = await loadDataFromDB("products");
+      allProduct = await loadDataFromDB("products");
+      allUserCar = await loadDataFromDB("usercars");
+      autocomplete(document.getElementById("idproduct"), allProduct, "productId", "name", productIDChange);
+      autocomplete(document.getElementById("idcar"), allUserCar, "carId", "name", carIDChange);
+
+      loaderScreen("hide");
+      //alert(products.length);
     });
 
     function checkEnter(event) {
@@ -358,10 +363,10 @@ input[type=submit] {
         if (e.keyCode == 40) {
           /*If the arrow DOWN key is pressed,
           increase the currentFocus variable:*/
-          
+
           // scroll.scrollBy({ top: 30, behavior: 'smooth' });
           // scroll.scrollTop += 60;
-          
+
           // const height = x[currentFocus].clientHeight;
           // scroll.scrollBy(0, height);
           // if(currentFocus>=0) {
@@ -369,7 +374,7 @@ input[type=submit] {
           //   scroll.scrollBy(0, height);
           // }
           currentFocus++;
-         
+
           /*and and make the current item more visible:*/
           addActive(x);
           // setScroll(x,scroll,"Down");
@@ -389,8 +394,8 @@ input[type=submit] {
           //   const height = x[currentFocus].clientHeight;
           //   scroll.scrollBy(0, -1*height);
           // }
-            // const height = x[currentFocus].clientHeight;
-            // scroll.scrollBy(0, -1*height);
+          // const height = x[currentFocus].clientHeight;
+          // scroll.scrollBy(0, -1*height);
           currentFocus--;
           /*and and make the current item more visible:*/
           addActive(x);
@@ -406,18 +411,17 @@ input[type=submit] {
         }
       });
 
-      function setScroll(x,scroll,status) {
+      function setScroll(x, scroll, status) {
         if (!x) return false;
         let height = 0;
         height = x[currentFocus].clientHeight;
         // for(let i=0;i<currentFocus;i++) {
         //   height += x[currentFocus].clientHeight;
         // }
-        if(status==="Down") {
+        if (status === "Down") {
           scroll.scrollBy(0, height);
-        }
-        else {
-          scroll.scrollBy(0, -1*height);
+        } else {
+          scroll.scrollBy(0, -1 * height);
         }
       }
 
