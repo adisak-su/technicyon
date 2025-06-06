@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>แดชบอร์ด</title>
+
+  <!-- Bootstrap 4 -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+  <!-- Bootstrap Icons CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome 6 (Free CDN) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  
+  <style>
+    body {
+            font-family: 'Noto Sans Thai', sans-serif;
+      color: #2d3436;
+      min-height: 100vh;
+      padding: 2rem;
+    }
+
+    .glass-card {
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(15px);
+      border-radius: 25px;
+      padding: 1.5rem;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+      transition: all 0.3s ease;
+      animation: slideInUp 0.5s ease;
+    }
+
+    .glass-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 25px 70px rgba(0, 0, 0, 0.2);
+    }
+
+    .card-title {
+      background: linear-gradient(90deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: 600;
+    }
+
+    .btn-glass {
+      border-radius: 15px;
+      background: linear-gradient(to right, #667eea, #764ba2);
+      color: white;
+      font-weight: 600;
+      border: none;
+      padding: 0.5rem 1.25rem;
+      transition: transform 0.3s ease;
+    }
+
+    .btn-glass:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.5);
+    }
+  
+  .btn-glass-new {
+  border-radius: 15px;
+    background: linear-gradient(to right, #667eea, #764ba2);
+    color: white;
+  font-weight: 600;
+  border: none;
+  padding: 0.6rem 1.4rem;
+  transition: all 0.3s ease;
+  box-shadow:
+    inset 0 4px 0 rgba(255, 255, 255, 0.4),  /* highlight ขอบบน */
+    0 4px 8px rgba(0, 0, 0, 0.2),            /* เงาหลัก */
+    0 6px 20px rgba(102, 126, 234, 0.4);     /* เงาเรืองแบบ gradient */
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2); /* แสงเงาบนตัวอักษร */
+}
+
+.btn-glass-new:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    0 6px 12px rgba(0, 0, 0, 0.25),
+    0 8px 24px rgba(102, 126, 234, 0.5);
+}
+
+.btn-glass-new:active {
+  transform: translateY(1px);
+  box-shadow:
+    inset 0 2px 5px rgba(0, 0, 0, 0.3),
+    0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+  .btn-glass-new1 {
+  border-radius: 15px;
+  background: linear-gradient(to right, #667eea, #764ba2);
+  color: white;
+  font-weight: 600;
+  border: none;
+  padding: 0.6rem 1.4rem;
+  transition: all 0.3s ease;
+  box-shadow:
+    inset 0 4px 1px rgba(255, 255, 255, 0.15),  /* highlight บนแบบเบา */
+    0 4px 8px rgba(0, 0, 0, 0.2),              /* เงาหลักด้านล่าง */
+    0 6px 16px rgba(118, 75, 162, 0.25);       /* เงา gradient โทนปุ่ม */
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
+}
+
+.btn-glass-new1:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    inset 0 4px 1px rgba(255, 255, 255, 0.2),
+    0 6px 12px rgba(0, 0, 0, 0.25),
+    0 10px 24px rgba(102, 126, 234, 0.4);
+}
+
+.btn-glass-new1:active {
+  transform: translateY(1px);
+  box-shadow:
+    inset 0 2px 4px rgba(0, 0, 0, 0.15),
+    0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease;
+}
+  
+  .btn-glass-new2 {
+  border-radius: 15px;
+  background: linear-gradient(to right, #667eea, #764ba2);
+  color: white;
+  font-weight: 600;
+  border: none;
+  padding: 0.6rem 1.4rem;
+  transition: all 0.3s ease;
+  box-shadow:
+    inset 0 4px 2px rgba(255, 255, 255, 0.15),
+    0 4px 8px rgba(0, 0, 0, 0.2),
+    0 6px 16px rgba(118, 75, 162, 0.25);
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
+}
+
+.btn-glass-new2:hover {
+  transform: translateY(-3px);
+  color: white;
+  box-shadow:
+    inset 0 4px 2px rgba(255, 255, 255, 0.2),
+    0 6px 12px rgba(0, 0, 0, 0.25),
+    0 10px 24px rgba(102, 126, 234, 0.4);
+}
+
+/* เอฟเฟกต์ตอนคลิก */
+.btn-glass-new2:active {
+  transform: scale(0.97);
+  color: white;
+  box-shadow:
+    inset 0 2px 4px rgba(0, 0, 0, 0.15),
+    0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease;
+}
+    .status-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 0.5rem;
+    }
+  
+  .form-control.glass-input {
+  background: rgba(255, 255, 255, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 12px;
+  padding: 0.6rem 1rem;
+  color: #2d3436;
+  font-weight: 500;
+  backdrop-filter: blur(10px);
+  box-shadow:
+    inset 0 1px 2px rgba(255, 255, 255, 0.1), /* แสงขอบบนใน */
+    0 4px 10px rgba(0, 0, 0, 0.1);           /* เงาลอย */
+  transition: all 0.3s ease;
+}
+
+.form-control.glass-input:focus {
+  background: rgba(255, 255, 255, 0.4);
+  box-shadow:
+    inset 0 1px 2px rgba(255, 255, 255, 0.3),
+    0 0 0 3px rgba(102, 126, 234, 0.25),
+    0 4px 12px rgba(102, 126, 234, 0.3); /* เพิ่มเงา gradient ตอน focus */
+  border-color: rgba(102, 126, 234, 0.4);
+  outline: none;
+}
+  
+  .glass-form-group {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.glass-form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #2d3436;
+  transition: color 0.3s ease;
+}
+
+.glass-input::placeholder {
+  color: rgba(99, 110, 114, 0.5); /* สี placeholder เบาๆ */
+}
+  
+  .icon-lg {
+  font-size: 1.5rem;
+}
+
+.icon-xl {
+  font-size: 2rem;
+}
+  
+  .icon-lg-bold {
+    font-weight: 800;
+    font-size: 1.5rem;
+  text-shadow: 0 0 1px rgba(0, 0, 0, 0.5);
+}
+  
+    .primary { background: linear-gradient(to right, #0055FF, #3679FF, #4380FA); }
+    .primary-new {
+      color: white;
+      background: #0055ff;
+      background: linear-gradient(90deg, rgba(0, 85, 255, 1) 0%, rgba(54, 121, 255, 1) 50%, rgba(110, 158, 255, 1) 100%);
+    }
+    .success { background: #56ab2f; }
+  
+    .warning { background: #fdcb6e; }
+    .error   { background: #e17055; }
+
+    @keyframes slideInUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+  </style>
+  
+  <style>
+.input-icon-wrapper {
+  position: relative;
+}
+
+.input-icon {
+  position: absolute;
+  top: 50%;
+  left: 15px;
+  transform: translateY(-50%);
+  color: #764ba2;
+  pointer-events: none;
+  font-size: 1rem;
+  z-index: 2;
+}
+
+.input-icon + input,
+.input-icon-wrapper input {
+  padding-left: 3rem; /* ให้เว้นที่ซ้ายสำหรับไอคอน */
+  border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.input-icon-wrapper input:focus {
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+  border-color: #667eea;
+}
+</style>
+  
+  <style>
+.input-overlay-icon {
+  padding-left: 1rem;
+  padding-right: 2.5rem; /* เว้นให้ icon ไม่บังตัวอักษร */
+  border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(15px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.icon-on-input {
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: #764ba2;
+  font-size: 1.2rem;
+  z-index: 2;
+}
+
+.input-overlay-icon:focus {
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+  border-color: #667eea;
+}
+</style>
+</head>
+<body>
+  
+  <div class="container-fluid">
+    <div class="glass-card">
+      <!-- อีเมล -->
+<div class="form-group position-relative">
+  <label for="email">อีเมล</label>
+  <div class="input-icon-wrapper">
+    <i class="fas fa-envelope input-icon"></i>
+    <input type="email" class="form-control" id="email" placeholder="กรอกอีเมล">
+  </div>
+</div>
+    
+<div class="form-group position-relative">
+  <label for="username">ชื่อผู้ใช้</label>
+  <div class="input-icon-wrapper">
+    <i class="fas fa-user input-icon"></i>
+    <input type="text" class="form-control pl-5" id="username" placeholder="กรอกชื่อผู้ใช้">
+  </div>
+</div>
+    
+<!-- รหัสผ่าน -->
+<div class="form-group position-relative">
+  <label for="password">รหัสผ่าน</label>
+  <div class="input-icon-wrapper">
+    <i class="fas fa-lock input-icon"></i>
+    <input type="password" class="form-control" id="password" placeholder="********">
+  </div>
+</div>
+  </div>
+  </div>
+      
+  <div class="container-fluid">
+    <div class="glass-card">
+      <form>
+  <div class="form-row">
+    <div class="form-group col-12 col-md-4 glass-form-group">
+      <label for="fullname">ชื่อ-นามสกุล</label>
+      <input type="text" class="form-control glass-input" id="fullname" placeholder="สมชาย ใจดี">
+    </div>
+
+    <div class="form-group col-12 col-md-4 glass-form-group">
+      <label for="password">รหัสผ่าน</label>
+         <div class="input-icon-wrapper">
+           <i class="fas fa-lock input-icon"></i>
+           <input type="password" class="form-control glass-input pl-5" id="password" placeholder="********">
+           
+         </div>
+    </div>
+    
+    
+    
+
+    <div class="form-group col-12 col-md-4 d-flex justify-content-center align-items-center text-center">
+      <button type="submit" class="btn btn-glass-new2 primary w-100 w-md-auto mt-3 mt-md-0">
+        บันทึกข้อมูล
+      </button>
+    </div>
+  </div>
+</form>
+    </div>
+  </div>
+
+  <div class="container-fluid">
+    <!-- Username -->
+<div class="form-group position-relative">
+  <label for="username">ชื่อผู้ใช้</label>
+  <input type="text" class="form-control input-overlay-icon" id="username" placeholder="ชื่อผู้ใช้">
+  <i class="fas fa-user icon-on-input"></i>
+</div>
+
+<!-- Password -->
+<div class="form-group position-relative">
+  <label for="password">รหัสผ่าน</label>
+  <input type="password" class="form-control input-overlay-icon" id="password" placeholder="********">
+  <i class="fas fa-lock icon-on-input"></i>
+</div>
+    
+    <!-- อีเมล -->
+<div class="form-group position-relative">
+  <label for="email">อีเมล</label>
+  <div class="input-icon-wrapper">
+    <i class="fas fa-envelope input-icon"></i>
+    <input type="email" class="form-control" id="email" placeholder="กรอกอีเมล">
+  </div>
+</div>
+
+<!-- รหัสผ่าน -->
+<div class="form-group position-relative">
+  <label for="password">รหัสผ่าน</label>
+  <div class="input-icon-wrapper">
+    <i class="fas fa-lock input-icon"></i>
+    <input type="password" class="form-control" id="password" placeholder="********">
+  </div>
+</div>
+    
+    <!-- Container -->
+<div class="form-group position-relative">
+  <label for="username">ชื่อผู้ใช้</label>
+  <div class="input-icon-wrapper">
+    <i class="fas fa-user input-icon"></i>
+    <input type="text" class="form-control pl-5" id="username" placeholder="กรอกชื่อผู้ใช้">
+  </div>
+</div>
+    
+    
+    <i class="fas fa-user fa-lg"></i>   <!-- ใหญ่ -->
+    <i class="fas fa-user fa-2x"></i>   <!-- ใหญ่ขึ้น -->
+    
+    <i class="far fa-user fa-lg"></i>   <!-- ใหญ่ -->
+    <i class="far fa-user fa-2x"></i>   <!-- ใหญ่ขึ้น -->
+    
+    <i class="bi bi-save icon-lg-bold"></i> บันทึกข้อมูล
+    <i class="bi bi-person" style="font-size: 1.5rem; font-weight:800; color: #764ba2;"></i>
+    
+    <span class="icon-stack" style="position: relative; display: inline-block;">
+  <i class="bi bi-person icon-lg" style="position: absolute; font-size: 30px; color: black; left: 3px; top: 3px; z-index: 0;"></i>
+  <i class="bi bi-person icon-lg" style="color: black; font-size: 35px;z-index: 1;"></i>
+</span>
+    
+    <span class="icon-stack" style="position: relative; display: inline-block;">
+  <i class="bi bi-person icon-lg" style="position: absolute; color: black; left: 1px; top: 1px; z-index: 0;"></i>
+  <i class="bi bi-person icon-lg" style="color: black; z-index: 1;"></i>
+</span>
+    
+    <i class="bi bi-person icon-lg text-primary" style="font-size: 1.5rem; text-shadow: 0 0 2px rgba(0,0,0,0.5);"></i>
+    
+    <h1 class="text-white mb-4">แดชบอร์ด</h1>
+    <button type="submit" class="btn btn-glass-new2 primary mb-2">
+  <i class="bi bi-save text-success fs-3 icon-bold"></i> บันทึกข้อมูล
+</button>
+    <button class="btn btn-glass-new1 primary-new mb-2 d-block w-100">➕ สร้างภารกิจใหม่</button>
+    <button class="btn btn-glass-new2 primary mb-2 d-block w-100">➕ สร้างภารกิจใหม่</button>
+    <input type="text" class="form-control glass-input mb-2 d-block w-100" placeholder="ป้อนข้อมูล...">
+    <div class="form-group glass-form-group">
+  <label for="email">อีเมล</label>
+  <input type="email" id="email" class="form-control glass-input" placeholder="you@example.com">
+</div>
+
+<div class="form-group glass-form-group">
+  <label for="phone">เบอร์โทรศัพท์</label>
+  <input type="tel" id="phone" class="form-control glass-input" placeholder="08X-XXX-XXXX">
+</div>
+    
+    <form>
+  <div class="form-row">
+    <div class="form-group col-12 col-md-4 glass-form-group">
+      <label for="fullname">ชื่อ-นามสกุล</label>
+      <input type="text" class="form-control glass-input" id="fullname" placeholder="สมชาย ใจดี">
+    </div>
+
+    <div class="form-group col-12 col-md-4 glass-form-group">
+      <label for="position">ตำแหน่ง</label>
+      <input type="text" class="form-control glass-input" id="position" placeholder="นักพัฒนาเว็บไซต์">
+    </div>
+
+    <div class="form-group col-12 col-md-4 d-flex justify-content-center align-items-center text-center">
+      <button type="submit" class="btn btn-glass-new1 primary w-100 w-md-auto mt-3 mt-md-0">
+        บันทึกข้อมูล
+      </button>
+    </div>
+  </div>
+</form>
+    
+    
+    <div class="row">
+      <!-- ข้อมูลส่วนตัว -->
+      <div class="col-md-4 mb-4">
+        <div class="glass-card">
+          <h5 class="card-title">ข้อมูลส่วนตัว</h5>
+          <p>สมชาย ใจดี</p>
+          <p class="text-muted">นักพัฒนาเว็บไซต์</p>
+          <p>โครงการ: <strong>156</strong> | คำสั่ง: <strong>89</strong></p>
+          <p>ผู้ติดตาม: <strong>2.4k</strong></p>
+        </div>
+      </div>
+
+      <!-- การตั้งค่า -->
+      <!-- ข้อมูลส่วนตัว -->
+<div class="col-md-4 mb-4">
+  <div class="glass-card">
+    <h5 class="card-title">ข้อมูลส่วนตัว</h5>
+    <form>
+      <div class="form-group">
+        <label for="name">ชื่อ-นามสกุล</label>
+        <input type="text" class="form-control" id="name" placeholder="สมชาย ใจดี">
+      </div>
+      <div class="form-group">
+        <label for="position">ตำแหน่ง</label>
+        <input type="text" class="form-control" id="position" placeholder="นักพัฒนาเว็บไซต์">
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="projects">โครงการ</label>
+          <input type="number" class="form-control" id="projects" placeholder="156">
+        </div>
+        <div class="form-group col-md-6">
+          <label for="tasks">คำสั่ง</label>
+          <input type="number" class="form-control" id="tasks" placeholder="89">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="followers">ผู้ติดตาม</label>
+        <input type="text" class="form-control" id="followers" placeholder="2.4k">
+      </div>
+      <button type="submit" class="btn btn-glass-new1 mt-2">บันทึกข้อมูล</button>
+    </form>
+  </div>
+</div>
+      
+      <form>
+  <div class="form-row align-items-end">
+    <div class="form-group col-12 col-md-4 glass-form-group">
+      <label for="fullname">ชื่อ-นามสกุล</label>
+      <input type="text" class="form-control glass-input" id="fullname" placeholder="สมชาย ใจดี">
+    </div>
+
+    <div class="form-group col-12 col-md-4 glass-form-group">
+      <label for="position">ตำแหน่ง</label>
+      <input type="text" class="form-control glass-input" id="position" placeholder="นักพัฒนาเว็บไซต์">
+    </div>
+
+    <div class="form-group col-12 col-md-4 text-md-right text-left">
+      <button type="submit" class="btn btn-glass w-100 w-md-auto mt-3 mt-md-0">
+        บันทึกข้อมูล
+      </button>
+    </div>
+  </div>
+</form>
+
+      <!-- กิจกรรมล่าสุด -->
+      <div class="col-md-4 mb-4">
+        <div class="glass-card">
+          <h5 class="card-title">กิจกรรมล่าสุด</h5>
+          <ul class="list-unstyled">
+            <li>🔄 อัปเดตโค้ด Dashboard (2 ชม.)</li>
+            <li>📅 เข้าร่วมประชุมทีม (4 ชม.)</li>
+            <li>📤 ส่งงานโครงการ A (1 วัน)</li>
+            <li>🛠 แก้ไขบั๊กระบบ (2 วัน)</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ประสิทธิภาพ -->
+      <div class="col-md-4 mb-4">
+        <div class="glass-card">
+          <h5 class="card-title">ประสิทธิภาพการทำงาน</h5>
+          <p>✅ ความสำเร็จ: 98%</p>
+          <p>⭐ คะแนนเฉลี่ย: 4.8</p>
+          <p>📁 รายวิชา: 12</p>
+          <p>📊 ความพึงพอใจ: 85%</p>
+        </div>
+      </div>
+
+      <!-- การดำเนินการด่วน -->
+      <div class="col-md-4 mb-4">
+        <div class="glass-card">
+          <h5 class="card-title">การดำเนินการด่วน</h5>
+          <button class="btn btn-glass-new primary-new mb-2 d-block w-100">➕ สร้างภารกิจใหม่</button>
+          <button class="btn btn-glass-new1 mb-2 d-block w-100">➕ สร้างภารกิจใหม่</button>
+          <button class="btn btn-glass primary mb-2 d-block w-100">👥 เชิญเพื่อนร่วมงาน</button>
+          <button class="btn btn-glass success mb-2 d-block w-100">📎 อัปโหลดไฟล์</button>
+          <button class="btn btn-glass warning d-block w-100">❓ ขอความช่วยเหลือ</button>
+        </div>
+      </div>
+
+      <!-- สถานะระบบ -->
+      <div class="col-md-4 mb-4">
+        <div class="glass-card">
+          <h5 class="card-title">สถานะระบบ</h5>
+          <p><span class="status-dot success"></span> เซิร์ฟเวอร์หลัก</p>
+          <p><span class="status-dot success"></span> ฐานข้อมูล</p>
+          <p><span class="status-dot warning"></span> API Gateway</p>
+          <p><span class="status-dot success"></span> CDN</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

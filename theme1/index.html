@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>แดชบอร์ด</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Noto Sans Thai', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 2rem;
+      color: #2d3436;
+    }
+
+    .dashboard {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(15px);
+      border-radius: 25px;
+      padding: 1.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+      transition: all 0.3s ease;
+      animation: slideInUp 0.5s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 25px 70px rgba(0, 0, 0, 0.2);
+    }
+
+    h2 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      background: linear-gradient(90deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .info-block {
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .status-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 0.5rem;
+    }
+
+    .success { background: #56ab2f; }
+    .warning { background: #fdcb6e; }
+    .error   { background: #e17055; }
+
+    .button {
+      padding: 0.75rem 1.5rem;
+      border-radius: 15px;
+      background: linear-gradient(to right, #667eea, #764ba2);
+      color: white;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.5);
+    }
+
+    @keyframes slideInUp {
+      from {
+        transform: translateY(20px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .dashboard {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1 style="color:white; margin-bottom: 2rem;">แดชบอร์ด</h1>
+  <div class="dashboard">
+    <!-- ข้อมูลส่วนตัว -->
+    <div class="card">
+      <h2>ข้อมูลส่วนตัว</h2>
+      <div class="info-block">สมชาย ใจดี</div>
+      <div class="info-block">นักพัฒนาเว็บไซต์</div>
+      <div class="info-block">โครงการ: 156 | คำสั่ง: 89</div>
+      <div class="info-block">ผู้ติดตาม: 2.4k</div>
+    </div>
+
+    <!-- การตั้งค่า -->
+    <div class="card">
+      <h2>การตั้งค่า</h2>
+      <div class="info-block">อีเมล: somchai@example.com</div>
+      <div class="info-block">เบอร์โทรศัพท์: 081-234-5678</div>
+      <div class="info-block">แผน: แผนพัฒนา</div>
+      <button class="button">บันทึกการเปลี่ยนแปลง</button>
+    </div>
+
+    <!-- กิจกรรมล่าสุด -->
+    <div class="card">
+      <h2>กิจกรรมล่าสุด</h2>
+      <ul>
+        <li>🔄 อัปเดตโค้ด Dashboard (2 ชั่วโมงที่แล้ว)</li>
+        <li>📅 เข้าร่วมประชุมทีม (4 ชั่วโมงที่แล้ว)</li>
+        <li>📤 ส่งงานโครงการ A (1 วันที่แล้ว)</li>
+        <li>🛠 แก้ไขบั๊กระบบ (2 วันที่แล้ว)</li>
+      </ul>
+    </div>
+
+    <!-- ประสิทธิภาพ -->
+    <div class="card">
+      <h2>ประสิทธิภาพการทำงาน</h2>
+      <div class="info-block">✅ ความสำเร็จ: 98%</div>
+      <div class="info-block">⭐ คะแนน: 4.8</div>
+      <div class="info-block">📁 รายวิชา: 12</div>
+      <div class="info-block">📊 สถานะรวม: 85%</div>
+    </div>
+
+    <!-- การดำเนินการด่วน -->
+    <div class="card">
+      <h2>การดำเนินการด่วน</h2>
+      <button class="button" style="margin-bottom: 0.5rem;">➕ สร้างภารกิจใหม่</button>
+      <button class="button" style="margin-bottom: 0.5rem;">👥 เชิญเพื่อนร่วมงาน</button>
+      <button class="button" style="margin-bottom: 0.5rem;">📎 อัปโหลดไฟล์</button>
+      <button class="button">❓ ขอความช่วยเหลือ</button>
+    </div>
+
+    <!-- สถานะระบบ -->
+    <div class="card">
+      <h2>สถานะระบบ</h2>
+      <div class="info-block"><span class="status-dot success"></span> เซิร์ฟเวอร์หลัก</div>
+      <div class="info-block"><span class="status-dot success"></span> ฐานข้อมูล</div>
+      <div class="info-block"><span class="status-dot warning"></span> API Gateway</div>
+      <div class="info-block"><span class="status-dot success"></span> CDN</div>
+    </div>
+  </div>
+</body>
+</html>

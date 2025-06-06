@@ -28,38 +28,42 @@
                     </button>
                 </div>
                 <div class="modal-body">
-
                     <div class="mb-3">
-                        <div class="progress-label">Products</div>
+                        <div class="progress-label">ข้อมูลสินค้า</div>
                         <div class="progress">
                             <div id="products-progress" class="progress-bar" role="progressbar" style="width: 0%"></div>
                         </div>
                     </div>
                     <div class="mb-3">
-                        <div class="progress-label">Customers</div>
+                        <div class="progress-label">ข้อมูลลูกค้า</div>
                         <div class="progress">
                             <div id="customers-progress" class="progress-bar" role="progressbar" style="width: 0%"></div>
                         </div>
                     </div>
                     <div class="mb-3">
-                        <div class="progress-label">Usercars</div>
+                        <div class="progress-label">ข้อมูลร้านค้า</div>
+                        <div class="progress">
+                            <div id="suppliers-progress" class="progress-bar" role="progressbar" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="progress-label">ข้อมูลทะเบียนรถ</div>
                         <div class="progress">
                             <div id="usercars-progress" class="progress-bar" role="progressbar" style="width: 0%"></div>
                         </div>
                     </div>
                     <div class="mb-3">
-                        <div class="progress-label">Groupnames</div>
+                        <div class="progress-label">ข้อมูลยี่ห้อ/รุ่น</div>
                         <div class="progress">
                             <div id="groupnames-progress" class="progress-bar" role="progressbar" style="width: 0%"></div>
                         </div>
                     </div>
                     <div class="mb-3">
-                        <div class="progress-label">Typenames</div>
+                        <div class="progress-label">ข้อมูลประเภทสินค้า</div>
                         <div class="progress">
                             <div id="typenames-progress" class="progress-bar" role="progressbar" style="width: 0%"></div>
                         </div>
                     </div>
-
                     <div class="mb-3">
                         <div class="progress-label">Overall Progress</div>
                         <div class="progress">
@@ -101,6 +105,9 @@
             }, {
                 storeName: "customers",
                 keyPath: "customerId"
+            }, {
+                storeName: "suppliers",
+                keyPath: "supplierId"
             }, {
                 storeName: "groupnames",
                 keyPath: "groupname"
@@ -152,10 +159,6 @@
                 //const transaction = db.transaction([storeName], 'readwrite');
                 const transaction = db.transaction([storeName], 'readwrite');
                 const store = transaction.objectStore(storeName);
-
-               
-
-                
                     let count = 0;
                     let total = data.length;
 
@@ -169,14 +172,19 @@
                         const progress = Math.floor((count / total) * 100);
                         document.getElementById(`${storeName}-progress`).style.width = `${progress}%`;
 
+                        let sumProgress = 0
+                        storeNames.forEach((store)=>{
+                            sumProgress += parseInt(document.getElementById(store.storeName +'-progress').style.width) || 0;
+                        });
                         // Update overall progress
-                        const productsProgress = document.getElementById('products-progress').style.width;
-                        const customersProgress = document.getElementById('customers-progress').style.width;
+                        // const productsProgress = document.getElementById('products-progress').style.width;
+                        // const customersProgress = document.getElementById('customers-progress').style.width;
 
-                        const productsPercent = parseInt(productsProgress) || 0;
-                        const customersPercent = parseInt(customersProgress) || 0;
-                        const overallPercent = Math.floor((productsPercent + customersPercent) / 2);
+                        // const productsPercent = parseInt(productsProgress) || 0;
+                        // const customersPercent = parseInt(customersProgress) || 0;
+                        // const overallPercent = Math.floor((productsPercent + customersPercent) / 2);
 
+                        const overallPercent = Math.floor(sumProgress / storeNames.length);
                         document.getElementById('overall-progress').style.width = `${overallPercent}%`;
                     };
 
@@ -329,7 +337,7 @@
 
                 // Enable close button
                 document.getElementById('closeModalBtn').disabled = false;
-                setTimeout(closeModal, 5000);
+                setTimeout(closeModal, 1000);
 
             } catch (error) {
                 console.error('Error loading data:', error);

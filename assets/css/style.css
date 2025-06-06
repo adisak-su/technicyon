@@ -462,7 +462,7 @@ button {
 }
 
 .autocomplete-container {
-    max-height: 200px;
+    /* max-height: 200px; */
     position: relative;
 }
 
