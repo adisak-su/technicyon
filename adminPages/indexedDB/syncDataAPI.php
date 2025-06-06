@@ -65,7 +65,7 @@
                         </div>
                     </div>
                     <div class="mb-3">
-                        <div class="progress-label">Overall Progress</div>
+                        <div class="progress-label" style="font-size: 20px;">ข้อมูลทั้งหมด</div>
                         <div class="progress">
                             <div id="overall-progress" class="progress-bar bg-success" role="progressbar" style="width: 0%"></div>
                         </div>
