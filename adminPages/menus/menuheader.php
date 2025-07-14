@@ -2,6 +2,28 @@
         <div class="row d-flex justify-content-start" style="gap: 10px">
             <!-- เมนูที่ 1 -->
             <div class="">
+                <a href="../usercars/" class="text-decoration-none">
+                    <div class="menu-item shadow-sm">
+                        <div class="icon-container">
+                            <i class="fa fa-home text-primary"></i>
+                        </div>
+                        <div class="menu-text">ทะเบียนรถ</div>
+                    </div>
+                </a>
+            </div>
+            <!-- เมนูที่ 1 -->
+            <div class="">
+                <a href="../suppliers/" class="text-decoration-none">
+                    <div class="menu-item shadow-sm">
+                        <div class="icon-container">
+                            <i class="fa fa-home text-primary"></i>
+                        </div>
+                        <div class="menu-text">ร้านค้า</div>
+                    </div>
+                </a>
+            </div>
+            <!-- เมนูที่ 1 -->
+            <div class="">
                 <a href="../products/" class="text-decoration-none">
                     <div class="menu-item shadow-sm">
                         <div class="icon-container">
@@ -38,14 +60,39 @@
 
             <!-- เมนูที่ 4 -->
             <div class="">
-                <a href="#" class="text-decoration-none">
+                <a href="../types/index.php" class="text-decoration-none">
                     <div class="menu-item shadow-sm">
                         <div class="icon-container">
                             <i class="fa fa-home text-warning"></i>
                         </div>
-                        <div class="menu-text">ตั้งค่า</div>
+                        <div class="menu-text">ประเภท</div>
                     </div>
                 </a>
             </div>
+            
+            <!-- เมนูที่ 4 -->
+            <div class="">
+                <a href="../groups/index.php" class="text-decoration-none">
+                    <div class="menu-item shadow-sm">
+                        <div class="icon-container">
+                            <i class="fa fa-car text-warning"></i>
+                        </div>
+                        <div class="menu-text">ยี่ห้อ/รุ่น</div>
+                    </div>
+                </a>
+            </div>
+            
+            <!-- เมนูที่ 4 -->
+            <div class="">
+                <div onclick="deleteIndexedDB();" class="text-decoration-none">
+                    <div class="menu-item shadow-sm">
+                        <div class="icon-container">
+                            <i class="fa fa-car text-danger"></i>
+                        </div>
+                        <div class="menu-text">ลบ indexedDB</div>
+                    </div>
+                </div>
+            </div>
+            
         </div>
     </div>

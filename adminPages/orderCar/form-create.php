@@ -25,7 +25,7 @@ require_once("../../service/configData.php");
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <link href="../css/table.css?<?php echo time(); ?>" rel="stylesheet">
-    <link rel="stylesheet" href="../menus/menuheader.css?<?php echo time();?>">
+    <link rel="stylesheet" href="../menus//headermenu.css?<?php echo time();?>">
 
     <style>
         /* input */
@@ -902,9 +902,9 @@ require_once("../../service/configData.php");
 
             const datalist = document.getElementById('showProductTable');
             const inputType = document.getElementById('filterType');
-            const filterType = inputType.value;
+            const filterType = inputType.value.toLowerCase();
             const inputGroup = document.getElementById('filterGroup');
-            const filterGroup = inputGroup.value;
+            const filterGroup = inputGroup.value.toLowerCase();
             datalist.innerHTML = ''; // Clear existing options
             // if (filter == "" || filter.length < 3) return;
             if ((filterType == "" || filterType.length < 3) && (filterGroup == "" || filterGroup.length < 3)) return;
@@ -915,12 +915,20 @@ require_once("../../service/configData.php");
             // arrFilter.forEach(filter => {
             //     tmpProducts = tmpProducts.filter(option => option.name.toLowerCase().includes(filter.toLowerCase()));
             // });
+            /*
             if (filterType !== "" || filterType.length >= 3) {
                 tmpProducts = tmpProducts.filter(option => option.typename == filterType);
             }
             if (filterGroup !== "" || filterGroup.length >= 3) {
                 tmpProducts = tmpProducts.filter(option => option.groupname == filterGroup);
                 // tmpProducts.filter(option => option.groupname.toLowerCase().includes(filterGroup.toLowerCase()));
+            }
+            */
+            if (filterType !== "" || filterType.length >= 3) {
+                tmpProducts = tmpProducts.filter(option => option.typename.toLowerCase().includes(filterType));
+            }
+            if (filterGroup !== "" || filterGroup.length >= 3) {
+                tmpProducts = tmpProducts.filter(option => option.groupname.toLowerCase().includes(filterGroup));
             }
 
             tmpProducts = tmpProducts.sort((a, b) => {

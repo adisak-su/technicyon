@@ -23,9 +23,9 @@ class Database
 	private $tb_products;
 	private $tb_admins;
 	private $tb_customers;
-    private $tb_color;
-    private $tb_size;
-    private $tb_gram;
+	private $tb_color;
+	private $tb_size;
+	private $tb_gram;
 	private $tb_product_size;
 	private $tb_product_color;
 	private $tb_product_gram;
@@ -51,7 +51,7 @@ class Database
 		global $tb_product_gram;
 		global $tb_product_sale;
 		global $tb_customer_price;
-		
+
 		$this->host = $host;
 		$this->dbname = $dbname;
 		$this->username = $usernameDB;
@@ -70,7 +70,6 @@ class Database
 		$this->$tb_product_gram = $tb_product_gram;
 		$this->$tb_product_sale = $tb_product_sale;
 		$this->$tb_customer_price = $tb_customer_price;
-
 	}
 
 	public function connect()
@@ -89,10 +88,11 @@ class Database
 
 			echo "Database could not be connected: " . $exception->getMessage();
 		}
-		return $this->conn;	
+		return $this->conn;
 	}
 
-	function getOrderByOrderID($orderNo){
+	function getOrderByOrderID($orderNo)
+	{
 		$params = array(
 			'orderNo' => $orderNo
 		);
@@ -103,7 +103,7 @@ class Database
 
 		$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-		if(count($result)) {
+		if (count($result)) {
 			$resuleDetail = $this->getDetailOrderByOrderID($orderNo);
 			$result[0]['orderDetail'] = $resuleDetail;
 			return $result[0];
@@ -112,7 +112,8 @@ class Database
 		}
 	}
 
-	function getDetailOrderByOrderID($orderNo){
+	function getDetailOrderByOrderID($orderNo)
+	{
 		$params = array(
 			'orderNo' => $orderNo
 		);
@@ -123,14 +124,15 @@ class Database
 
 		$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-		if(count($result)) {
+		if (count($result)) {
 			return $result;
 		} else {
 			return null;
 		}
 	}
 
-	function getInvoiceByID($id){
+	function getInvoiceByID($id)
+	{
 		$params = array(
 			'id' => $id
 		);
@@ -141,7 +143,7 @@ class Database
 
 		$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-		if(count($result)) {
+		if (count($result)) {
 			$resuleDetail = $this->getDetailInvoiceByID($id);
 			$result[0]['detail'] = $resuleDetail;
 			return $result[0];
@@ -150,7 +152,8 @@ class Database
 		}
 	}
 
-	function getDetailInvoiceByID($id){
+	function getDetailInvoiceByID($id)
+	{
 		$params = array(
 			'id' => $id
 		);
@@ -161,7 +164,7 @@ class Database
 
 		$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-		if(count($result)) {
+		if (count($result)) {
 			return $result;
 		} else {
 			return null;
@@ -303,5 +306,42 @@ class Database
 		$stmt = $this->conn->prepare($sql);
 		$stmt->execute($params);
 		exit;
+	}
+
+	function updateDataChange($table_name, $record_id, $action, $keyId)
+	{
+		/*
+	CREATE TABLE data_changes (
+		id INT AUTO_INCREMENT PRIMARY KEY,
+		table_name VARCHAR(50) NOT NULL,
+		record_id INT NOT NULL,
+		action ENUM('CREATE', 'UPDATE', 'DELETE') NOT NULL,
+		changed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+		changed_by INT NOT NULL,
+		data_before JSON,
+		data_after JSON
+	);
+*/
+		try {
+
+			$tableName = substr($table_name, 0 ,strlen($table_name)-1);
+			$sql = "SELECT * FROM $tableName WHERE $keyId = '$record_id'";
+			$stmt = $this->conn->prepare($sql);
+			$stmt->execute();
+			$result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+			$params = [
+				"table_name" => $table_name,
+				"record_id" => $record_id,
+				"action" => $action,
+				"data_after" => json_encode($result),
+			];
+			$sql = "INSERT INTO data_changes(table_name,record_id,action,data_after) VALUE(:table_name,:record_id,:action,:data_after)";
+			// $stmt = $conn->prepare($sql);
+			$stmt = $this->conn->prepare($sql);
+			$stmt->execute($params);
+		} catch (Exception $ex) {
+			throw new Exception($ex);
+		}
 	}
 }

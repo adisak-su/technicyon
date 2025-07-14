@@ -1,6 +1,6 @@
 <?php
-require_once('../authen.php');
-require_once("../../service/configData.php");
+// require_once('../authen.php');
+// require_once("../../service/configData.php");
 // require_once("../../service/connect.php");
 
 ini_set('max_execution_time', 600); // 300 seconds = 5 minutes
@@ -10,11 +10,20 @@ $endDate = date("Y-m-d");
 
 $connectionMySQL = null;
 
+$columnName = [];
+$columnName["product"] = "(productId,name,max,min,stock1,stock2,price0,price1,price2,price3,store,typename,groupname,suppliername)";
+$columnName["usercar_head"] = "(orderId,myreference,mydate,carId,mile,total,charge,discount,nettotal,mystring,status,invoiceId,typesale)";
+$columnName["customer"] = "(customerId,name,address,telephone,discount,type)";
+$columnName["typename"] = "(typename)";
+$columnName["groupname"] = "(groupname)";
+$columnName["supplier"] = "(supplierId,name,address,telephone)";
+
+
 try {
 
-    $connectionMySQL = new PDO("mysql:host=" . "localhost" . ";dbname=" . "mystore", "root", "");
+    $connectionMySQL = new PDO("mysql:host=" . "localhost" . ";dbname=" . "technicyonnew", "root", "");
 
-    $connectionMySQL->exec("set names utf8");
+    $connectionMySQL->exec("set names utf8mb4");
 
     $connectionMySQL->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $exception) {
@@ -29,9 +38,25 @@ if (!$connection) {
     echo "Connection Successful !";
 }
 
+
+
+// convertDB("ColorName");
+// convertDB("groupname");
+// convertDB("type");
+// convertDB("typename");
+// convertDB("supplier");
+convertDB("product");
+// convertDB("customer");
+// convertDB("technicalname");
+// convertDB("usercar_head");
+// convertDB("customer");
+// convertDB("customer");
+
+
 function convertDB($tableName)
 {
-    global $connectionMySQL, $connection;
+    global $connectionMySQL, $connection,$columnName;
+    $usercar_head = "(orderId,myreference,mydate,carId,mile,total,charge,discount,nettotal,mystring,status,invoiceId,typesale)";
 
     $sql = "Delete From $tableName";
     $stmt = $connectionMySQL->prepare($sql);
@@ -40,29 +65,53 @@ function convertDB($tableName)
     $SQL_Exec_String =  "select * from $tableName";
     $data = odbc_exec($connection, $SQL_Exec_String);
 
+//     $sql =  "SELECT `COLUMN_NAME`
+// FROM `INFORMATION_SCHEMA`.`COLUMNS`
+// WHERE `TABLE_SCHEMA`='technicyonnew'
+//   AND `TABLE_NAME`='usercar_head'";
+
+//     $stmt = $connectionMySQL->prepare($sql);
+//     $result = $stmt->execute();
+//     // $data = $result->fetch_assoc();
+//     if ($result->num_rows > 0) {
+//     // Output data for each row
+//     while ($row = $result->fetch_assoc()) {
+//         echo "Column1: " . $row["column1"] . " - Column2: " . $row["column2"] . "<br>";
+//     }
+// } else {
+//     echo "0 results";
+// }
+//     // var_dump($data);
+    
+//     // print_r($data);
+//     exit;
+
     try {
         $count = 0;
         $max = 100;
         $arrValues = "";
         $countRow = 0;
+        $columns = $columnName[$tableName];
+
         while ($arr = odbc_fetch_array($data)) {
             $countRow++;
             // print_r($arr);
             $values = "";
             foreach ($arr as $col) {
                 // $item = iconv("tis-620", "utf-8", $col);
-                $item = iconv("Windows-874", "utf-8", $col);
-                // $values .= '"' . $item . '",';
-                $values .= "'$item',";
-                // print_r($item);
+                $item = iconv("Windows-874", "utf-8", trim($col));
+                // $item = mb_convert_encoding($col, 'UTF-8', 'Windows-874, TIS-620, UTF-8');
+                // $values .= "'$item',";
+                $values .= "`$item`,";
             }
             $values = substr($values, 0, strlen($values) - 1);
             $arrValues .= "(" . $values . "),";
             $count++;
             if ($count == $max) {
                 // $sql = "Insert into $tableName value($values)";
+                
                 $arrValues = substr($arrValues, 0, strlen($arrValues) - 1);
-                $sql = "Insert into $tableName values $arrValues;";
+                $sql = "Insert into $tableName $columns values $arrValues;";
                 $stmt = $connectionMySQL->prepare($sql);
                 $stmt->execute();
                 $count = 0;
@@ -71,7 +120,7 @@ function convertDB($tableName)
         }
         if (strlen($arrValues) > 0) {
             $arrValues = substr($arrValues, 0, strlen($arrValues) - 1);
-            $sql = "Insert into $tableName values $arrValues;";
+            $sql = "Insert into $tableName $columns values $arrValues;";
             $stmt = $connectionMySQL->prepare($sql);
             $stmt->execute();
         }
@@ -92,7 +141,7 @@ function convertDB($tableName)
 // convertDB("product");
 // convertDB("customer");
 // convertDB("technicalname");
-convertDB("usercar");
+// convertDB("usercar_head");
 // convertDB("customer");
 // convertDB("customer");
 

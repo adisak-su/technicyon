@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="th">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>ระบบล็อกอิน</title>
+        <!-- Bootstrap v4 -->
+        <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        />
+        <!-- SweetAlert2 -->
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css"
+        />
+        <!-- Font Awesome -->
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+        />
+        <style>
+            :root {
+                --primary: #3498db;
+                --secondary: #2c3e50;
+                --success: #2ecc71;
+                --danger: #e74c3c;
+            }
+
+            body {
+                background: linear-gradient(
+                    135deg,
+                    var(--primary) 0%,
+                    var(--secondary) 100%
+                );
+                height: 100vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-family: "Kanit", sans-serif;
+            }
+
+            .login-container {
+                background-color: rgba(255, 255, 255, 0.95);
+                border-radius: 15px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+                padding: 30px;
+                width: 100%;
+                max-width: 450px;
+                transition: all 0.3s ease;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .login-container:before {
+                content: "";
+                position: absolute;
+                top: -50%;
+                left: -50%;
+                width: 200%;
+                height: 200%;
+                background: radial-gradient(
+                    circle,
+                    transparent 20%,
+                    rgba(255, 255, 255, 0.1) 20%,
+                    rgba(255, 255, 255, 0.1) 21%,
+                    transparent 21%
+                );
+                background-size: 50px 50px;
+                transform: rotate(30deg);
+                z-index: 0;
+            }
+
+            .login-content {
+                position: relative;
+                z-index: 1;
+            }
+
+            .login-header {
+                text-align: center;
+                margin-bottom: 30px;
+            }
+
+            .login-header h2 {
+                color: var(--secondary);
+                font-weight: 700;
+                margin-bottom: 10px;
+                position: relative;
+                display: inline-block;
+            }
+
+            .login-header h2:after {
+                content: "";
+                position: absolute;
+                bottom: -10px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 80px;
+                height: 4px;
+                background: linear-gradient(
+                    to right,
+                    var(--primary),
+                    var(--secondary)
+                );
+                border-radius: 2px;
+            }
+
+            .login-header p {
+                color: #7f8c8d;
+                font-size: 18px;
+                margin-top: 20px;
+            }
+
+            .form-group {
+                margin-bottom: 25px;
+            }
+
+            .form-control {
+                border-radius: 8px;
+                padding: 15px;
+                border: 1px solid #ddd;
+                transition: all 0.3s ease;
+                font-size: 16px;
+            }
+
+            .form-control:focus {
+                border-color: var(--primary);
+                box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+            }
+
+            .password-container {
+                position: relative;
+            }
+
+            .toggle-password {
+                position: absolute;
+                right: 15px;
+                top: 50%;
+                transform: translateY(-50%);
+                cursor: pointer;
+                color: #7f8c8d;
+                z-index: 2;
+            }
+
+            .btn-login {
+                background: linear-gradient(
+                    to right,
+                    var(--primary),
+                    var(--secondary)
+                );
+                border: none;
+                border-radius: 8px;
+                padding: 12px;
+                font-size: 18px;
+                font-weight: 600;
+                transition: all 0.3s ease;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .btn-login:hover {
+                background: linear-gradient(
+                    to right,
+                    var(--secondary),
+                    var(--primary)
+                );
+                transform: translateY(-2px);
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            }
+
+            .btn-login:after {
+                content: "";
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 5px;
+                height: 5px;
+                background: rgba(255, 255, 255, 0.5);
+                opacity: 0;
+                border-radius: 100%;
+                transform: scale(1, 1) translate(-50%);
+                transform-origin: 50% 50%;
+            }
+
+            .btn-login:focus:not(:active)::after {
+                animation: ripple 1s ease-out;
+            }
+
+            @keyframes ripple {
+                0% {
+                    transform: scale(0, 0);
+                    opacity: 1;
+                }
+                20% {
+                    transform: scale(25, 25);
+                    opacity: 1;
+                }
+                100% {
+                    opacity: 0;
+                    transform: scale(40, 40);
+                }
+            }
+
+            .footer-links {
+                display: flex;
+                justify-content: space-between;
+                margin-top: 20px;
+                font-size: 14px;
+            }
+
+            .footer-links a {
+                color: var(--primary);
+                text-decoration: none;
+                transition: color 0.3s;
+                position: relative;
+            }
+
+            .footer-links a:after {
+                content: "";
+                position: absolute;
+                bottom: -2px;
+                left: 0;
+                width: 0;
+                height: 1px;
+                background: var(--primary);
+                transition: width 0.3s;
+            }
+
+            .footer-links a:hover {
+                color: var(--secondary);
+                text-decoration: none;
+            }
+
+            .footer-links a:hover:after {
+                width: 100%;
+            }
+
+            .logo {
+                text-align: center;
+                margin-bottom: 20px;
+            }
+
+            .logo-text {
+                font-size: 28px;
+                font-weight: 700;
+                background: linear-gradient(
+                    to right,
+                    var(--primary),
+                    var(--secondary)
+                );
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                display: inline-block;
+            }
+
+            .jwt-info {
+                margin-top: 25px;
+                padding: 15px;
+                background-color: #f8f9fa;
+                border-radius: 8px;
+                font-size: 14px;
+                color: var(--secondary);
+                display: none;
+                border-left: 4px solid var(--primary);
+            }
+
+            .token-display {
+                word-break: break-all;
+                font-family: monospace;
+                font-size: 12px;
+                margin-top: 10px;
+                padding: 10px;
+                background-color: #e9ecef;
+                border-radius: 5px;
+                max-height: 100px;
+                overflow-y: auto;
+            }
+
+            .btn-group {
+                display: flex;
+                gap: 10px;
+                margin-top: 10px;
+            }
+
+            .btn-sm {
+                flex: 1;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="login-container">
+            <div class="login-content">
+                <div class="logo">
+                    <div class="logo-text">
+                        <i class="fas fa-lock"></i> ระบบล็อกอิน
+                    </div>
+                </div>
+
+                <div class="login-header">
+                    <h2>เข้าสู่ระบบ</h2>
+                    <p>กรุณากรอกข้อมูลเพื่อเข้าสู่ระบบ</p>
+                </div>
+
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="username"
+                            ><i class="fas fa-user"></i> ชื่อผู้ใช้</label
+                        >
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="username"
+                            value="admin"
+                            placeholder="กรอกชื่อผู้ใช้"
+                            required
+                        />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password"
+                            ><i class="fas fa-key"></i> รหัสผ่าน</label
+                        >
+                        <div class="password-container">
+                            <input
+                                type="password"
+                                class="form-control"
+                                id="password"
+                                value="123"
+                                placeholder="กรอกรหัสผ่าน"
+                                required
+                            />
+                            <span
+                                class="toggle-password"
+                                onclick="togglePassword()"
+                            >
+                                <i class="fas fa-eye"></i>
+                            </span>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-login btn-block">
+                        <i class="fas fa-sign-in-alt"></i> เข้าสู่ระบบ
+                    </button>
+                </form>
+
+                <div class="footer-links">
+                    <a href="#"
+                        ><i class="fas fa-question-circle"></i> ลืมรหัสผ่าน?</a
+                    >
+                    <a href="#"
+                        ><i class="fas fa-user-plus"></i> สร้างบัญชีใหม่</a
+                    >
+                </div>
+
+                <div class="jwt-info" id="jwtInfo">
+                    <strong><i class="fas fa-id-card"></i> JWT Token:</strong>
+                    <div class="token-display" id="tokenDisplay"></div>
+                    <div class="btn-group">
+                        <button
+                            class="btn btn-sm btn-outline-primary"
+                            onclick="testApi()"
+                        >
+                            <i class="fas fa-plug"></i> ทดสอบ API
+                        </button>
+                        <button
+                            class="btn btn-sm btn-outline-info"
+                            onclick="logout()"
+                        >
+                            <i class="fas fa-sign-out-alt"></i> ออกจากระบบ
+                        </button>
+                        <button
+                            class="btn btn-sm btn-outline-info"
+                            onclick="goToDashboard()"
+                        >
+                            <i class="fas fa-tachometer-alt"></i> ไปหน้า
+                            Dashboard
+                        </button>
+                        <button
+                            class="btn btn-sm btn-outline-success"
+                            onclick="copyToken()"
+                        >
+                            <i class="fas fa-copy"></i> คัดลอก Token
+                        </button>
+                        <button
+                            class="btn btn-sm btn-outline-info"
+                            onclick="logout()"
+                        >
+                            <i class="fas fa-sign-out-alt"></i> ออกจากระบบ
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SweetAlert2 -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.js"></script>
+        <!-- Axios -->
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+        <script>
+            // ฟังก์ชันแสดง/ซ่อนรหัสผ่าน
+            function togglePassword() {
+                const passwordInput = document.getElementById("password");
+                const eyeIcon = document.querySelector(".toggle-password i");
+
+                if (passwordInput.type === "password") {
+                    passwordInput.type = "text";
+                    eyeIcon.classList.remove("fa-eye");
+                    eyeIcon.classList.add("fa-eye-slash");
+                } else {
+                    passwordInput.type = "password";
+                    eyeIcon.classList.remove("fa-eye-slash");
+                    eyeIcon.classList.add("fa-eye");
+                }
+            }
+
+            // ฟังก์ชันล็อกอิน
+            async function login(username, password) {
+                try {
+                    // ส่งคำขอไปยังเซิร์ฟเวอร์เพื่อรับ JWT token
+                    const response = await axios.post("jwt/login.php", {
+                        username: username,
+                        password: password,
+                    });
+
+                    if (response.data.status === true) {
+                        const token = response.data.token;
+
+                        // บันทึก token ลงใน localStorage
+                        localStorage.setItem("jwtToken", token);
+
+                        // แสดง token ที่ได้
+                        document.getElementById("tokenDisplay").textContent =
+                            token;
+                        document.getElementById("jwtInfo").style.display =
+                            "block";
+
+                        return token;
+                    } else {
+                        throw new Error(
+                            response.data.message ||
+                                "เกิดข้อผิดพลาดในการล็อกอิน"
+                        );
+                    }
+                } catch (error) {
+                    console.error("เกิดข้อผิดพลาดในการล็อกอิน:", error);
+                    throw error;
+                }
+            }
+
+            // ฟังก์ชันทดสอบ API
+            async function testApi() {
+                const token = localStorage.getItem("jwtToken");
+
+                if (!token) {
+                    showError("ไม่มี Token", "กรุณาล็อกอินเพื่อรับ Token ก่อน");
+                    return;
+                }
+
+                try {
+                    // ส่งคำขอ API พร้อม JWT token ใน header
+                    const response = await axios.get("jwt/protected.php", {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    });
+
+                    if (response.data.status === true) {
+                        Swal.fire({
+                            icon: "success",
+                            title: "การตรวจสอบ Token สำเร็จ!",
+                            html: `<p>ยินดีต้อนรับ: <strong>${response.data.user.username}</strong></p>
+                                <p>คุณ : ${response.data.user.name}</p>
+                                <p>สถานะ : ${response.data.user.permission}</p>
+                                <p>เซิร์ฟเวอร์ตอบกลับ: ${response.data.message}</p>
+                                <p>Token หมดอายุ: ${response.data.expires}</p>
+                                <p>Token เหลือเวลาอีก: ${response.data.expiresTime}</p>`,
+                                
+                            confirmButtonColor: "#3498db",
+                        });
+                    } else {
+                        throw new Error(response.data.message);
+                    }
+                } catch (error) {
+                    console.error("เกิดข้อผิดพลาดในการเรียก API:", error);
+                    showError(
+                        "การตรวจสอบ Token ล้มเหลว",
+                        error.response?.data?.message || error.message
+                    );
+                }
+            }
+
+            // ฟังก์ชันคัดลอก Token
+            function copyToken() {
+                const token =
+                    document.getElementById("tokenDisplay").textContent;
+                navigator.clipboard
+                    .writeText(token)
+                    .then(() => {
+                        Swal.fire({
+                            icon: "success",
+                            title: "คัดลอก Token สำเร็จ!",
+                            text: "Token ได้ถูกคัดลอกไปยังคลิปบอร์ดแล้ว",
+                            timer: 1500,
+                            showConfirmButton: false,
+                        });
+                    })
+                    .catch((err) => {
+                        console.error("ไม่สามารถคัดลอกได้:", err);
+                        showError("ไม่สามารถคัดลอกได้", "กรุณาลองอีกครั้ง");
+                    });
+            }
+
+            // ไปยังหน้า Dashboard
+            function goToDashboard() {
+                const token = localStorage.getItem("jwtToken");
+                if (token) {
+                    window.location.href = "adminPages/customerJWT/index.php";
+                } else {
+                    showError("ไม่มี Token", "กรุณาล็อกอินเพื่อรับ Token ก่อน");
+                }
+            }
+
+            // ไปยังหน้า Dashboard
+            function logout() {
+                Swal.fire({
+                    title: "ออกจากระบบ?",
+                    text: "คุณแน่ใจว่าต้องการออกจากระบบหรือไม่?",
+                    icon: "question",
+                    showCancelButton: true,
+                    confirmButtonColor: "#e74c3c",
+                    cancelButtonColor: "#6c757d",
+                    confirmButtonText: "ออกจากระบบ",
+                    cancelButtonText: "ยกเลิก",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // ลบ token
+                        localStorage.removeItem("jwtToken");
+                        window.location.reload(false);
+                        document.getElementById("jwtInfo").style.display =
+                            "none";
+                        // ไปหน้า login
+                        // window.location.href = "login.html";
+                    }
+                });
+            }
+
+            // แสดงข้อผิดพลาด
+            function showError(title, message) {
+                Swal.fire({
+                    icon: "error",
+                    title: title,
+                    text: message,
+                    confirmButtonColor: "#e74c3c",
+                });
+            }
+
+            async function checkLogin() {
+                const token = localStorage.getItem("jwtToken");
+                if (!token) {
+                    return;
+                }
+                try {
+                    // ส่งคำขอ API พร้อม JWT token ใน header
+                    const response = await axios.get("jwt/protected.php", {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    });
+
+                    if (response.data.status === true) {
+                        window.location.href = "client.html";
+                    } else {
+                        throw new Error(response.data.message);
+                    }
+                } catch (error) {
+                    console.error("เกิดข้อผิดพลาดในการเรียก API:", error);
+                    // showError(
+                    //     "การตรวจสอบ Token ล้มเหลว",
+                    //     error.response?.data?.message || error.message
+                    // );
+                }
+                return true;
+            }
+
+            document.addEventListener("DOMContentLoaded", function () {
+                checkLogin();
+            });
+
+            // จัดการฟอร์มล็อกอิน
+            document
+                .getElementById("loginForm")
+                .addEventListener("submit", async function (e) {
+                    e.preventDefault();
+
+                    const username = document.getElementById("username").value;
+                    const password = document.getElementById("password").value;
+
+                    // แสดง loading
+                    Swal.fire({
+                        title: "กำลังตรวจสอบ...",
+                        html: "กรุณารอสักครู่",
+                        allowOutsideClick: false,
+                        didOpen: () => {
+                            Swal.showLoading();
+                        },
+                    });
+
+                    try {
+                        // ล็อกอิน
+                        await login(username, password);
+                        Swal.close();
+                        // ปิด loading และแสดงผลสำเร็จ
+                        // Swal.fire({
+                        //     icon: "success",
+                        //     title: "เข้าสู่ระบบสำเร็จ!",
+                        //     text: "Token ได้ถูกสร้างและบันทึกเรียบร้อยแล้ว",
+                        //     confirmButtonColor: "#3498db",
+                        // });
+                    } catch (error) {
+                        // ปิด loading และแสดงข้อผิดพลาด
+                        Swal.close();
+                        showError(
+                            "เข้าสู่ระบบล้มเหลว",
+                            error.response?.data?.message ||
+                                "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง"
+                        );
+                    }
+                });
+        </script>
+    </body>
+</html>

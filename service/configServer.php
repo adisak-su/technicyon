@@ -16,6 +16,12 @@
     $usernameDB = "root";
     $passwordDB = "";
 
+    $host = "localhost";
+    $dbname = "technicyon";
+    $usernameDB = "root";
+    $passwordDB = "";
+
+    
     // $host = "localhost";
     // $dbname = "pp283mcn_tanasarn";
     // $usernameDB = "pp283mcn_ppcard";

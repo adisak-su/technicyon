@@ -1,6 +1,7 @@
 <?php
     require_once('../authen.php');
     require_once('../../service/connect.php'); 
+    require_once("../../assets/php/common.php");
 
     header('Cache-Control: no-cache, must-revalidate, max-age=0');
 
@@ -33,7 +34,7 @@
 
 </head>
 
-<body class="hold-transition sidebar-mini dark-mode">
+<body class="sidebar-collapse">
     <div class="wrapper">
         <?php include_once('../../includes/loading.php') ?>
         <?php include_once('../includes/sidebar.php') ?>

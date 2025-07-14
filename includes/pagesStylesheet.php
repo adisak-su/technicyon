@@ -2,7 +2,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="../../plugins/@sweetalert2/theme-bootstrap-4/bootstrap-4.css">
+    <!-- <link rel="stylesheet" href="../../plugins/@sweetalert2/theme-bootstrap-4/bootstrap-4.css"> -->
+    
+    <link rel="stylesheet" href="../../plugins/sweetalert2/dist/sweetalert2.min.css">
+
     <link rel="stylesheet" href="../../plugins/bootstrap-toggle/bootstrap-toggle.min.css">
     <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" href="../../plugins/toastr/toastr.min.css">

@@ -1,0 +1,13 @@
+https://www.askvg.com/tip-disable-new-print-preview-ui-in-mozilla-firefox/
+
+Following steps will help you in disabling Print Preview UI in Mozilla Firefox web browser:
+
+1. Open Firefox and type about:config in the addressbar and press Enter. It’ll show you a warning message, click on “Accept the Risk and Continue” button. It’ll open Firefox’s hidden secret advanced configuration page i.e. about:config page.
+
+2. Now type silent in Search filter box and look for following preference in the window:
+
+print.always_print_silent
+
+The preference value is set to false by default, which means the Print Preview feature is activated and enabled in Firefox.
+
+3. To deactivate and disable the Print Preview UI, double-click on print.always_print_silent preference and set it to true. Alternatively, you can click on the Toggle icon given next to the preference name.

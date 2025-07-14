@@ -160,13 +160,13 @@ label .toggle-off {
 
     /* iPad */
     body {
-        font-size: 1.3rem !important;
+        font-size: 1rem !important;
     }
     .my-font-size {
-        font-size: 1.3rem !important;
+        font-size: 1rem !important;
     }
     input,label,select {
-        font-size: 1.3rem !important;
+        font-size: 1rem !important;
         height: auto !important;
     }
 }

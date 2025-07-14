@@ -1,6 +1,7 @@
 <?php
 require_once('../authen.php');
 require_once("../../service/configData.php");
+require_once("../../assets/php/common.php");
 ?>
 
 <!DOCTYPE html>
@@ -18,7 +19,7 @@ require_once("../../service/configData.php");
 
 </head>
 
-<body class="hold-transition sidebar-mini dark-mode">
+<body class="sidebar-collapse">
     <div class="wrapper">
         <?php include_once('../includes/sidebar.php') ?>
         <div class="content-wrapper">

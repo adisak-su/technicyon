@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "sweetalert2": "^11.22.1",
+    "thai-baht-text": "^2.0.5"
+  }
+}

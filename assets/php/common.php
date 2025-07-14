@@ -3,6 +3,7 @@
 // 0=ยกเลิก,1=ใบorder,2=สร้าง Invoice,3=เก็บเงิน,4=เก็บเงิน	
 $statusInvoice = ["ยกเลิกแล้ว", "", "ชำระแล้วบางส่วน", "", "ชำระเงินครบแล้ว"];
 $statusOrder = ["ยกเลิกแล้ว", "ยังไม่ได้ทำบัญชี", "ออกใบวางบิลแล้ว", "", "ชำระเงินแล้ว"];
+$statusOrderHead = ["ใบเสนอราคา", "ใบวางบิล", "", "", ""];
 
 date_default_timezone_set("Asia/Bangkok");
 
@@ -18,7 +19,7 @@ function getStatusOrder($id)
 	return $statusOrder[$id];
 }
 
-function Convert($amount_number)
+function convertToThaiBath($amount_number)
 {
 	$amount_number = number_format($amount_number, 2, ".", "");
 	$pt = strpos($amount_number, ".");
@@ -31,11 +32,11 @@ function Convert($amount_number)
 	}
 
 	$ret = "";
-	$baht = ReadNumber($number);
+	$baht = readNumberToConvert($number);
 	if ($baht != "")
 		$ret .= $baht . "บาท";
 
-	$satang = ReadNumber($fraction);
+	$satang = readNumberToConvert($fraction);
 	if ($satang != "")
 		$ret .=  $satang . "สตางค์";
 	else
@@ -43,7 +44,7 @@ function Convert($amount_number)
 	return $ret;
 }
 
-function ReadNumber($number)
+function readNumberToConvert($number)
 {
 	$position_call = array("แสน", "หมื่น", "พัน", "ร้อย", "สิบ", "");
 	$number_call = array("", "หนึ่ง", "สอง", "สาม", "สี่", "ห้า", "หก", "เจ็ด", "แปด", "เก้า");
@@ -51,7 +52,7 @@ function ReadNumber($number)
 	$ret = "";
 	if ($number == 0) return $ret;
 	if ($number > 1000000) {
-		$ret .= ReadNumber(intval($number / 1000000)) . "ล้าน";
+		$ret .= readNumberToConvert(intval($number / 1000000)) . "ล้าน";
 		$number = intval(fmod($number, 1000000));
 	}
 
