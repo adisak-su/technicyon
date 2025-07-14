@@ -28,6 +28,15 @@ try {
 		}
 		$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 		$response = $result;
+		if (function_exists('gzencode')) {
+			$compressed = gzencode(json_encode($response), 9); // ระดับการบีบอัดสูงสุด
+
+			// ตั้งค่า header สำหรับเนื้อหาที่บีบอัด
+			header('Content-Encoding: gzip');
+			header('Content-Length: ' . strlen($compressed));
+			echo $compressed;
+			exit;
+		}
 	}
 } catch (PDOException $ex) {
 	$response = [

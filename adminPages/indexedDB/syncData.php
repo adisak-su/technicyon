@@ -94,6 +94,8 @@
     <script src="../../plugins/jquery/jquery.slim.min.js"></script>
     <script src="../../plugins/bootstrap/js/bootstrap.min.js"></script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pako/2.0.4/pako.min.js"></script>
+
     <!-- <script src="app.js"></script> -->
     <script>
         // Database setup
@@ -257,6 +259,82 @@
             return this;
         }
 
+        async function decompressGzipUniversal(compressedData) {
+            // ตรวจสอบว่าเบราว์เซอร์รองรับ DecompressionStream หรือไม่
+            if (typeof DecompressionStream !== 'undefined') {
+                try {
+                    return await decompressGzipWithNativeAPI(compressedData);
+                } catch (nativeError) {
+                    console.warn('Native decompression failed, falling back to pako');
+                }
+            }
+
+            // ถ้าไม่รองรับหรือมีข้อผิดพลาด ให้ใช้ pako
+            if (typeof pako === 'undefined') {
+                await loadPakoLibrary();
+            }
+
+            return await decompressGzipWithPako(compressedData);
+        }
+
+        async function decompressGzipWithPako(compressedData) {
+            try {
+                // แปลง ArrayBuffer เป็น Uint8Array
+                const compressedArray = new Uint8Array(compressedData);
+
+                // แตกบีบอัดด้วย pako
+                const decompressedArray = pako.inflate(compressedArray);
+
+                // แปลงเป็น string
+                const decoder = new TextDecoder('utf-8');
+                return decoder.decode(decompressedArray);
+            } catch (error) {
+                console.error('Pako decompression failed:', error);
+                throw error;
+            }
+        }
+
+        // ตัวอย่างการใช้งาน:
+        async function fetchCompressedData() {
+            const response = await fetch('https://example.com/api/data.gz');
+            const compressedData = await response.arrayBuffer();
+
+            const jsonString = await decompressGzipWithPako(compressedData);
+            const data = JSON.parse(jsonString);
+            console.log('ข้อมูลที่แตกแล้ว:', data);
+            return data;
+        }
+
+        async function loadPakoLibrary() {
+            // โหลด pako แบบ lazy
+            const script = document.createElement('script');
+            script.src = 'https://cdnjs.cloudflare.com/ajax/libs/pako/2.0.4/pako.min.js';
+            document.head.appendChild(script);
+
+            return new Promise((resolve) => {
+                script.onload = resolve;
+            });
+        }
+
+        async function decompressGzipWithNativeAPI(compressedData) {
+            try {
+                // สร้าง DecompressionStream
+                const ds = new DecompressionStream('gzip');
+
+                // สร้าง stream สำหรับแปลงข้อมูล
+                const decompressedStream = new Response(compressedData).body.pipeThrough(ds);
+
+                // แปลง stream เป็น text
+                const decompressed = await new Response(decompressedStream).text();
+
+                return decompressed;
+            } catch (error) {
+                console.error('Native decompression failed:', error);
+                throw error;
+            }
+        }
+
+
         // Fetch data from API
         const fetchData = async (endpoint, progressKey) => {
             try {
@@ -280,10 +358,40 @@
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
-                let data = await response.json();
-                // if (progressKey == "products" || progressKey == "usercars") {
-                //     data = await response.json();
-                // }
+                let data = null;
+                if (progressKey == "products" || progressKey == "usercars") {
+                    // 2. ตรวจสอบประเภทการบีบอัด
+                    // const contentEncoding = response.headers.get('Content-Encoding') || '';
+                    // let responseData;
+
+                    // // 3. แตกข้อมูลตามประเภทการบีบอัด
+                    // if (contentEncoding.includes('gzip')) {
+                    //     const compressed = await response.arrayBuffer();
+                    //     responseData = await decompressGzip(compressed);
+                    // } else if (contentEncoding.includes('br')) {
+                    //     // Brotli decompression (หากใช้)
+                    //     const compressed = await response.arrayBuffer();
+                    //     responseData = await decompressBrotli(compressed);
+                    // } else {
+                    //     // ไม่บีบอัด
+                    //     responseData = await response.text();
+                    // }
+
+                    // data = JSON.parse(responseData);
+
+                    // // 4. แปลง JSON เป็น Object
+                    // return JSON.parse(responseData);
+
+                    const compressedData = await response.arrayBuffer();
+
+                    const decompressedData = await decompressGzipWithNativeAPI(compressedData);
+                    console.log('ข้อมูลที่แตกแล้ว:', decompressedData);
+
+                    data = JSON.parse(decompressedData);
+
+                } else {
+                    data = await response.json();
+                }
 
                 await storeData(progressKey, data);
                 let nowSyncTime = new Date().addHours(7).toISOString().replace("T", " ").substr(0, 19);
@@ -315,7 +423,6 @@
 
                 // Enable close button
                 // document.getElementById('closeModalBtn').disabled = false;
-
                 setTimeout(closeModal, 1000);
 
             } catch (error) {
@@ -383,7 +490,11 @@
             // loadCompressionLibraries();
 
             await createProgressBar();
-            loadAllData();
+            // loadAllData();
+            $('#progressModal').modal('show');
+
+            let result = await getData();
+            alert(result.length)
 
             // Close modal handler
             document.getElementById('closeModalBtn').addEventListener('click', () => {
@@ -392,11 +503,96 @@
                 // document.getElementById('closeModalBtn').classList.remove("d-none");
                 $('#closeModalBtn').removeClass("d-none");
 
-                reloadDB();
+                // reloadDB();
 
             });
         });
 
+        // โหลดไลบรารีบีบอัดแบบ lazy
+        async function loadCompressionLibraries() {
+            if (typeof pako === 'undefined') {
+                await import('https://cdnjs.cloudflare.com/ajax/libs/pako/2.0.4/pako.min.js');
+            }
+
+            if (typeof BrotliDecode === 'undefined') {
+                await import('https://cdn.jsdelivr.net/npm/brotli-dec@2.0.2/brotli_dec.min.js');
+            }
+        }
+
+        async function decompressGzipUniversal(compressedData) {
+            // ตรวจสอบว่าเบราว์เซอร์รองรับ DecompressionStream หรือไม่
+            if (typeof DecompressionStream !== 'undefined') {
+                try {
+                    return await decompressGzipWithNativeAPI(compressedData);
+                } catch (nativeError) {
+                    console.warn('Native decompression failed, falling back to pako');
+                }
+            }
+
+            // ถ้าไม่รองรับหรือมีข้อผิดพลาด ให้ใช้ pako
+            if (typeof pako === 'undefined') {
+                await loadPakoLibrary();
+            }
+
+            return await decompressGzipWithPako(compressedData);
+        }
+
+        async function loadPakoLibrary() {
+            // โหลด pako แบบ lazy
+            const script = document.createElement('script');
+            script.src = 'https://cdnjs.cloudflare.com/ajax/libs/pako/2.0.4/pako.min.js';
+            document.head.appendChild(script);
+
+            return new Promise((resolve) => {
+                script.onload = resolve;
+            });
+        }
+
+        // ตัวอย่างการใช้งาน:
+        async function _getData() {
+            try {
+                const response = await fetch('syncFromApi/products.php');
+
+                // // ตรวจสอบว่าข้อมูลบีบอัดหรือไม่
+                // const contentEncoding = response.headers.get('Content-Encoding');
+                // const isCompressed = contentEncoding && contentEncoding.includes('gzip');
+
+                // if (isCompressed) {
+                //     const compressed = await response.arrayBuffer();
+                //     const jsonString = await decompressGzipUniversal(compressed);
+                //     return JSON.parse(jsonString);
+                // } else {
+                //     // กรณีไม่ได้บีบอัด
+                //     return await response.json();
+                // }
+                return await response.json();
+            } catch (error) {
+                console.error('Failed to fetch and decompress data:', error);
+                throw error;
+            }
+        }
+        async function getData() {
+            try {
+                const response = await fetch('syncFromApi/products.php');
+
+                // // ตรวจสอบว่าข้อมูลบีบอัดหรือไม่
+                // const contentEncoding = response.headers.get('Content-Encoding');
+                // const isCompressed = contentEncoding && contentEncoding.includes('gzip');
+
+                // if (isCompressed) {
+                //     const compressed = await response.arrayBuffer();
+                //     const jsonString = await decompressGzipUniversal(compressed);
+                //     return JSON.parse(jsonString);
+                // } else {
+                //     // กรณีไม่ได้บีบอัด
+                //     return await response.json();
+                // }
+                return await response.json();
+            } catch (error) {
+                console.error('Failed to fetch and decompress data:', error);
+                throw error;
+            }
+        }
         /*
         $(document).ready(async function() {
             // createProgressBar();

@@ -249,6 +249,9 @@
                     };
                 });
                 saveLastSyncTime(storeName, lastSyncTime)
+
+
+
             });
         };
 
@@ -256,7 +259,6 @@
             this.setHours(this.getHours() + h);
             return this;
         }
-
         // Fetch data from API
         const fetchData = async (endpoint, progressKey) => {
             try {
@@ -270,8 +272,7 @@
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': 'Bearer my-secret-token',
-                        'Accept-Encoding': 'gzip, deflate, br',
-                        'Custom-Header': 'HelloWorld',
+                        'Custom-Header': 'HelloWorld'
                     },
                     body: JSON.stringify({
                         lastSyncTime: lastSyncTime
@@ -280,10 +281,8 @@
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
-                let data = await response.json();
-                // if (progressKey == "products" || progressKey == "usercars") {
-                //     data = await response.json();
-                // }
+
+                const data = await response.json();
 
                 await storeData(progressKey, data);
                 let nowSyncTime = new Date().addHours(7).toISOString().replace("T", " ").substr(0, 19);
@@ -315,7 +314,6 @@
 
                 // Enable close button
                 // document.getElementById('closeModalBtn').disabled = false;
-
                 setTimeout(closeModal, 1000);
 
             } catch (error) {
@@ -363,8 +361,8 @@
 
         async function createProgressBar() {
             let html = "";
-            storeNames.forEach((item) => {
-                html += `
+            storeNames.forEach((item)=>{
+                    html += `
                     <div class="mb-3">
                         <div class="progress-label">${item.storeNameThai}</div>
                         <div class="progress">
@@ -380,8 +378,6 @@
         // Initialize the application when DOM is loaded
         document.addEventListener('DOMContentLoaded', async () => {
             // await indexedDB.deleteDatabase(dbName);
-            // loadCompressionLibraries();
-
             await createProgressBar();
             loadAllData();
 
@@ -396,7 +392,6 @@
 
             });
         });
-
         /*
         $(document).ready(async function() {
             // createProgressBar();

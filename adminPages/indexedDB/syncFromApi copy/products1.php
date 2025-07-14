@@ -2,11 +2,10 @@
 require_once("../../../service/connect.php");
 header('Content-Type: application/json');
 http_response_code(200);
-
+set_time_limit(120);
 try {
 	$DB = new Database();
 	$conn = $DB->connect();
-
 	$response = [];
 
 	if ('POST' === $_SERVER['REQUEST_METHOD']) {
@@ -19,25 +18,16 @@ try {
 			$param = [
 				"lastSyncTime" => $lastSyncTime
 			];
-			$sql = "SELECT * FROM typename WHERE updatedAt > :lastSyncTime ORDER BY typename";
+			$sql = "SELECT * FROM product WHERE updatedAt > :lastSyncTime ORDER BY name";
 			$stmt = $conn->prepare($sql);
 			$stmt->execute($param);
 		} else {
-			$sql = "SELECT * FROM typename ORDER BY typename";
+			$sql = "SELECT * FROM product ORDER BY name";
 			$stmt = $conn->prepare($sql);
 			$stmt->execute();
 		}
 		$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 		$response = $result;
-		if (function_exists('gzencode')) {
-			$compressed = gzencode(json_encode($response), 9); // ระดับการบีบอัดสูงสุด
-
-			// ตั้งค่า header สำหรับเนื้อหาที่บีบอัด
-			header('Content-Encoding: gzip');
-			header('Content-Length: ' . strlen($compressed));
-			echo $compressed;
-			exit;
-		}
 	}
 } catch (PDOException $ex) {
 	$response = [

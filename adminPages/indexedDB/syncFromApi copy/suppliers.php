@@ -19,25 +19,17 @@ try {
 			$param = [
 				"lastSyncTime" => $lastSyncTime
 			];
-			$sql = "SELECT * FROM typename WHERE updatedAt > :lastSyncTime ORDER BY typename";
+			$sql = "SELECT * FROM supplier WHERE updatedAt > :lastSyncTime ORDER BY name";
 			$stmt = $conn->prepare($sql);
 			$stmt->execute($param);
-		} else {
-			$sql = "SELECT * FROM typename ORDER BY typename";
+		}
+		else {
+			$sql = "SELECT * FROM supplier ORDER BY name";
 			$stmt = $conn->prepare($sql);
 			$stmt->execute();
 		}
 		$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 		$response = $result;
-		if (function_exists('gzencode')) {
-			$compressed = gzencode(json_encode($response), 9); // ระดับการบีบอัดสูงสุด
-
-			// ตั้งค่า header สำหรับเนื้อหาที่บีบอัด
-			header('Content-Encoding: gzip');
-			header('Content-Length: ' . strlen($compressed));
-			echo $compressed;
-			exit;
-		}
 	}
 } catch (PDOException $ex) {
 	$response = [
