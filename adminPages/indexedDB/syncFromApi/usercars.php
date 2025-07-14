@@ -2,7 +2,7 @@
 require_once("../../../service/connect.php");
 header('Content-Type: application/json');
 http_response_code(200);
-
+set_time_limit(120);
 try {
 	$DB = new Database();
 	$conn = $DB->connect();
