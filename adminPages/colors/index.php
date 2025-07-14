@@ -233,7 +233,7 @@ require_once("../../service/configData.php");
     <!-- SCRIPTS -->
     <?php include_once('../../includes/pagesScript.php') ?>
     <?php include_once('../../includes/myScript.php') ?>
-    <script src="../indexedDB/indexedDB.js"></script>
+    <script src="../indexedDB/indexedDB.js?<?php echo time(); ?>"></script>
     <script src="../js/renderPagination.js"></script>
     <script src="../js/sortColumnBy.js"></script>
     <script src="../js/validateInput.js"></script>
@@ -505,17 +505,18 @@ require_once("../../service/configData.php");
                 createFilterDataAndRender();
             });
             // setInterval(updateSyncData,10000); // 10 วินาที
+            setInterval(function() { updateSyncData({dataSource:colorNames,dataName:"colornames"}); },10000); // 10 วินาที
         });
 
-        async function updateSyncData() {
-            let statusChange = await syncOnLoad();
-            if (statusChange) {
-                colorNames = await loadDataFromDB("colornames");
-                if ($('#searchInput').val() !== "") {
-                    createFilterDataAndRender();
-                }
-            }
-        }
+        // async function updateSyncData() {
+        //     let statusChange = await syncOnLoad();
+        //     if (statusChange.status) {
+        //         if(statusChange.tableNames.find(item => item == "colornames")) {
+        //             colorNames = await loadDataFromDB("colornames");
+        //             createFilterDataAndRender();
+        //         }
+        //     }
+        // }
     </script>
 </body>
 

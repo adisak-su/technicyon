@@ -502,17 +502,9 @@ require_once("../../service/configData.php");
                 createFilterDataAndRender();
             });
             // setInterval(updateSyncData,10000); // 10 วินาที
+            // setInterval(function() { updateSyncData({dataSource:typeNames,dataName:"typenames"}); },10000); // 10 วินาที
         });
 
-        async function updateSyncData() {
-            let statusChange = await syncOnLoad();
-            if (statusChange) {
-                typeNames = await loadDataFromDB("typenames");
-                if ($('#searchInput').val() !== "") {
-                    createFilterDataAndRender();
-                }
-            }
-        }
     </script>
 </body>
 

@@ -314,7 +314,9 @@ async function syncOnLoad() {
         // 2. ดึงการเปลี่ยนแปลงจากเซิร์ฟเวอร์
         let changes = await getDataLastSync(lastSyncRecord);
 
-        if (!changes || changes.length === 0) return false;
+        if (!changes || changes.length === 0) return {status:false};
+        // let tableNames = changes.map(item=>item.table_name);
+        const tableNames = [...new Set(changes.map(item => item.table))];
 
         // 3. ประมวลผลการเปลี่ยนแปลง
         for (i = 0; i < changes.length; i++) {
@@ -353,7 +355,7 @@ async function syncOnLoad() {
         //     tableName: "suppliers",
         //     lastSyncTime: newSyncTime,
         // });
-        return true;
+        return {status:true,tableNames:tableNames};
     } catch (error) {
         console.error("Sync failed:", error);
         throw new Error(error);
@@ -406,4 +408,14 @@ async function _loadAndSetDataColor(inputId, suggestionsId) {
         //sortField: "groupname"
     });
     return dataStore;
+}
+
+async function updateSyncData({dataSource,dataName}) {
+    let statusChange = await syncOnLoad();
+    if (statusChange.status) {
+        if (statusChange.tableNames.find((item) => item == dataName)) {
+            dataSource = await loadDataFromDB(dataName);
+            createFilterDataAndRender();
+        }
+    }
 }

@@ -447,20 +447,6 @@ require_once("../../service/configData.php");
             state: "ASC"
         }, ];
 
-        $('#sorted').bootstrapToggle();
-        $('#sorted').off('change');
-
-        $("#sorted").change(function() {
-            sortData();
-        });
-
-        function _sortData() {
-            let sorted = $("#sorted")[0].checked ? "carId" : "name";
-            usercars.sort((a, b) => a[sorted].localeCompare(b[sorted]));
-            currentPage = 1;
-            renderTable();
-        }
-
         async function openAddModal() {
             editId = null;
             document.getElementById('itemForm').reset();
@@ -497,10 +483,6 @@ require_once("../../service/configData.php");
             }
         }
 
-        // function getUpdatedAt() {
-        //     return new Date().addHours(7).toISOString().replace("T", " ").substr(0, 19);
-        // }
-
         function saveItem() {
             const thisfrm = document.getElementById('itemForm');
             const itemId_org = editId || thisfrm.elements.namedItem('itemId_org').value.trim();
@@ -535,6 +517,7 @@ require_once("../../service/configData.php");
                 "telephone": itemTelephone,
                 updatedAt
             };
+            
             let dataSend = {
                 "itemId_org": itemId_org,
                 "itemId": itemId,
@@ -720,15 +703,8 @@ require_once("../../service/configData.php");
                 createFilterDataAndRender();
             });
             // setInterval(updateSyncData,10000); // 10 วินาที
+            // setInterval(function() { updateSyncData({dataSource:usercars,dataName:"usercars"}); },10000); // 10 วินาที
         });
-
-        async function updateSyncData() {
-            let statusChange = await syncOnLoad();
-            if(statusChange) {
-                usercars = await loadDataFromDB("usercars");
-                createFilterDataAndRender();
-            }
-        }
 
         async function loadAndSetData(storeName) {
             let dataStore = await loadDataFromDB(storeName);

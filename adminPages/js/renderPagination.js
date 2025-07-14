@@ -39,3 +39,17 @@ function renderPagination(current, total) {
     }
     addPage(current + 1, "»", false, current === total);
 }
+
+function sortData() {
+    let sorted = $("#sorted")[0].checked ? "carId" : "name";
+    usercars.sort((a, b) => a[sorted].localeCompare(b[sorted]));
+    currentPage = 1;
+    renderTable();
+}
+
+$("#sorted").bootstrapToggle();
+$("#sorted").off("change");
+
+$("#sorted").change(function () {
+    sortData();
+});

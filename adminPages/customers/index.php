@@ -579,18 +579,10 @@ require_once("../../service/configData.php");
             $('#searchInput').on('input', function() {
                 createFilterDataAndRender();
             });
-            // setInterval(updateSyncData, 10000); // 10 วินาที
+            // setInterval(updateSyncData,10000); // 10 วินาที
+            // setInterval(function() { updateSyncData({dataSource:customers,dataName:"customers"}); },10000); // 10 วินาที
         });
 
-        async function updateSyncData() {
-            let statusChange = await syncOnLoad();
-            if (statusChange) {
-                customers = await loadDataFromDB("customers");
-                if ($('#searchInput').val() !== "") {
-                    createFilterDataAndRender();
-                }
-            }
-        }
     </script>
 </body>
 

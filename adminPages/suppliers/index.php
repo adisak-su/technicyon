@@ -612,17 +612,9 @@ require_once("../../service/configData.php");
                 createFilterDataAndRender();
             });
             // setInterval(updateSyncData,10000); // 10 วินาที
+            // setInterval(function() { updateSyncData({dataSource:suppliers,dataName:"suppliers"}); },10000); // 10 วินาที
         });
 
-        async function updateSyncData() {
-            let statusChange = await syncOnLoad();
-            if(statusChange) {
-                suppliers = await loadDataFromDB("suppliers");
-                if ($('#searchInput').val() !== "") {
-                    createFilterDataAndRender();
-                }
-            }
-        }
     </script>
 </body>
 

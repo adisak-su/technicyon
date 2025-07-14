@@ -1152,6 +1152,9 @@ require_once("../../assets/php/common.php");
                     e.preventDefault();
                 });
 
+                // setInterval(updateSyncData,10000); // 10 วินาที
+                // setInterval(function() { updateSyncData({dataSource:products,dataName:"products"}); },10000); // 10 วินาที
+
             });
 
             document.addEventListener("dbclick", function(event) {

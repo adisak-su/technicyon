@@ -505,17 +505,9 @@ require_once("../../service/configData.php");
                 createFilterDataAndRender();
             });
             // setInterval(updateSyncData,10000); // 10 วินาที
+            // setInterval(function() { updateSyncData({dataSource:groupNames,dataName:"groupnames"}); },10000); // 10 วินาที
         });
 
-        async function updateSyncData() {
-            let statusChange = await syncOnLoad();
-            if (statusChange) {
-                groupNames = await loadDataFromDB("groupnames");
-                if ($('#searchInput').val() !== "") {
-                    createFilterDataAndRender();
-                }
-            }
-        }
     </script>
 </body>
 
