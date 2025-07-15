@@ -10,17 +10,28 @@ try {
 		$itemId = $_POST["itemId"];
 		$itemName = $_POST["itemName"];
 		$itemUpdatedAt = $_POST["itemUpdatedAt"];
+
+		$params = [
+			"itemId" => $itemId,
+		];
+		$sql = "SELECT colorname FROM colorname WHERE colorId=:itemId";
+		$stmt = $conn->prepare($sql);
+		$stmt->execute($params);
+		$resultColor = $stmt->fetch(PDO::FETCH_ASSOC);
+
 		$params = [
 			"itemId" => $itemId,
 			"itemName" => $itemName,
 			"itemUpdatedAt" => $itemUpdatedAt
 		];
-		$sql = "UPDATE colorname SET colorname=:itemName , updatedAt=:itemUpdatedAt  WHERE colorId=:itemId";
+		$sql = "UPDATE colorname SET colorname=:itemName , updatedAt=:itemUpdatedAt WHERE colorId=:itemId";
 		$stmt = $conn->prepare($sql);
 		$stmt->execute($params);
 		$rowEffect = $stmt->rowCount();
 
 		$DB->updateDataChange("colornames", $itemId, "UPDATE", "colorId");
+
+		updateUsercar($resultColor["colorname"], $itemName, $conn, $DB);
 
 		if ($rowEffect) {
 			$response = [
@@ -62,3 +73,33 @@ try {
 	];
 }
 echo json_encode($response);
+
+function updateUsercar($itemColorNameOld, $itemColorNameNew, $conn, $DB)
+{
+	try {
+		$params = [
+			"itemColorNameOld" => $itemColorNameOld
+		];
+
+		$sql = "SELECT carId FROM usercar WHERE colorname = :itemColorNameOld";
+		$stmt = $conn->prepare($sql);
+		$stmt->execute($params);
+		$resultCarIds = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+		$params = [
+			"itemColorNameOld" => $itemColorNameOld,
+			"itemColorNameNew" => $itemColorNameNew
+		];
+
+		$sql = "UPDATE usercar SET colorname=:itemColorNameNew WHERE colorname = :itemColorNameOld";
+
+		$stmt = $conn->prepare($sql);
+		$stmt->execute($params);
+
+		foreach ($resultCarIds as $item) {
+			$DB->updateDataChange("usercars", $item["carId"], "UPDATE", "carId");
+		}
+	} catch (Exception $ex) {
+		throw new Exception($ex);
+	}
+}

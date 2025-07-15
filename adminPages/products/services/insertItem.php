@@ -13,15 +13,15 @@ try {
 		$itemGroupName = $_POST["itemGroupName"];
 		$itemTypeName = $_POST["itemTypeName"];
 		$itemSupplierName = $_POST["itemSupplierName"];
-		$itemStockMax = $_POST["itemStockMax"];
-		$itemStockMin = $_POST["itemStockMin"];
-		$itemStockFront = $_POST["itemStockFront"];
-		$itemStockBack = $_POST["itemStockBack"];
+		$itemStoreMax = $_POST["itemStoreMax"];
+		$itemStoreMin = $_POST["itemStoreMin"];
+		$itemStoreFront = $_POST["itemStoreFront"];
+		$itemStoreBack = $_POST["itemStoreBack"];
 		$itemPriceInv = $_POST["itemPriceInv"];
 		$itemPriceFront = $_POST["itemPriceFront"];
 		$itemPriceBack = $_POST["itemPriceBack"];
 		$itemPriceShop = $_POST["itemPriceShop"];
-		$itemStore = $_POST["itemStore"];
+		$itemLocation = $_POST["itemLocation"];
 		$itemUpdatedAt = $_POST["itemUpdatedAt"];
 		$params = [
 			// "itemId_org" => $itemId_org,
@@ -30,20 +30,20 @@ try {
 			"itemGroupName" => $itemGroupName,
 			"itemTypeName" => $itemTypeName,
 			"itemSupplierName" => $itemSupplierName,
-			"itemStockMax" => $itemStockMax,
-			"itemStockMin" => $itemStockMin,
-			"itemStockFront" => $itemStockFront,
-			"itemStockBack" => $itemStockBack,
+			"itemStoreMax" => $itemStoreMax,
+			"itemStoreMin" => $itemStoreMin,
+			"itemStoreFront" => $itemStoreFront,
+			"itemStoreBack" => $itemStoreBack,
 			"itemPriceInv" => $itemPriceInv,
 			"itemPriceFront" => $itemPriceFront,
 			"itemPriceBack" => $itemPriceBack,
 			"itemPriceShop" => $itemPriceShop,
-			"itemStore" => $itemStore,
+			"itemLocation" => $itemLocation,
 			"itemUpdatedAt" => $itemUpdatedAt,
 		];
 
-		$sql = "INSERT INTO product (productId,name,groupname,typename,suppliername,max,min,stock1,stock2,price0,price1,price2,price3,store,updatedAt) 
-		VALUE(:itemId,:itemName,:itemGroupName,:itemTypeName,:itemSupplierName,:itemStockMax,:itemStockMin,:itemStockFront,:itemStockBack,:itemPriceInv,:itemPriceFront,:itemPriceBack,:itemPriceShop,:itemStore,:itemUpdatedAt)";
+		$sql = "INSERT INTO product (productId,name,groupname,typename,suppliername,storeMax,storeMin,storeFront,StoreBack,priceInv,priceFront,priceBack,priceShop,location,updatedAt) 
+		VALUE(:itemId,:itemName,:itemGroupName,:itemTypeName,:itemSupplierName,:itemStoreMax,:itemStoreMin,:itemStoreFront,:itemStoreBack,:itemPriceInv,:itemPriceFront,:itemPriceBack,:itemPriceShop,:itemLocation,:itemUpdatedAt)";
 		$stmt = $conn->prepare($sql);
 		$stmt->execute($params);
 

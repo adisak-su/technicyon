@@ -13,15 +13,15 @@ try {
 		$itemGroupName = $_POST["itemGroupName"];
 		$itemTypeName = $_POST["itemTypeName"];
 		$itemSupplierName = $_POST["itemSupplierName"];
-		$itemStockMax = $_POST["itemStockMax"];
-		$itemStockMin = $_POST["itemStockMin"];
-		$itemStockFront = $_POST["itemStockFront"];
-		$itemStockBack = $_POST["itemStockBack"];
+		$itemStoreMax = $_POST["itemStoreMax"];
+		$itemStoreMin = $_POST["itemStoreMin"];
+		$itemStoreFront = $_POST["itemStoreFront"];
+		$itemStoreBack = $_POST["itemStoreBack"];
 		$itemPriceInv = $_POST["itemPriceInv"];
 		$itemPriceFront = $_POST["itemPriceFront"];
 		$itemPriceBack = $_POST["itemPriceBack"];
 		$itemPriceShop = $_POST["itemPriceShop"];
-		$itemStore = $_POST["itemStore"];
+		$itemLocation = $_POST["itemLocation"];
 		$itemUpdatedAt = $_POST["itemUpdatedAt"];
 		$params = [
 			"itemId_org" => $itemId_org,
@@ -30,19 +30,19 @@ try {
 			"itemGroupName" => $itemGroupName,
 			"itemTypeName" => $itemTypeName,
 			"itemSupplierName" => $itemSupplierName,
-			"itemStockMax" => $itemStockMax,
-			"itemStockMin" => $itemStockMin,
-			"itemStockFront" => $itemStockFront,
-			"itemStockBack" => $itemStockBack,
+			"itemStoreMax" => $itemStoreMax,
+			"itemStoreMin" => $itemStoreMin,
+			"itemStoreFront" => $itemStoreFront,
+			"itemStoreBack" => $itemStoreBack,
 			"itemPriceInv" => $itemPriceInv,
 			"itemPriceFront" => $itemPriceFront,
 			"itemPriceBack" => $itemPriceBack,
 			"itemPriceShop" => $itemPriceShop,
-			"itemStore" => $itemStore,
+			"itemLocation" => $itemLocation,
 			"itemUpdatedAt" => $itemUpdatedAt,
 		];
 
-		$sql = "UPDATE product SET productId=:itemId, name=:itemName, groupname=:itemGroupName, typename=:itemTypeName, suppliername=:itemSupplierName, max=:itemStockMax, min=:itemStockMin, stock1=:itemStockFront, stock2=:itemStockBack, price0=:itemPriceInv, price1=:itemPriceFront, price2=:itemPriceBack, price3=:itemPriceShop, store=:itemStore, updatedAt=:itemUpdatedAt  WHERE productId=:itemId_org";
+		$sql = "UPDATE product SET productId=:itemId, name=:itemName, groupname=:itemGroupName, typename=:itemTypeName, suppliername=:itemSupplierName, storeMax=:itemStoreMax, storeMin=:itemStoreMin, storeFront=:itemStoreFront, storeBack=:itemStoreBack, priceInv=:itemPriceInv, priceFront=:itemPriceFront, priceBack=:itemPriceBack, priceShop=:itemPriceShop, location=:itemLocation, updatedAt=:itemUpdatedAt WHERE productId=:itemId_org";
 		$stmt = $conn->prepare($sql);
 		$stmt->execute($params);
 		$rowEffect = $stmt->rowCount();

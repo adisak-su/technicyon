@@ -403,61 +403,61 @@ require_once("../../assets/php/common.php");
                                         <label>จำนวน</label>
                                     </div>
                                     <div class="col-6 col-md-2 form-group position-relative mb-3">
-                                        <label for="itemStockMax" class="form-label">สูงสุด</label>
+                                        <label for="itemStoreMax" class="form-label">สูงสุด</label>
                                         <div class="input-icon-wrapper">
                                             <i class="fa fa-keyboard input-icon" aria-hidden="true"></i>
                                             <input
                                                 type="text"
                                                 class="form-control text-right"
-                                                id="itemStockMax"
+                                                id="itemStoreMax"
                                                 value="0"
                                                 placeholder="" autocomplete="off" />
                                         </div>
                                     </div>
                                     <div class="col-6 col-md-2 form-group position-relative mb-3">
-                                        <label for="itemStockMin" class="form-label">ต่ำสุด</label>
+                                        <label for="itemStoreMin" class="form-label">ต่ำสุด</label>
                                         <div class="input-icon-wrapper">
                                             <i class="fa fa-keyboard input-icon" aria-hidden="true"></i>
                                             <input
                                                 type="text"
                                                 class="form-control text-right"
-                                                id="itemStockMin"
+                                                id="itemStoreMin"
                                                 value="0"
                                                 placeholder="" autocomplete="off" />
                                         </div>
                                     </div>
                                     <div class="col-6 col-md-2 form-group position-relative mb-3">
-                                        <label for="itemStockFront" class="form-label">หน้าร้าน</label>
+                                        <label for="itemStoreFront" class="form-label">หน้าร้าน</label>
                                         <div class="input-icon-wrapper">
                                             <i class="fa fa-keyboard input-icon" aria-hidden="true"></i>
                                             <input
                                                 type="text"
                                                 class="form-control text-right"
-                                                id="itemStockFront"
+                                                id="itemStoreFront"
                                                 value="0"
                                                 placeholder="" autocomplete="off" />
                                         </div>
                                     </div>
                                     <div class="col-6 col-md-2 form-group position-relative mb-3">
-                                        <label for="itemStockBack" class="form-label">หลังร้าน</label>
+                                        <label for="itemStoreBack" class="form-label">หลังร้าน</label>
                                         <div class="input-icon-wrapper">
                                             <i class="fa fa-keyboard input-icon" aria-hidden="true"></i>
                                             <input
                                                 type="text"
                                                 class="form-control text-right"
-                                                id="itemStockBack"
+                                                id="itemStoreBack"
                                                 value="0"
                                                 placeholder="" autocomplete="off" />
                                         </div>
                                     </div>
                                     <div class="col-6 col-md-3 form-group position-relative mb-3">
-                                        <label for="itemStockTotal" class="form-label">รวม</label>
+                                        <label for="itemStoreTotal" class="form-label">รวม</label>
                                         <div class="input-icon-wrapper">
                                             <i class="fa fa-keyboard input-icon" aria-hidden="true"></i>
                                             <input
                                                 type="text"
                                                 class="form-control text-right"
-                                                id="itemStockTotal"
+                                                id="itemStoreTotal"
                                                 value="0"
                                                 placeholder="" autocomplete="off" />
                                         </div>
@@ -520,13 +520,13 @@ require_once("../../assets/php/common.php");
                                 </div>
                                 <div class="row">
                                     <div class="col-12">
-                                        <label for="itemStore" class="form-label">ที่เก็บสินค้า</label>
+                                        <label for="itemLocation" class="form-label">ที่เก็บสินค้า</label>
                                         <div class="input-icon-wrapper">
                                             <i class="fa fa-keyboard input-icon" aria-hidden="true"></i>
                                             <input
                                                 type="text"
                                                 class="form-control"
-                                                id="itemStore"
+                                                id="itemLocation"
                                                 placeholder="" />
                                         </div>
                                     </div>
@@ -867,24 +867,16 @@ require_once("../../assets/php/common.php");
                     thisfrm.elements.namedItem("itemGroupName").value = m.groupname;
                     thisfrm.elements.namedItem("itemTypeName").value = m.typename;
                     thisfrm.elements.namedItem("itemSupplierName").value = m.suppliername;
-                    thisfrm.elements.namedItem("itemStockMax").value = m.max;
-                    thisfrm.elements.namedItem("itemStockMin").value = m.min;
-                    thisfrm.elements.namedItem("itemStockFront").value = m.stock1;
-                    thisfrm.elements.namedItem("itemStockBack").value = m.stock2;
-                    thisfrm.elements.namedItem("itemStockTotal").value = m.stock1 + m.stock2;
-
-                    thisfrm.elements.namedItem("itemPriceInv").value = m.price0;
-                    thisfrm.elements.namedItem("itemPriceFront").value = m.price1;
-                    thisfrm.elements.namedItem("itemPriceBack").value = m.price2;
-                    thisfrm.elements.namedItem("itemPriceShop").value = m.price3;
-                    thisfrm.elements.namedItem("itemStore").value = m.store;
-
-                    // let computePriceInv = m.price0;
-                    // if (computePriceInv !== "") {
-                    //     let stringValue = computePriceInv.split('');
-                    //     computePriceInv = stringValue.map(convertInvFromString);
-                    //     modal.querySelector("#computePriceInv").value = computePriceInv.join("");
-                    // }
+                    thisfrm.elements.namedItem("itemStoreMax").value = m.storeMax;
+                    thisfrm.elements.namedItem("itemStoreMin").value = m.storeMin;
+                    thisfrm.elements.namedItem("itemStoreFront").value = m.storeFront;
+                    thisfrm.elements.namedItem("itemStoreBack").value = m.storeBack;
+                    thisfrm.elements.namedItem("itemStoreTotal").value = m.storeFront + m.storeBack;
+                    thisfrm.elements.namedItem("itemPriceInv").value = m.priceInv;
+                    thisfrm.elements.namedItem("itemPriceFront").value = m.priceFront;
+                    thisfrm.elements.namedItem("itemPriceBack").value = m.priceBack;
+                    thisfrm.elements.namedItem("itemPriceShop").value = m.priceShop;
+                    thisfrm.elements.namedItem("itemLocation").value = m.location;
 
                     $('#itemModal #productModalLabel').text('แก้ไขสินค้า');
                     $('#itemModal .modal-header').addClass("bg-warning");
@@ -907,15 +899,15 @@ require_once("../../assets/php/common.php");
                 const itemGroupName = thisfrm.elements.namedItem('itemGroupName').value.trim();
                 const itemTypeName = thisfrm.elements.namedItem('itemTypeName').value.trim();
                 const itemSupplierName = thisfrm.elements.namedItem('itemSupplierName').value.trim();
-                const itemStockMax = thisfrm.elements.namedItem('itemStockMax').value.trim();
-                const itemStockMin = thisfrm.elements.namedItem('itemStockMin').value.trim();
-                const itemStockFront = thisfrm.elements.namedItem('itemStockFront').value.trim();
-                const itemStockBack = thisfrm.elements.namedItem('itemStockBack').value.trim();
+                const itemStoreMax = thisfrm.elements.namedItem('itemStoreMax').value.trim();
+                const itemStoreMin = thisfrm.elements.namedItem('itemStoreMin').value.trim();
+                const itemStoreFront = thisfrm.elements.namedItem('itemStoreFront').value.trim();
+                const itemStoreBack = thisfrm.elements.namedItem('itemStoreBack').value.trim();
                 const itemPriceInv = thisfrm.elements.namedItem('itemPriceInv').value.trim();
                 const itemPriceFront = thisfrm.elements.namedItem('itemPriceFront').value.trim();
                 const itemPriceBack = thisfrm.elements.namedItem('itemPriceBack').value.trim();
                 const itemPriceShop = thisfrm.elements.namedItem('itemPriceShop').value.trim();
-                const itemStore = thisfrm.elements.namedItem('itemStore').value.trim();
+                const itemLocation = thisfrm.elements.namedItem('itemLocation').value.trim();
                 const updatedAt = getDateTimeNow();
                 // const updatedAt = new Date().addHours(7).toISOString().replace("T", " ").substr(0, 19);
 
@@ -939,15 +931,15 @@ require_once("../../assets/php/common.php");
                     "groupname": itemGroupName,
                     "typename": itemTypeName,
                     "suppliername": itemSupplierName,
-                    "max": itemStockMax,
-                    "min": itemStockMin,
-                    "stock1": itemStockFront,
-                    "stock2": itemStockBack,
-                    "price0": itemPriceInv,
-                    "price1": itemPriceFront,
-                    "price2": itemPriceBack,
-                    "price3": itemPriceShop,
-                    "store": itemStore,
+                    "storeMax": itemStoreMax,
+                    "storeMin": itemStoreMin,
+                    "storeFront": itemStoreFront,
+                    "storeBack": itemStoreBack,
+                    "priceInv": itemPriceInv,
+                    "priceFront": itemPriceFront,
+                    "priceBack": itemPriceBack,
+                    "priceShop": itemPriceShop,
+                    "localtion": itemLocation,
                     "updatedAt": updatedAt,
                 };
 
@@ -958,16 +950,15 @@ require_once("../../assets/php/common.php");
                     "itemGroupName": itemGroupName,
                     "itemTypeName": itemTypeName,
                     "itemSupplierName": itemSupplierName,
-                    "itemStockMax": itemStockMax,
-                    "itemStockMin": itemStockMin,
-                    "itemStockFront": itemStockFront,
-                    "itemStockBack": itemStockBack,
-                    // "itemStockTotal": itemStockTotal,
+                    "itemStoreMax": itemStoreMax,
+                    "itemStoreMin": itemStoreMin,
+                    "itemStoreFront": itemStoreFront,
+                    "itemStoreBack": itemStoreBack,
                     "itemPriceInv": itemPriceInv,
                     "itemPriceFront": itemPriceFront,
                     "itemPriceBack": itemPriceBack,
                     "itemPriceShop": itemPriceShop,
-                    "itemStore": itemStore,
+                    "itemLocation": itemLocation,
                     "itemUpdatedAt": updatedAt,
                 }
 
@@ -1116,7 +1107,7 @@ require_once("../../assets/php/common.php");
                         <td>${m.name}</td>
                         <td>${m.groupname}</td>
                         <td>${m.typename}</td>
-                        <td>${m.price0}</td>
+                        <td>${m.priceInv}</td>
                         <td>
                             <div class="d-flex justify-content-around">
                                 <button class="btn btn-sm btn-warning boxx text-white" onclick="openEditModal('${m.productId}')">แก้ไข</button>

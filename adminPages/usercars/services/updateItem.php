@@ -9,7 +9,7 @@ try {
 	if (isset($_POST["itemId"]) && !empty($_POST["itemId"]) && isset($_POST["itemId_org"]) && !empty($_POST["itemId_org"])) {
 		$itemId_org = $_POST["itemId_org"];
 		$itemId = $_POST["itemId"];
-		$itemType = $_POST["itemType"];
+		$itemGroupName = $_POST["itemGroupName"];
 		$itemColor = $_POST["itemColor"];
 		$itemMile = $_POST["itemMile"];
 		$itemYear = $_POST["itemYear"];
@@ -21,7 +21,7 @@ try {
 		$params = [
 			"itemId_org" => $itemId_org,
 			"itemId" => $itemId,
-			"itemType" => $itemType,
+			"itemGroupName" => $itemGroupName,
 			"itemColor" => $itemColor,
 			"itemMile" => $itemMile,
 			"itemYear" => $itemYear,
@@ -32,7 +32,7 @@ try {
 			"itemUpdatedAt" => $itemUpdatedAt,
 		];
 
-		$sql = "UPDATE usercar SET carId=:itemId, type=:itemType, color=:itemColor, mile=:itemMile, year=:itemYear, vehicleId=:itemVehicleId, name=:itemName, address=:itemAddress, telephone=:itemTelephone, updatedAt=:itemUpdatedAt  WHERE carId=:itemId_org";
+		$sql = "UPDATE usercar SET carId=:itemId, groupname=:itemGroupName, colorname=:itemColor, mile=:itemMile, year=:itemYear, vehicleId=:itemVehicleId, name=:itemName, address=:itemAddress, telephone=:itemTelephone, updatedAt=:itemUpdatedAt  WHERE carId=:itemId_org";
 		$stmt = $conn->prepare($sql);
 		$stmt->execute($params);
 		$rowEffect = $stmt->rowCount();

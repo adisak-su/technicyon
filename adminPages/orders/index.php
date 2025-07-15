@@ -342,8 +342,8 @@ require_once("../../service/configData.php");
     <!-- SCRIPTS -->
     <?php include_once('../../includes/pagesScript.php') ?>
     <?php include_once('../../includes/myScript.php') ?>
-    <script src="../indexedDB/indexedDB.js"></script>
-    <script src="../js/validateInput.js"></script>
+    <script src="../indexedDB/indexedDB.js?<?php echo time(); ?>"></script>
+    <script src="../js/validateInput.js?<?php echo time(); ?>"></script>
     <script src="../js/autocomplete.js?<?php echo time(); ?>"></script>
 
     <script src="order_products.js?<?php echo time(); ?>"></script>
@@ -790,26 +790,13 @@ require_once("../../service/configData.php");
 
         // callback function
         const setValueProductSale = (item) => {
-            /*
-                let price = item?.price1 ?? 0;
-                let qty = $("#productQty").val()=>1?$("#productQty").val():1;
-                let total = price * qty;
-                $("#productName").val(item?.name ?? "");
-                $("#productPrice").val(item?.price1 ?? 0);
-                $("#productInv").val(item?.price0 ?? "");
-
-                $("#productPrice").val(price);
-                $("#productQty").val(qty);
-                $("#productInv").val(item?.price0 ?? "");
-                $("#productTotal").val(total);
-                */
-            let price = item?.price1 ?? 0;
+            let price = item?.priceFront ?? 0;
             let qty = Number($("#productQty").val());
             let total = price * qty;
 
             $("#productName").val(item?.name ?? "");
-            $("#productPrice").val(item?.price1 ?? 0);
-            $("#productInv").val(item?.price0 ?? "");
+            $("#productPrice").val(item?.priceFront ?? 0);
+            $("#productInv").val(item?.priceInv ?? "");
             $("#productTotal").val(total);
             if (item) {
                 setFocusInput("#productPrice");
@@ -1079,7 +1066,7 @@ require_once("../../service/configData.php");
                 $("#productName").val(Product[0].name);
 
                 $("#productName").val(Product[0].name);
-                $("#productPrice").val(Product[0].price1); // ราคาขายหน้าร้าน
+                $("#productPrice").val(Product[0].priceFront); // ราคาขายหน้าร้าน
 
                 $("#btnAdd").prop('disabled', false);
                 computePrice();

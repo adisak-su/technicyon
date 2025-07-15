@@ -25,7 +25,9 @@ class ValidateInput {
 
     init() {
         $("#" + this.itemModal).on("click", "input", function () {
-            $("#" + this.id).removeClass("is-invalid");
+            if(this.id || this.id!==""){
+                $("#" + this.id).removeClass("is-invalid");
+            }
         });
     }
 }

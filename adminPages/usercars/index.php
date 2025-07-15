@@ -136,13 +136,13 @@ require_once("../../service/configData.php");
                                                             <div id="icon"></div>
                                                         </div>
                                                     </th>
-                                                    <th style="min-width: 120px;" onclick="sortColumnBy('type',this);">
+                                                    <th style="min-width: 120px;" onclick="sortColumnBy('groupname',this);">
                                                         <div class="d-flex justify-content-around">
                                                             <div>ยี่ห้อ/รุ่น</div>
                                                             <div id="icon"></div>
                                                         </div>
                                                     </th>
-                                                    <th style="min-width: 120px;" onclick="sortColumnBy('color',this);">
+                                                    <th style="min-width: 120px;" onclick="sortColumnBy('colorname',this);">
                                                         <div class="d-flex justify-content-around">
                                                             <div>สี</div>
                                                             <div id="icon"></div>
@@ -252,20 +252,23 @@ require_once("../../service/configData.php");
                                                 type="text"
                                                 class="form-control"
                                                 id="itemId"
+                                                value=""
                                                 maxlength="20"
-                                                placeholder="..." />
+                                                placeholder="" />
                                         </div>
                                     </div>
                                     <div class="col-12 col-md-6 col-lg-6 form-group position-relative mb-3">
-                                        <label for="itemType" class="form-label">ยี่ห้อ/รุ่นรถ</label>
+                                        <label for="itemGroupName" class="form-label">ยี่ห้อ/รุ่นรถ</label>
                                         <div class="form-group autocomplete-container mb-4">
                                             <div class="input-icon-wrapper">
                                                 <i class="fa fa-keyboard input-icon"></i>
                                                 <input
                                                     type="text"
                                                     class="form-control"
-                                                    id="itemType"
-                                                    placeholder="..."
+                                                    id="itemGroupName"
+                                                    value=""
+                                                    maxlength="50"
+                                                    placeholder=""
                                                     autocomplete="off" />
                                                 <div id="groupNameSuggestions" class="suggestions"></div>
                                             </div>
@@ -281,7 +284,7 @@ require_once("../../service/configData.php");
                                                 id="itemYear"
                                                 value=""
                                                 maxlength="10"
-                                                placeholder="..."
+                                                placeholder=""
                                                 autocomplete="off" />
                                         </div>
                                     </div>
@@ -296,7 +299,8 @@ require_once("../../service/configData.php");
                                                     class="form-control"
                                                     id="itemColor"
                                                     value=""
-                                                    placeholder="..."
+                                                    maxlength="20"
+                                                    placeholder=""
                                                     autocomplete="off" />
                                                 <div id="colorNameSuggestions" class="suggestions"></div>
                                             </div>
@@ -312,7 +316,7 @@ require_once("../../service/configData.php");
                                                 id="itemVehicleId"
                                                 value=""
                                                 maxlength="50"
-                                                placeholder="..."
+                                                placeholder=""
                                                 autocomplete="off" />
                                         </div>
                                     </div>
@@ -326,7 +330,7 @@ require_once("../../service/configData.php");
                                                 id="itemMile"
                                                 value=0
                                                 maxlength="10"
-                                                placeholder="..."
+                                                placeholder=""
                                                 autocomplete="off" />
                                         </div>
                                     </div>
@@ -340,7 +344,7 @@ require_once("../../service/configData.php");
                                                 id="itemName"
                                                 value=""
                                                 maxlength="50"
-                                                placeholder="..."
+                                                placeholder=""
                                                 autocomplete="off" />
                                         </div>
                                     </div>
@@ -354,7 +358,7 @@ require_once("../../service/configData.php");
                                                 id="itemAddress"
                                                 value=""
                                                 maxlength="100"
-                                                placeholder="..."
+                                                placeholder=""
                                                 autocomplete="off" />
                                         </div>
                                     </div>
@@ -368,7 +372,7 @@ require_once("../../service/configData.php");
                                                 id="itemTelephone"
                                                 value=""
                                                 maxlength="25"
-                                                placeholder="..."
+                                                placeholder=""
                                                 autocomplete="off" />
                                         </div>
                                     </div>
@@ -424,7 +428,7 @@ require_once("../../service/configData.php");
             colName: "type",
             state: "ASC"
         }, {
-            colName: "color",
+            colName: "colorname",
             state: "ASC"
         }, {
             colName: "mile",
@@ -465,8 +469,8 @@ require_once("../../service/configData.php");
                 const thisfrm = document.getElementById('itemForm');
                 thisfrm.elements.namedItem("itemId_org").value = id;
                 thisfrm.elements.namedItem("itemId").value = id;
-                thisfrm.elements.namedItem("itemType").value = m.type;
-                thisfrm.elements.namedItem("itemColor").value = m.color;
+                thisfrm.elements.namedItem("itemGroupName").value = m.groupname;
+                thisfrm.elements.namedItem("itemColor").value = m.colorname;
                 thisfrm.elements.namedItem("itemMile").value = m.mile;
                 thisfrm.elements.namedItem("itemYear").value = m.year;
                 thisfrm.elements.namedItem("itemVehicleId").value = m.vehicleId;
@@ -483,19 +487,6 @@ require_once("../../service/configData.php");
         }
 
         function saveItem() {
-            const thisfrm = document.getElementById('itemForm');
-            const itemId_org = editId || thisfrm.elements.namedItem('itemId_org').value.trim();
-            const itemId = thisfrm.elements.namedItem('itemId').value.trim();
-            const itemType = thisfrm.elements.namedItem('itemType').value.trim();
-            const itemColor = thisfrm.elements.namedItem('itemColor').value.trim();
-            const itemMile = thisfrm.elements.namedItem('itemMile').value.trim();
-            const itemYear = thisfrm.elements.namedItem('itemYear').value.trim();
-            const itemVehicleId = thisfrm.elements.namedItem('itemVehicleId').value.trim();
-            const itemName = thisfrm.elements.namedItem('itemName').value.trim();
-            const itemAddress = thisfrm.elements.namedItem('itemAddress').value.trim();
-            const itemTelephone = thisfrm.elements.namedItem('itemTelephone').value.trim();
-            const updatedAt = getDateTimeNow();
-
             let statusValidate = validateInputForm.validate();
 
             if (!statusValidate.status) {
@@ -504,10 +495,23 @@ require_once("../../service/configData.php");
                 return;
             }
 
+            const thisfrm = document.getElementById('itemForm');
+            const itemId_org = editId || thisfrm.elements.namedItem('itemId_org').value.trim();
+            const itemId = thisfrm.elements.namedItem('itemId').value.trim();
+            const itemGroupName = thisfrm.elements.namedItem('itemGroupName').value.trim()!==""?thisfrm.elements.namedItem('itemGroupName').value.trim():"-";
+            const itemColor = thisfrm.elements.namedItem('itemColor').value.trim()!==""?thisfrm.elements.namedItem('itemColor').value.trim():"-";
+            const itemMile = thisfrm.elements.namedItem('itemMile').value.trim()!==""?thisfrm.elements.namedItem('itemMile').value.trim():"-";
+            const itemYear = thisfrm.elements.namedItem('itemYear').value.trim()!==""?thisfrm.elements.namedItem('itemYear').value.trim():"-";
+            const itemVehicleId = thisfrm.elements.namedItem('itemVehicleId').value.trim()!==""?thisfrm.elements.namedItem('itemVehicleId').value.trim():"-";
+            const itemName = thisfrm.elements.namedItem('itemName').value.trim()!==""?thisfrm.elements.namedItem('itemName').value.trim():"-";
+            const itemAddress = thisfrm.elements.namedItem('itemAddress').value.trim()!==""?thisfrm.elements.namedItem('itemAddress').value.trim():"-";
+            const itemTelephone = thisfrm.elements.namedItem('itemTelephone').value.trim()!==""?thisfrm.elements.namedItem('itemTelephone').value.trim():"-";
+            const updatedAt = getDateTimeNow();
+
             const item = {
                 "carId": itemId,
-                "type": itemType,
-                "color": itemColor,
+                "groupname": itemGroupName,
+                "colorname": itemColor,
                 "mile": itemMile,
                 "year": itemYear,
                 "vehicleId": itemVehicleId,
@@ -520,7 +524,7 @@ require_once("../../service/configData.php");
             let dataSend = {
                 "itemId_org": itemId_org,
                 "itemId": itemId,
-                "itemType": itemType,
+                "itemGroupName": itemGroupName,
                 "itemColor": itemColor,
                 "itemMile": itemMile,
                 "itemYear": itemYear,
@@ -647,14 +651,14 @@ require_once("../../service/configData.php");
                     <tr>
                         <td>${start + i + 1}</td>
                         <td>${m.carId}</td>
-                        <td>${m.type??""}</td>
-                        <td>${m.color??""}</td>
-                        <td>${m.mile??""}</td>
-                        <td>${m.year??""}</td>
-                        <td>${m.vehicleId??""}</td>
-                        <td>${m.name??""}</td>
-                        <td>${m.address??""}</td>
-                        <td>${m.telephone??""}</td>
+                        <td>${m.groupname}</td>
+                        <td>${m.colorname}</td>
+                        <td>${m.mile}</td>
+                        <td>${m.year}</td>
+                        <td>${m.vehicleId}</td>
+                        <td>${m.name}</td>
+                        <td>${m.address}</td>
+                        <td>${m.telephone}</td>
                         <td>
                             <div class="d-flex justify-content-around">
                                 <button class="btn btn-sm btn-warning boxx text-white" onclick="openEditModal('${m.carId}')">แก้ไข</button>
@@ -701,7 +705,7 @@ require_once("../../service/configData.php");
             $('#searchInput').on('input', function() {
                 createFilterDataAndRender();
             });
-            // setInterval(syncDataRealtime,10000); // 10 วินาที
+            setInterval(syncDataRealtime,10000); // 10 วินาที
             // setInterval(function() {
             //     updateSyncData({dataSource:colorNames,dataName:"colornames"}); 
             // },5000); // 10 วินาที
@@ -723,7 +727,7 @@ require_once("../../service/configData.php");
                     "groupName", "groupNameSuggestions", groupNames, "groupname", ["groupname"], ["groupname"], null, setProductName);
                     */
                 setupAutocompleteOnFocus({
-                    inputId: "itemType",
+                    inputId: "itemGroupName",
                     suggestionsId: "groupNameSuggestions",
                     dataList: dataStore,
                     codeId: "groupname",

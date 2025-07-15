@@ -129,11 +129,11 @@ function addProductItem() {
             </td>>
             <td>
                 <div class="input-wrapper">
-                    <input type="number" class="form-control text-center item-quantity" min="1" value="${quantity}"  onkeypress="return isNumber(event);" placeholder="0">
+                    <input type="number" class="form-control text-center item-quantity" min="1" value="${quantity}" onkeypress="return isNumber(event);" placeholder="0">
                 </div>
             </td>
             <td class="input-wrapper">
-                <input type="number" class="form-control text-center item-price" min="0" value="${partPrice}"  onkeypress="return isNumber(event);" required>
+                <input type="number" class="form-control text-center item-price" min="0" value="${partPrice}" onkeypress="return isNumber(event);" required>
             </td>
             <td class="item-total text-right">${total.toLocaleString(
                 undefined,
@@ -173,11 +173,11 @@ function addProductItemFromJSON(items) {
             </td>>
             <td>
                 <div class="input-wrapper">
-                    <input type="number" class="form-control text-center item-quantity" min="1" value="${quantity}"  onkeypress="return isNumber(event);" placeholder="0">
+                    <input type="number" class="form-control text-center item-quantity" min="1" value="${quantity}" onkeypress="return isNumber(event);" placeholder="0">
                 </div>
             </td>
             <td class="input-wrapper">
-                <input type="number" class="form-control text-center item-price" min="0" value="${partPrice}"  onkeypress="return isNumber(event);" required>
+                <input type="number" class="form-control text-center item-price" min="0" value="${partPrice}" onkeypress="return isNumber(event);" required>
             </td>
             <td class="item-total text-right">${total.toLocaleString(
                 undefined,

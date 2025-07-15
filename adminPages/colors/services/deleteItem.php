@@ -9,6 +9,11 @@ try {
 	if (isset($_POST["itemId"]) && !empty($_POST["itemId"])) {
 		$itemId = $_POST["itemId"];
 
+		$sql = "SELECT colorname FROM colorname WHERE colorId=$itemId";
+		$stmt = $conn->prepare($sql);
+		$stmt->execute();
+		$resultColor = $stmt->fetch(PDO::FETCH_ASSOC);
+
 		$DB->updateDataChange("colornames", $itemId, "DELETE", "colorId");
 
 		$params = [
@@ -31,6 +36,7 @@ try {
 				'message' => "ไม่พบข้อมูล !!!"
 			];
 		}
+		updateUsercar($resultColor["colorname"], $conn, $DB);
 	} else {
 		http_response_code(401);
 		$response = [
@@ -60,3 +66,33 @@ try {
 }
 
 echo json_encode($response);
+
+function updateUsercar($itemColorNameOld, $conn, $DB)
+{
+	try {
+		$params = [
+			"itemColorNameOld" => $itemColorNameOld
+		];
+
+		$sql = "SELECT carId FROM usercar WHERE colorname = :itemColorNameOld";
+		$stmt = $conn->prepare($sql);
+		$stmt->execute($params);
+		$resultCarIds = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+		$params = [
+			"itemColorNameOld" => $itemColorNameOld,
+			"itemColorNameNew" => "-",
+		];
+
+		$sql = "UPDATE usercar SET colorname=:itemColorNameNew WHERE colorname = :itemColorNameOld";
+
+		$stmt = $conn->prepare($sql);
+		$stmt->execute($params);
+
+		foreach ($resultCarIds as $item) {
+			$DB->updateDataChange("usercars", $item["carId"], "UPDATE", "carId");
+		}
+	} catch (Exception $ex) {
+		throw new Exception($ex);
+	}
+}

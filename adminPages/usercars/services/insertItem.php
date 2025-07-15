@@ -8,7 +8,7 @@ $conn->beginTransaction();
 try {
 	if (isset($_POST["itemId"]) && !empty($_POST["itemId"])) {
 		$itemId = $_POST["itemId"];
-		$itemType = $_POST["itemType"];
+		$itemGroupName = $_POST["itemGroupName"];
 		$itemColor = $_POST["itemColor"];
 		$itemMile = $_POST["itemMile"];
 		$itemYear = $_POST["itemYear"];
@@ -19,7 +19,7 @@ try {
 		$itemUpdatedAt = $_POST["itemUpdatedAt"];
 		$params = [
 			"itemId" => $itemId,
-			"itemType" => $itemType,
+			"itemGroupName" => $itemGroupName,
 			"itemColor" => $itemColor,
 			"itemMile" => $itemMile,
 			"itemYear" => $itemYear,
@@ -29,7 +29,7 @@ try {
 			"itemTelephone" => $itemTelephone,
 			"itemUpdatedAt" => $itemUpdatedAt,
 		];
-		$sql = "INSERT INTO usercar (carId,type,color,mile,year,vehicleId,name,address,telephone,updatedAt) VALUE(:itemId,:itemType,:itemColor,:itemMile,:itemYear,:itemVehicleId,:itemName,:itemAddress,:itemTelephone,:itemUpdatedAt)";
+		$sql = "INSERT INTO usercar (carId,groupname,colorname,mile,year,vehicleId,name,address,telephone,updatedAt) VALUE(:itemId,:itemGroupName,:itemColor,:itemMile,:itemYear,:itemVehicleId,:itemName,:itemAddress,:itemTelephone,:itemUpdatedAt)";
 		$stmt = $conn->prepare($sql);
 		$stmt->execute($params);
 
