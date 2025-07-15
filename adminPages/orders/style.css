@@ -183,19 +183,25 @@
 .input-icon-wrapper input {
     padding-left: 3rem; /* ให้เว้นที่ซ้ายสำหรับไอคอน */
     border-radius: 15px;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    background: rgba(255, 255, 255, 0.95);
+    /* border: 1px solid rgba(255, 255, 255, 0.3); */
+    /* background: rgba(255, 255, 255, 0.95); */
     backdrop-filter: blur(10px);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
 }
 
-.input-icon-wrapper .input-icon + input[class="is-invalid"],
+.input-icon-wrapper .input-icon + input:focus,
+.input-icon-wrapper input:focus {
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* .input-icon-wrapper .input-icon + input[class="is-invalid"],
 .input-icon-wrapper input[class="is-invalid"] {
     box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
     border-color: red;
     
-}
+} */
 
 .input-icon-wrapper-after .input-icon + input,
 .input-icon-wrapper-after input {

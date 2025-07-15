@@ -252,7 +252,7 @@ require_once("../../service/configData.php");
                                                 type="text"
                                                 class="form-control"
                                                 id="itemId"
-                                                maxlength="10"
+                                                maxlength="20"
                                                 placeholder="..." />
                                         </div>
                                     </div>

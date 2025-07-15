@@ -10,22 +10,26 @@ require_once("../../assets/php/common.php");
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>ระบบจัดการสินค้า | <?php echo $shopName; ?></title>
-    <link rel="stylesheet" href="../../assets/css/adminlte.min.css">
-    <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.css">
+    <!-- <link rel="stylesheet" href="../../assets/css/adminlte.min.css">
+    <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.css"> -->
 
     <!-- Favicons -->
     <?php include_once('../../includes/pagesFavicons.php'); ?>
 
     <!-- stylesheet -->
-    <?php include_once('../../includes/pagesStylesheet.php'); ?>
+    <!-- <?php //include_once('../../includes/pagesStylesheet.php'); ?> -->
 
-    <!-- Font Awesome 6 (Free CDN) -->
-    <!-- <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" /> -->
+    <link rel="stylesheet" href="../../assets/css/adminlte.min.css">
+    <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.css">
+    <link rel="stylesheet" href="../../plugins/sweetalert2/dist/sweetalert2.min.css">
 
-    <!-- <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css"> -->
+    <link rel="stylesheet" href="../../plugins/bootstrap-toggle/bootstrap-toggle.min.css">
     <link rel="stylesheet" href="../../plugins/fontawesome-free/css/6.5.0.all.min.css">
+
+    <link rel="stylesheet" href="../../plugins/toastr/toastr.min.css">
+    <link rel="stylesheet" href="../../assets/css/loading.css?<?php echo time(); ?>">
+    <link rel="stylesheet" href="../../assets/css/style.css?<?php echo time(); ?>">
+    <link rel="stylesheet" href="../../plugins/datetimeFlatpicker/flatpickr.min.css">
 
     <link rel="stylesheet" href="../menus/menuheader.css?<?php echo time(); ?>">
     <link rel="stylesheet" href="style.css?<?php echo time(); ?>">
@@ -893,46 +897,6 @@ require_once("../../assets/php/common.php");
             Date.prototype.addHours = function(h) {
                 this.setHours(this.getHours() + h);
                 return this;
-            }
-
-            function validateRepairForm() {
-                let isValid = true;
-                // return true;
-
-                if (!$("#customerInput").val()) {
-                    $("#customerInput").addClass("is-invalid");
-                    isValid = false;
-                } else {
-                    let customerId = $("#customerInput").val();
-                    let result = customers.find((item) => item.customerId == customerId);
-                    if (!result) {
-                        $("#customerInput").addClass("is-invalid");
-                        isValid = false;
-                    } else {
-                        $("#customerInput").removeClass("is-invalid");
-                    }
-                }
-
-                if (!$("#customerName").val()) {
-                    $("#customerName").addClass("is-invalid");
-                    isValid = false;
-                } else {
-                    $("#customerName").removeClass("is-invalid");
-                }
-
-                if (!$("#orderDate").val()) {
-                    $("#orderDate").addClass("is-invalid");
-                    isValid = false;
-                } else {
-                    $("#orderDate").removeClass("is-invalid");
-                }
-
-                if ($("#orderItemsBody tr").length === 0) {
-                    sweetAlertError("กรุณาเพิ่มรายการอะไหล่อย่างน้อย 1 รายการ");
-                    isValid = false;
-                }
-
-                return isValid;
             }
 
             function saveItem() {
