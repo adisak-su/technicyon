@@ -278,37 +278,37 @@ function isActive2($data1, $data2)
                 </li>
 
                 <!-- <li class="nav-item">
-                    <a href="../productSale/index.php" class="nav-link <?php echo isActive('productSale') ?>">
+                    <a href="../productSale/index.php" class="nav-link <?php echo isActive(['productSale']) ?>">
                         <i class="nav-icon fas fa-store"></i>
                         <p>จัดการรายการสินค้า</p>
                     </a>
                 </li> -->
                 <!-- <li class="nav-item">
-                    <a href="../customerSale/index.php" class="nav-link <?php echo isActive('customerSale') ?>">
+                    <a href="../customerSale/index.php" class="nav-link <?php echo isActive(['customerSale']) ?>">
                         <i class="nav-icon fas fa-store"></i>
                         <p>ขายสินค้า</p>
                     </a>
                 </li> -->
                 <!-- <li class="nav-item">
-                    <a href="../products/index.php" class="nav-link <?php echo isActive('products') ?>">
+                    <a href="../products/index.php" class="nav-link <?php echo isActive(['products']) ?>">
                         <i class="nav-icon fas fa-store"></i>
                         <p>จัดการกลุ่มสินค้า</p>
                     </a>
                 </li> -->
                 <!-- <li class="nav-item">
-                    <a href="../options/index.php" class="nav-link <?php echo isActive('options') ?>">
+                    <a href="../options/index.php" class="nav-link <?php echo isActive(['options']) ?>">
                         <i class="nav-icon fas fa-user-cog"></i>
                         <p>Option</p>
                     </a>
                 </li> -->
                 <!-- <li class="nav-item">
-                    <a href="../orderSale/index.php" class="nav-link <?php echo isActive('orderSale') ?>">
+                    <a href="../orderSale/index.php" class="nav-link <?php echo isActive(['orderSale']) ?>">
                         <i class="nav-icon fas fa-store"></i>
                         <p>รายงานขาย</p>
                     </a>
                 </li> -->
                 <!-- <li class="nav-item">
-                    <a href="#" class="nav-link <?php echo isActive('orderSale') ?>">
+                    <a href="#" class="nav-link <?php echo isActive(['orderSale']) ?>">
                         <i class="nav-icon far fa-envelope"></i>
                         <p>รายงานขาย
                             <i class="fas fa-angle-left right"></i>
@@ -336,25 +336,25 @@ function isActive2($data1, $data2)
                     </ul>
                 </li> -->
                 <!-- <li class="nav-item">
-                    <a href="../orderSale/index.php" class="nav-link <?php echo isActive('orderSale') ?>">
+                    <a href="../orderSale/index.php" class="nav-link <?php echo isActive(['orderSale']) ?>">
                         <i class="nav-icon fas fa-store"></i>
                         <p>รายงาน</p>
                     </a>
                 </li> -->
                 <!-- <li class="nav-item">
-                    <a id="hrefProductsSort" href="../productsSort/indexXXX.php" class="nav-link <?php echo isActive('productsSort') ?>">
+                    <a id="hrefProductsSort" href="../productsSort/indexXXX.php" class="nav-link <?php echo isActive(['productsSort']) ?>">
                         <i class="nav-icon fas fa-store"></i>
                         <p>จัดเรียงสินค้า</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="../../shop/index.php" class="nav-link <?php echo isActive('shop') ?>">
+                    <a href="../../shop/index.php" class="nav-link <?php echo isActive(['shop']) ?>">
                         <i class="nav-icon fas fa-store"></i>
                         <p>ขายสินค้า</p>
                     </a>
                 </li>
                 <li class="nav-item user-panel">
-                    <a href="../blogs/index.php" class="nav-link <?php echo isActive('blogs') ?>">
+                    <a href="../blogs/index.php" class="nav-link <?php echo isActive(['blogs']) ?>">
                         <i class="nav-icon fas fa-newspaper"></i>
                         <p>บทความ</p>
                     </a>
@@ -362,7 +362,7 @@ function isActive2($data1, $data2)
 
                 <!-- <li class="nav-header">บัญชีของเรา</li>
                 <li class="nav-item">
-                    <a href="" id="changePassword" class="nav-link <?php echo isActive('password') ?>">
+                    <a href="" id="changePassword" class="nav-link <?php echo isActive(['password']) ?>">
                         <i class="nav-icon fas fa-key"></i>
                         <p>เปลี่ยนรหัสผ่าน</p>
                     </a>
@@ -374,7 +374,7 @@ function isActive2($data1, $data2)
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="" id="changePassword" class="nav-link <?php echo isActive('password') ?>">
+                    <a href="" id="changePassword" class="nav-link <?php echo isActive(['password']) ?>">
                         <i class="nav-icon fas fa-key"></i>
                         <p>เปลี่ยนรหัสผ่าน</p>
                     </a>

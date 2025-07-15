@@ -501,9 +501,19 @@ require_once("../../service/configData.php");
             $('#searchInput').on('input', function() {
                 createFilterDataAndRender();
             });
-            // setInterval(updateSyncData,10000); // 10 วินาที
-            // setInterval(function() { updateSyncData({dataSource:typeNames,dataName:"typenames"}); },10000); // 10 วินาที
+            // setInterval(syncDataRealtime,10000); // 10 วินาที
+            // setInterval(function() {
+            //     updateSyncData({dataSource:colorNames,dataName:"colornames"}); 
+            // },5000); // 10 วินาที
         });
+
+        async function syncDataRealtime() {
+            let dataSource = await updateSyncData({dataName:"typenames"});
+            if(dataSource) {
+                typeNames = dataSource;
+                createFilterDataAndRender();1
+            }
+        }
 
     </script>
 </body>

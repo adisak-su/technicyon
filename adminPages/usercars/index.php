@@ -1,7 +1,6 @@
 <?php
 // check login token in page php 
 require_once('../authen.php');
-
 require_once("../../assets/php/common.php");
 require_once("../../service/configData.php");
 ?>
@@ -143,13 +142,13 @@ require_once("../../service/configData.php");
                                                             <div id="icon"></div>
                                                         </div>
                                                     </th>
-                                                    <th style="min-width: 120px;" onclick="sortColumnBy('type',this);">
+                                                    <th style="min-width: 120px;" onclick="sortColumnBy('color',this);">
                                                         <div class="d-flex justify-content-around">
                                                             <div>สี</div>
                                                             <div id="icon"></div>
                                                         </div>
                                                     </th>
-                                                    <th style="min-width: 120px;" onclick="sortColumnBy('color',this);">
+                                                    <th style="min-width: 120px;" onclick="sortColumnBy('mile',this);">
                                                         <div class="d-flex justify-content-around">
                                                             <div>เลขไมล์</div>
                                                             <div id="icon"></div>
@@ -517,7 +516,7 @@ require_once("../../service/configData.php");
                 "telephone": itemTelephone,
                 updatedAt
             };
-            
+
             let dataSend = {
                 "itemId_org": itemId_org,
                 "itemId": itemId,
@@ -682,10 +681,10 @@ require_once("../../service/configData.php");
                 createFilterDataAndRender();
                 groupNames = await loadAndSetData("groupnames");
                 colorNames = await loadAndSetData("colornames");
-                loaderScreen("hide");
             } catch (error) {
-                loaderScreen("hide");
                 sweetAlertError("เกิดข้อผิดพลาด : " + error.message, 0);
+            } finally {
+                loaderScreen("hide");
             }
 
             $(function() {
@@ -702,9 +701,19 @@ require_once("../../service/configData.php");
             $('#searchInput').on('input', function() {
                 createFilterDataAndRender();
             });
-            // setInterval(updateSyncData,10000); // 10 วินาที
-            // setInterval(function() { updateSyncData({dataSource:usercars,dataName:"usercars"}); },10000); // 10 วินาที
+            // setInterval(syncDataRealtime,10000); // 10 วินาที
+            // setInterval(function() {
+            //     updateSyncData({dataSource:colorNames,dataName:"colornames"}); 
+            // },5000); // 10 วินาที
         });
+
+        async function syncDataRealtime() {
+            let dataSource = await updateSyncData({dataName:"usercars"});
+            if(dataSource) {
+                usercars = dataSource;
+                createFilterDataAndRender();1
+            }
+        }
 
         async function loadAndSetData(storeName) {
             let dataStore = await loadDataFromDB(storeName);

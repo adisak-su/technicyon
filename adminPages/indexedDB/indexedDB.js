@@ -410,12 +410,14 @@ async function _loadAndSetDataColor(inputId, suggestionsId) {
     return dataStore;
 }
 
-async function updateSyncData({dataSource,dataName}) {
+async function updateSyncData({dataName}) {
     let statusChange = await syncOnLoad();
     if (statusChange.status) {
         if (statusChange.tableNames.find((item) => item == dataName)) {
-            dataSource = await loadDataFromDB(dataName);
-            createFilterDataAndRender();
+            let dataSource = await loadDataFromDB(dataName);
+            return dataSource;
+            // createFilterDataAndRender();
         }
+        return null;
     }
 }

@@ -6,34 +6,48 @@ $DB = new Database();
 $conn = $DB->connect();
 $conn->beginTransaction();
 try {
-	if (isset($_POST["itemId"]) && !empty($_POST["itemId"])) {
+	if (isset($_POST["itemId"]) && !empty($_POST["itemId"]) && isset($_POST["itemName"]) && !empty($_POST["itemName"])) {
 		$itemId_org = $_POST["itemId_org"];
 		$itemId = $_POST["itemId"];
-		$itemType = $_POST["itemType"];
-		$itemColor = $_POST["itemColor"];
-		$itemMile = $_POST["itemMile"];
 		$itemName = $_POST["itemName"];
-		$itemAddress = $_POST["itemAddress"];
-		$itemTelephone = $_POST["itemTelephone"];
+		$itemGroupName = $_POST["itemGroupName"];
+		$itemTypeName = $_POST["itemTypeName"];
+		$itemSupplierName = $_POST["itemSupplierName"];
+		$itemStockMax = $_POST["itemStockMax"];
+		$itemStockMin = $_POST["itemStockMin"];
+		$itemStockFront = $_POST["itemStockFront"];
+		$itemStockBack = $_POST["itemStockBack"];
+		$itemPriceInv = $_POST["itemPriceInv"];
+		$itemPriceFront = $_POST["itemPriceFront"];
+		$itemPriceBack = $_POST["itemPriceBack"];
+		$itemPriceShop = $_POST["itemPriceShop"];
+		$itemStore = $_POST["itemStore"];
 		$itemUpdatedAt = $_POST["itemUpdatedAt"];
 		$params = [
 			"itemId_org" => $itemId_org,
 			"itemId" => $itemId,
-			"itemType" => $itemType,
-			"itemColor" => $itemColor,
-			"itemMile" => $itemMile,
 			"itemName" => $itemName,
-			"itemAddress" => $itemAddress,
-			"itemTelephone" => $itemTelephone,
+			"itemGroupName" => $itemGroupName,
+			"itemTypeName" => $itemTypeName,
+			"itemSupplierName" => $itemSupplierName,
+			"itemStockMax" => $itemStockMax,
+			"itemStockMin" => $itemStockMin,
+			"itemStockFront" => $itemStockFront,
+			"itemStockBack" => $itemStockBack,
+			"itemPriceInv" => $itemPriceInv,
+			"itemPriceFront" => $itemPriceFront,
+			"itemPriceBack" => $itemPriceBack,
+			"itemPriceShop" => $itemPriceShop,
+			"itemStore" => $itemStore,
 			"itemUpdatedAt" => $itemUpdatedAt,
 		];
 
-		$sql = "UPDATE usercar SET carId=:itemId, type=:itemType, color=:itemColor, mile=:itemMile, name=:itemName, address=:itemAddress, telephone=:itemTelephone, updatedAt=:itemUpdatedAt  WHERE carId=:itemId_org";
+		$sql = "UPDATE product SET productId=:itemId, name=:itemName, groupname=:itemGroupName, typename=:itemTypeName, suppliername=:itemSupplierName, max=:itemStockMax, min=:itemStockMin, stock1=:itemStockFront, stock2=:itemStockBack, price0=:itemPriceInv, price1=:itemPriceFront, price2=:itemPriceBack, price3=:itemPriceShop, store=:itemStore, updatedAt=:itemUpdatedAt  WHERE productId=:itemId_org";
 		$stmt = $conn->prepare($sql);
 		$stmt->execute($params);
 		$rowEffect = $stmt->rowCount();
 
-		$DB->updateDataChange("usercars",$itemId,"UPDATE","carId");
+		$DB->updateDataChange("products",$itemId,"UPDATE","productId");
 		if ($rowEffect) {
 			$response = [
 				'status' => true,
@@ -57,16 +71,20 @@ try {
 } catch (PDOException $ex) {
 	$conn->rollBack();
 	http_response_code(500);
+	$message = $ex->getMessage();
+	if($ex->getCode() == 23000) {
+		$message = "รหัส/ชื่อสินค้าซ้ำกับที่มีอยู่แล้ว !!!";
+	}
 	$response = [
 		'status' => false,
-		'message' => json_encode($ex)
+		'message' => $message
 	];
 } catch (Exception $ex) {
 	$conn->rollBack();
 	http_response_code(500);
 	$response = [
 		'status' => false,
-		'message' => json_encode($ex)
+		'message' => $ex->getMessage()
 	];
 }
 

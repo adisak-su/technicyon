@@ -504,9 +504,20 @@ require_once("../../service/configData.php");
             $('#searchInput').on('input', function() {
                 createFilterDataAndRender();
             });
-            // setInterval(updateSyncData,10000); // 10 วินาที
-            setInterval(function() { updateSyncData({dataSource:colorNames,dataName:"colornames"}); },10000); // 10 วินาที
+            // setInterval(syncDataRealtime,10000); // 10 วินาที
+            // setInterval(function() {
+            //     updateSyncData({dataSource:colorNames,dataName:"colornames"}); 
+            // },5000); // 10 วินาที
         });
+
+        async function syncDataRealtime() {
+            let dataSource = await updateSyncData({dataName:"colornames"});
+            if(dataSource) {
+                colorNames = dataSource;
+                createFilterDataAndRender();
+            }
+        }
+
 
         // async function updateSyncData() {
         //     let statusChange = await syncOnLoad();

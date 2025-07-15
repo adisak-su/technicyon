@@ -5,11 +5,11 @@ http_response_code(200);
 $DB = new Database();
 $conn = $DB->connect();
 $conn->beginTransaction();
-try {	
+try {
 	if (isset($_POST["itemId"]) && !empty($_POST["itemId"])) {
 		$itemId = $_POST["itemId"];
 
-		$DB->updateDataChange("products",$itemId,"DELETE","productd");
+		$DB->updateDataChange("products", $itemId, "DELETE", "productd");
 
 		$params = [
 			"itemId" => $itemId
@@ -18,7 +18,6 @@ try {
 		$stmt = $conn->prepare($sql);
 		$stmt->execute($params);
 		$rowEffect = $stmt->rowCount();
-
 		if ($rowEffect) {
 			$response = [
 				'status' => true,
@@ -42,16 +41,20 @@ try {
 } catch (PDOException $ex) {
 	$conn->rollBack();
 	http_response_code(500);
+	$message = $ex->getMessage();
+	if ($ex->getCode() == 23000) {
+		$message = "รหัส/ชื่อสินค้าซ้ำกับที่มีอยู่แล้ว !!!";
+	}
 	$response = [
 		'status' => false,
-		'message' => json_encode($ex)
+		'message' => $message
 	];
 } catch (Exception $ex) {
 	$conn->rollBack();
 	http_response_code(500);
 	$response = [
 		'status' => false,
-		'message' => json_encode($ex)
+		'message' => $ex->getMessage()
 	];
 }
 

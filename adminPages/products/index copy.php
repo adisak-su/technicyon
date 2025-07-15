@@ -250,7 +250,7 @@ require_once("../../assets/php/common.php");
                                                         <th>การจัดการ</th>
                                                     </tr>
                                                 </thead>
-                                                <tbody id="itemTable"></tbody>
+                                                <tbody id="productTable"></tbody>
                                             </table>
                                         </div>
 
@@ -292,7 +292,7 @@ require_once("../../assets/php/common.php");
     </div>
 
     <!-- Modal เพิ่ม/แก้ไข -->
-    <div class="modal" id="itemModal" tabindex="-1" role="dialog" aria-labelledby="productModalLabel" aria-hidden="true">
+    <div class="modal" id="productModal" tabindex="-1" role="dialog" aria-labelledby="productModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="width:auto;max-width:800px;">
             <div class="modal-content">
                 <div class="modal-header bg-primary" style="border-radius:25px 25px 0px 0px;">
@@ -302,89 +302,77 @@ require_once("../../assets/php/common.php");
                 <div class="modal-body">
                     <div class="container-fluid">
                         <div class="glass-card mb-2">
-                            <form id="itemForm">
+                            <form id="productForm">
                                 <!-- productId , productName -->
                                 <div class="row">
                                     <div class="col-12 col-md-4 form-group position-relative mb-3">
-                                        <input
-                                            type="hidden"
-                                            class="form-control"
-                                            id="itemId_org"
-                                            placeholder="" />
-                                        <label for="itemId" class="form-label">รหัสสินค้า</label>
+                                        <label for="productId" class="form-label">รหัสสินค้า</label>
                                         <div class="input-icon-wrapper">
                                             <i class="fa fa-keyboard input-icon" aria-hidden="true"></i>
                                             <input
                                                 type="text"
                                                 class="form-control"
-                                                id="itemId"
-                                                value=""
-                                                maxlength="20"
-                                                placeholder="" />
+                                                id="productId"
+                                                placeholder="รหัสสินค้า..." />
                                         </div>
                                     </div>
                                     <div class="col-12 col-md-8 form-group position-relative mb-3">
-                                        <label for="itemName" class="form-label">ชื่อสินค้า</label>
+                                        <label for="productName" class="form-label">ชื่อสินค้า</label>
                                         <div class="input-icon-wrapper">
                                             <i class="fa fa-keyboard input-icon"></i>
                                             <input
                                                 type="text"
                                                 class="form-control"
-                                                id="itemName"
-                                                value=""
-                                                maxlength="50"
-                                                placeholder="" />
+                                                id="productName"
+                                                placeholder="ชื่อสินค้า..." />
                                         </div>
                                     </div>
                                 </div>
                                 <!-- supplier , gruoup , type -->
                                 <div class="row">
                                     <div class="col-12 col-md-4 form-group position-relative mb-3">
-                                        <label for="itemSupplierName" class="form-label">ชื่อร้านค้า</label>
+                                        <label for="supplierName" class="form-label">ชื่อร้านค้า</label>
                                         <div class="form-group autocomplete-container mb-4">
                                             <div class="input-icon-wrapper">
                                                 <i class="fa fa-keyboard input-icon" aria-hidden="true"></i>
                                                 <input
                                                     type="text"
                                                     class="form-control"
-                                                    id="itemSupplierName"
-                                                    value=""
-                                                    maxlength="50"
-                                                    placeholder="" autocomplete="off" />
+                                                    id="supplierName"
+                                                    placeholder="ชื่อร้านค้า..." autocomplete="off" />
                                                 <div id="supplierNameSuggestions" class="suggestions"></div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-12 col-md-4 form-group position-relative mb-3">
-                                        <label for="itemGroupName" class="form-label">ยี่ห้อ/รุ่นรถ</label>
+                                        <label for="groupName" class="form-label">ยี่ห้อ/รุ่นรถ</label>
                                         <div class="form-group autocomplete-container mb-4">
                                             <div class="input-icon-wrapper">
                                                 <i class="fa fa-keyboard input-icon" aria-hidden="true"></i>
                                                 <input
                                                     type="text"
                                                     class="form-control"
-                                                    id="itemGroupName"
-                                                    value=""
-                                                    maxlength="50"
-                                                    placeholder=""
+                                                    id="groupName"
+                                                    placeholder="ยี่ห้อ/รุ่นรถ..."
+
                                                     autocomplete="off" />
                                                 <div id="groupNameSuggestions" class="suggestions"></div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-12 col-md-4 form-group position-relative mb-3">
-                                        <label for="itemTypeName" class="form-label">ประเภทสินค้า</label>
+                                        <label for="typeName" class="form-label">ประเภทสินค้า</label>
                                         <div class="form-group autocomplete-container mb-4">
                                             <div class="input-icon-wrapper">
                                                 <i class="fa fa-keyboard input-icon" aria-hidden="true"></i>
                                                 <input
                                                     type="text"
                                                     class="form-control"
-                                                    id="itemTypeName"
-                                                    value=""
-                                                    maxlength="50"
-                                                    placeholder=""
+                                                    id="typeName"
+                                                    placeholder="ประเภทสินค้า..."
+
                                                     autocomplete="off" />
+
                                                 <!--
                                                 onchange="setProductName();"
                                                  <input type="text" id="supplierName" class="inputStyle inputStyleIcon cursorHand" placeholder="ชื่อร้านค้า..." autocomplete="off"> -->
@@ -399,61 +387,61 @@ require_once("../../assets/php/common.php");
                                         <label>จำนวน</label>
                                     </div>
                                     <div class="col-6 col-md-2 form-group position-relative mb-3">
-                                        <label for="itemStockMax" class="form-label">สูงสุด</label>
+                                        <label for="stockMax" class="form-label">สูงสุด</label>
                                         <div class="input-icon-wrapper">
                                             <i class="fa fa-keyboard input-icon" aria-hidden="true"></i>
                                             <input
                                                 type="text"
                                                 class="form-control text-right"
-                                                id="itemStockMax"
+                                                id="stockMax"
                                                 value="0"
                                                 placeholder="" autocomplete="off" />
                                         </div>
                                     </div>
                                     <div class="col-6 col-md-2 form-group position-relative mb-3">
-                                        <label for="itemStockMin" class="form-label">ต่ำสุด</label>
+                                        <label for="stockMin" class="form-label">ต่ำสุด</label>
                                         <div class="input-icon-wrapper">
                                             <i class="fa fa-keyboard input-icon" aria-hidden="true"></i>
                                             <input
                                                 type="text"
                                                 class="form-control text-right"
-                                                id="itemStockMin"
+                                                id="stockMin"
                                                 value="0"
                                                 placeholder="" autocomplete="off" />
                                         </div>
                                     </div>
                                     <div class="col-6 col-md-2 form-group position-relative mb-3">
-                                        <label for="itemStockFront" class="form-label">หน้าร้าน</label>
+                                        <label for="stockFront" class="form-label">หน้าร้าน</label>
                                         <div class="input-icon-wrapper">
                                             <i class="fa fa-keyboard input-icon" aria-hidden="true"></i>
                                             <input
                                                 type="text"
                                                 class="form-control text-right"
-                                                id="itemStockFront"
+                                                id="stockFront"
                                                 value="0"
                                                 placeholder="" autocomplete="off" />
                                         </div>
                                     </div>
                                     <div class="col-6 col-md-2 form-group position-relative mb-3">
-                                        <label for="itemStockBack" class="form-label">หลังร้าน</label>
+                                        <label for="stockBack" class="form-label">หลังร้าน</label>
                                         <div class="input-icon-wrapper">
                                             <i class="fa fa-keyboard input-icon" aria-hidden="true"></i>
                                             <input
                                                 type="text"
                                                 class="form-control text-right"
-                                                id="itemStockBack"
+                                                id="stockBack"
                                                 value="0"
                                                 placeholder="" autocomplete="off" />
                                         </div>
                                     </div>
                                     <div class="col-6 col-md-3 form-group position-relative mb-3">
-                                        <label for="itemStockTotal" class="form-label">รวม</label>
+                                        <label for="stockTotal" class="form-label">รวม</label>
                                         <div class="input-icon-wrapper">
                                             <i class="fa fa-keyboard input-icon" aria-hidden="true"></i>
                                             <input
                                                 type="text"
                                                 class="form-control text-right"
-                                                id="itemStockTotal"
+                                                id="stockTotal"
                                                 value="0"
                                                 placeholder="" autocomplete="off" />
                                         </div>
@@ -466,49 +454,49 @@ require_once("../../assets/php/common.php");
                                         <button type="button" class="btn btn-secondary boxx" data-toggle="modal" data-target="#computePriceModal">คำนวนราคาขาย</button>
                                     </div>
                                     <div class="col-6 col-md-3 form-group position-relative mb-3">
-                                        <label for="itemPriceFront" class="form-label">หน้าร้าน</label>
+                                        <label for="priceFront" class="form-label">หน้าร้าน</label>
                                         <div class="input-icon-wrapper">
                                             <i class="fa fa-keyboard input-icon" aria-hidden="true"></i>
                                             <input
                                                 type="text"
                                                 class="form-control text-right"
-                                                id="itemPriceFront"
+                                                id="priceFront"
                                                 value="0"
                                                 placeholder="" autocomplete="off" />
                                         </div>
                                     </div>
                                     <div class="col-6 col-md-3 form-group position-relative mb-3">
-                                        <label for="itemPriceBack" class="form-label">หลังร้าน</label>
+                                        <label for="priceBack" class="form-label">หลังร้าน</label>
                                         <div class="input-icon-wrapper">
                                             <i class="fa fa-keyboard input-icon" aria-hidden="true"></i>
                                             <input
                                                 type="text"
                                                 class="form-control text-right"
-                                                id="itemPriceBack"
+                                                id="priceBack"
                                                 value="0"
                                                 placeholder="" autocomplete="off" />
                                         </div>
                                     </div>
                                     <div class="col-6 col-md-3 form-group position-relative mb-3">
-                                        <label for="itemPriceShop" class="form-label">ขายส่ง</label>
+                                        <label for="priceShop" class="form-label">ขายส่ง</label>
                                         <div class="input-icon-wrapper">
                                             <i class="fa fa-keyboard input-icon" aria-hidden="true"></i>
                                             <input
                                                 type="text"
                                                 class="form-control text-right"
-                                                id="itemPriceShop"
+                                                id="priceShop"
                                                 value="0"
                                                 placeholder="" autocomplete="off" />
                                         </div>
                                     </div>
                                     <div class="col-6 col-md-3 form-group position-relative mb-3">
-                                        <label for="itemPriceInv" class="form-label">ต้นทุน</label>
+                                        <label for="priceInv" class="form-label">ต้นทุน</label>
                                         <div class="input-icon-wrapper">
                                             <i class="fa fa-keyboard input-icon" aria-hidden="true"></i>
                                             <input
                                                 type="text"
                                                 class="form-control text-right"
-                                                id="itemPriceInv"
+                                                id="priceInv"
                                                 value="0"
                                                 placeholder="" autocomplete="off" />
                                         </div>
@@ -516,14 +504,14 @@ require_once("../../assets/php/common.php");
                                 </div>
                                 <div class="row">
                                     <div class="col-12">
-                                        <label for="itemStore" class="form-label">ที่เก็บสินค้า</label>
+                                        <label for="store" class="form-label">ที่เก็บสินค้า</label>
                                         <div class="input-icon-wrapper">
                                             <i class="fa fa-keyboard input-icon" aria-hidden="true"></i>
                                             <input
                                                 type="text"
                                                 class="form-control"
-                                                id="itemStore"
-                                                placeholder="" />
+                                                id="store"
+                                                placeholder="ที่เก็บสินค้า..." />
                                         </div>
                                     </div>
                                 </div>
@@ -533,7 +521,7 @@ require_once("../../assets/php/common.php");
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary boxx" data-dismiss="modal">ยกเลิก</button>
-                        <button type="button" class="btn btn-primary boxx" onclick="saveItem()">บันทึก</button>
+                        <button type="button" class="btn btn-primary boxx" data-dismiss="modal" onclick="saveProduct()">บันทึก</button>
                     </div>
                 </div>
             </div>
@@ -679,11 +667,11 @@ require_once("../../assets/php/common.php");
         <?php include_once('../../includes/pagesScript.php') ?>
         <?php include_once('../../includes/myScript.php') ?>
 
-        <script src="../indexedDB/indexedDB.js?<?php echo time(); ?>"></script>
-        <script src="../js/renderPagination.js"></script>
+        <script src="../indexedDB/indexedDB.js"></script>
         <script src="../js/sortColumnBy.js"></script>
-        <script src="../js/validateInput.js"></script>
+
         <script src="../js/autocomplete.js?<?php echo time(); ?>"></script>
+
         <script src="computePriceInv.js?<?php echo time(); ?>"></script>
         <script type="text/javascript">
             let products = [];
@@ -697,20 +685,6 @@ require_once("../../assets/php/common.php");
             let editId = null;
             let deleteId = null;
 
-            //ตั้งค่าสำหรับการตรวจสอบข้อมูลการ Input
-            let arrayValidateInput = [{
-                    id: "itemId",
-                    name: "รหัสสินค้า"
-                },
-                {
-                    id: "itemName",
-                    name: "ชื่อสินค้า"
-                }
-            ];
-            let validateInputForm = new ValidateInput("itemModal", arrayValidateInput);
-            const STORE = "products";
-
-            //สำหรับการจัดเรียงข้อมูล
             let sortColumn = [{
                     colName: "productId",
                     state: "ASC"
@@ -729,37 +703,38 @@ require_once("../../assets/php/common.php");
                 },
             ];
 
-            // $('#sorted').bootstrapToggle();
-            // $('#sorted').off('change');
+            $('#sorted').bootstrapToggle();
+            $('#sorted').off('change');
 
-            // $("#sorted").change(function() {
-            //     sortData();
-            // });
+            $("#sorted").change(function() {
+                sortData();
+            });
 
-            // function sortData() {
-            //     let sorted = $("#sorted")[0].checked ? "productId" : "name";
-            //     // filtered = filtered.sort((a, b) => {
-            //     //     return a[sorted] > b[sorted];
-            //     // });
+            function sortData() {
+                let sorted = $("#sorted")[0].checked ? "productId" : "name";
+                // filtered = filtered.sort((a, b) => {
+                //     return a[sorted] > b[sorted];
+                // });
 
-            //     // filtered.sort((a, b) => a.name.localeCompare(b.name));
-            //     filtered.sort((a, b) => a[sorted].localeCompare(b[sorted]));
-            //     currentPage = 1;
-            //     renderTable();
+                // filtered.sort((a, b) => a.name.localeCompare(b.name));
+                filtered.sort((a, b) => a[sorted].localeCompare(b[sorted]));
+                currentPage = 1;
+                renderTable();
 
-            //     // if (filtered.length) {
-            //     //     let sorted = $("#sorted")[0].checked ? "productId" : "name";
-            //     //     //alert(sorted)
-            //     //     filtered = filtered.sort((a, b) => {
-            //     //         return a[sorted] > b[sorted];
-            //     //     });
-            //     //     currentPage = 1;
-            //     //     //createFilterDataAndRender();
-            //     //     renderTable();
-            //     // }
-            // }
+                // if (filtered.length) {
+                //     let sorted = $("#sorted")[0].checked ? "productId" : "name";
+                //     //alert(sorted)
+                //     filtered = filtered.sort((a, b) => {
+                //         return a[sorted] > b[sorted];
+                //     });
+                //     currentPage = 1;
+                //     //createFilterDataAndRender();
+                //     renderTable();
+                // }
+            }
 
             const searchData = (item) => {
+                alert(1);
                 currentPage = 1;
                 createFilterDataAndRender();
 
@@ -773,6 +748,7 @@ require_once("../../assets/php/common.php");
             }
 
             const setProductName = () => {
+
                 if ($("#productModal #groupName").val() && $("#productModal #typeName").val()) {
                     $("#productModal #productName").val($("#productModal #typeName").val() + " " + $("#productModal #groupName").val());
                 } else if ($("#productModal #groupName").val()) {
@@ -782,7 +758,10 @@ require_once("../../assets/php/common.php");
                 } else {
                     //$("#productModal #productName").val($("#productModal #typeName").val());
                 }
+
                 //$("#productModal #productName").val($("#productModal #groupName").val() + $("#productModal #typeName").val())
+
+
             };
 
             function modalHide(modal) {
@@ -819,21 +798,21 @@ require_once("../../assets/php/common.php");
             }
 
             function setPriceForProduct() {
-                let modalProduct = document.getElementById("itemModal");
+                let modalProduct = document.getElementById("productModal");
                 let modalPrice = document.getElementById("computePriceModal");
                 let ele = modalPrice.querySelector("#computePriceFront");
 
                 let value = ele.value ? Number(ele.value) : 0;
-                modalProduct.querySelector("#itemPriceFront").value = value;
+                modalProduct.querySelector("#priceFront").value = value;
                 ele = modalPrice.querySelector("#computePriceBack");
                 value = ele.value ? Number(ele.value) : 0;
-                modalProduct.querySelector("#itemPriceBack").value = value;
+                modalProduct.querySelector("#priceBack").value = value;
                 ele = modalPrice.querySelector("#computePriceShop");
                 value = ele.value ? Number(ele.value) : 0;
-                modalProduct.querySelector("#itemPriceShop").value = value;
+                modalProduct.querySelector("#priceShop").value = value;
                 ele = modalPrice.querySelector("#computePriceInv");
                 value = ele.value ? ele.value : "";
-                modalProduct.querySelector("#itemPriceInv").value = value;
+                modalProduct.querySelector("#priceInv").value = value;
 
 
                 //modalPrice.modal("hide");
@@ -843,37 +822,34 @@ require_once("../../assets/php/common.php");
 
             function openAddModal() {
                 editId = null;
-                document.getElementById('itemForm').reset();
-                $('#itemForm #productModalLabel').text('เพิ่มสินค้า');
-                $('#itemForm .modal-header').addClass("bg-primary");
-                $('#itemForm .modal-header').removeClass("bg-warning");
-
-                $('#itemModal').modal("show");
-                // new bootstrap.Modal(document.getElementById('productModal')).show();
+                document.getElementById('productForm').reset();
+                $('#productModal #productModalLabel').text('เพิ่มสินค้า');
+                $('#productModal .modal-header').addClass("bg-primary");
+                $('#productModal .modal-header').removeClass("bg-warning");
+                new bootstrap.Modal(document.getElementById('productModal')).show();
             }
 
             function openEditModal(id) {
                 const m = products.find(x => x.productId === id);
                 if (m) {
                     editId = id;
-                    const thisfrm = document.getElementById('itemForm');
-                    thisfrm.elements.namedItem("itemId_org").value = id;
-                    thisfrm.elements.namedItem("itemId").value = id;
-                    thisfrm.elements.namedItem("itemName").value = m.name;
-                    thisfrm.elements.namedItem("itemGroupName").value = m.groupname;
-                    thisfrm.elements.namedItem("itemTypeName").value = m.typename;
-                    thisfrm.elements.namedItem("itemSupplierName").value = m.suppliername;
-                    thisfrm.elements.namedItem("itemStockMax").value = m.max;
-                    thisfrm.elements.namedItem("itemStockMin").value = m.min;
-                    thisfrm.elements.namedItem("itemStockFront").value = m.stock1;
-                    thisfrm.elements.namedItem("itemStockBack").value = m.stock2;
-                    thisfrm.elements.namedItem("itemStockTotal").value = m.stock1 + m.stock2;
+                    const thisfrm = document.getElementById('productForm');
+                    thisfrm.elements.namedItem("productId").value = m.productId;
+                    thisfrm.elements.namedItem("productName").value = m.name;
+                    thisfrm.elements.namedItem("groupName").value = m.groupname;
+                    thisfrm.elements.namedItem("typeName").value = m.typename;
+                    thisfrm.elements.namedItem("supplierName").value = m.suppliername;
+                    thisfrm.elements.namedItem("stockMax").value = m.max;
+                    thisfrm.elements.namedItem("stockMin").value = m.min;
+                    thisfrm.elements.namedItem("stockFront").value = m.stock1;
+                    thisfrm.elements.namedItem("stockBack").value = m.stock2;
+                    thisfrm.elements.namedItem("stockTotal").value = m.stock1 + m.stock2;
 
-                    thisfrm.elements.namedItem("itemPriceInv").value = m.price0;
-                    thisfrm.elements.namedItem("itemPriceFront").value = m.price1;
-                    thisfrm.elements.namedItem("itemPriceBack").value = m.price2;
-                    thisfrm.elements.namedItem("itemPriceShop").value = m.price3;
-                    thisfrm.elements.namedItem("itemStore").value = m.store;
+                    thisfrm.elements.namedItem("priceInv").value = m.price0;
+                    thisfrm.elements.namedItem("priceFront").value = m.price1;
+                    thisfrm.elements.namedItem("priceBack").value = m.price2;
+                    thisfrm.elements.namedItem("priceShop").value = m.price3;
+                    thisfrm.elements.namedItem("store").value = m.store;
 
                     // let computePriceInv = m.price0;
                     // if (computePriceInv !== "") {
@@ -882,11 +858,10 @@ require_once("../../assets/php/common.php");
                     //     modal.querySelector("#computePriceInv").value = computePriceInv.join("");
                     // }
 
-                    $('#itemModal #productModalLabel').text('แก้ไขสินค้า');
-                    $('#itemModal .modal-header').addClass("bg-warning");
-                    $('#itemModal .modal-header').removeClass("bg-primary");
-                    $('#itemModal').modal("show");
-                    // new bootstrap.Modal(document.getElementById('productModal')).show();
+                    $('#productModal #productModalLabel').text('แก้ไขสินค้า');
+                    $('#productModal .modal-header').addClass("bg-warning");
+                    $('#productModal .modal-header').removeClass("bg-primary");
+                    new bootstrap.Modal(document.getElementById('productModal')).show();
                 }
             }
 
@@ -935,118 +910,58 @@ require_once("../../assets/php/common.php");
                 return isValid;
             }
 
-            function saveItem() {
-                const thisfrm = document.getElementById('itemForm');
-                const itemId_org = editId || thisfrm.elements.namedItem('itemId_org').value.trim();
-                const itemId = editId || thisfrm.elements.namedItem('itemId').value.trim();
-                const itemName = thisfrm.elements.namedItem('itemName').value.trim();
-                const itemGroupName = thisfrm.elements.namedItem('itemGroupName').value.trim();
-                const itemTypeName = thisfrm.elements.namedItem('itemTypeName').value.trim();
-                const itemSupplierName = thisfrm.elements.namedItem('itemSupplierName').value.trim();
-                const itemStockMax = thisfrm.elements.namedItem('itemStockMax').value.trim();
-                const itemStockMin = thisfrm.elements.namedItem('itemStockMin').value.trim();
-                const itemStockFront = thisfrm.elements.namedItem('itemStockFront').value.trim();
-                const itemStockBack = thisfrm.elements.namedItem('itemStockBack').value.trim();
-                const itemPriceInv = thisfrm.elements.namedItem('itemPriceInv').value.trim();
-                const itemPriceFront = thisfrm.elements.namedItem('itemPriceFront').value.trim();
-                const itemPriceBack = thisfrm.elements.namedItem('itemPriceBack').value.trim();
-                const itemPriceShop = thisfrm.elements.namedItem('itemPriceShop').value.trim();
-                const itemStore = thisfrm.elements.namedItem('itemStore').value.trim();
-                const updatedAt = getDateTimeNow();
-                // const updatedAt = new Date().addHours(7).toISOString().replace("T", " ").substr(0, 19);
+            function saveProduct() {
+                const thisfrm = document.getElementById('productForm');
+                const productId = editId || thisfrm.elements.namedItem('productId').value.trim();
+                const name = thisfrm.elements.namedItem('productName').value.trim();
+                const groupname = thisfrm.elements.namedItem('groupName').value.trim();
+                const typename = thisfrm.elements.namedItem('typeName').value.trim();
+                const suppliername = thisfrm.elements.namedItem('supplierName').value.trim();
+                const max = thisfrm.elements.namedItem('stockMax').value.trim();
+                const min = thisfrm.elements.namedItem('stockMin').value.trim();
+                const stock1 = thisfrm.elements.namedItem('stockFront').value.trim();
+                const stock2 = thisfrm.elements.namedItem('stockBack').value.trim();
+                const price0 = thisfrm.elements.namedItem('priceInv').value.trim();
+                const price1 = thisfrm.elements.namedItem('priceFront').value.trim();
+                const price2 = thisfrm.elements.namedItem('priceBack').value.trim();
+                const price3 = thisfrm.elements.namedItem('priceShop').value.trim();
+                const store = thisfrm.elements.namedItem('store').value.trim();
+                const updatedAt = new Date().addHours(7).toISOString().replace("T", " ").substr(0, 19);
 
                 // let nowSyncTime = new Date().addHours(7).toISOString().replace("T", " ").substr(0, 19);
 
-                // if (!productId || !name) {
-                //     alert('กรุณากรอกข้อมูลให้ครบถ้วน');
-                //     return;
-                // }
-                let statusValidate = validateInputForm.validate();
 
-                if (!statusValidate.status) {
-                    let invalidStr = statusValidate.invalidString;
-                    sweetAlertError('กรุณากรอกข้อมูลให้ครบถ้วน' + invalidStr, 5000);
+                if (!productId || !name) {
+                    alert('กรุณากรอกข้อมูลให้ครบถ้วน');
                     return;
                 }
 
-                const item = {
-                    "productId": itemId,
-                    "name": itemName,
-                    "groupname": itemGroupName,
-                    "typename": itemTypeName,
-                    "suppliername": itemSupplierName,
-                    "max": itemStockMax,
-                    "min": itemStockMin,
-                    "stock1": itemStockFront,
-                    "stock2": itemStockBack,
-                    "price0": itemPriceInv,
-                    "price1": itemPriceFront,
-                    "price2": itemPriceBack,
-                    "price3": itemPriceShop,
-                    "store": itemStore,
-                    "updatedAt": updatedAt,
+                const product = {
+                    productId,
+                    name,
+                    groupname,
+                    typename,
+                    suppliername,
+                    max,
+                    min,
+                    stock1,
+                    stock2,
+                    price0,
+                    price1,
+                    price2,
+                    price3,
+                    store,
+                    updatedAt
                 };
 
-                let dataSend = {
-                    "itemId_org": itemId_org,
-                    "itemId": itemId,
-                    "itemName": itemName,
-                    "itemGroupName": itemGroupName,
-                    "itemTypeName": itemTypeName,
-                    "itemSupplierName": itemSupplierName,
-                    "itemStockMax": itemStockMax,
-                    "itemStockMin": itemStockMin,
-                    "itemStockFront": itemStockFront,
-                    "itemStockBack": itemStockBack,
-                    // "itemStockTotal": itemStockTotal,
-                    "itemPriceInv": itemPriceInv,
-                    "itemPriceFront": itemPriceFront,
-                    "itemPriceBack": itemPriceBack,
-                    "itemPriceShop": itemPriceShop,
-                    "itemStore": itemStore,
-                    "itemUpdatedAt": updatedAt,
+                if (editId) {
+                    const index = products.findIndex(m => m.productId === editId);
+                    if (index !== -1) products[index] = product;
+                } else {
+                    products.push(product);
                 }
 
-                if (editId) {
-                    // item.carId = itemId;
-                    $.ajax({
-                        type: "POST",
-                        url: "services/updateItem.php",
-                        data: dataSend
-                    }).done(function(resp) {
-                        if (resp.status) {
-                            $('#itemModal').modal("hide");
-                            toastr.success(resp.message);
-                            confirmSave(item);
-                        } else {
-                            sweetAlertError('เกิดข้อผิดพลาด : ' + resp.message, 3000);
-                        }
-                    }).fail(function(err) {
-                        let message = err?.responseJSON?.message ?? err.responseText;
-                        sweetAlertError('เกิดข้อผิดพลาด : ' + message, 0);
-                    }).always(function() {
-                        loaderScreen("hide");
-                    });
-                } else {
-                    $.ajax({
-                        type: "POST",
-                        url: "services/insertItem.php",
-                        data: dataSend
-                    }).done(function(resp) {
-                        if (resp.status) {
-                            $('#itemModal').modal("hide");
-                            toastr.success(resp.message);
-                            confirmSave(item)
-                        } else {
-                            sweetAlertError('เกิดข้อผิดพลาด : ' + resp.message, 3000);
-                        }
-                    }).fail(function(err) {
-                        let message = err?.responseJSON?.message ?? err.responseText;
-                        sweetAlertError('เกิดข้อผิดพลาด : ' + message, 0);
-                    }).always(function() {
-                        loaderScreen("hide");
-                    });
-                }
+                createFilterDataAndRender();
             }
 
             async function prepareDelete(item) {
@@ -1058,11 +973,13 @@ require_once("../../assets/php/common.php");
                     loaderScreen("show");
                     $.ajax({
                         type: "POST",
+                        // method: "DELETE",
                         url: "services/deleteItem.php",
                         data: {
                             itemId: deleteId
                         }
                     }).done(function(resp) {
+                        // loaderScreen("hide");
                         if (resp.status) {
                             toastr.success(resp.message);
                             confirmDelete(deleteId);
@@ -1070,35 +987,23 @@ require_once("../../assets/php/common.php");
                             sweetAlertError('เกิดข้อผิดพลาด : ' + resp.message);
                         }
                     }).fail(function(err) {
-                        let message = err?.responseJSON?.message ?? err.responseText;
-                        sweetAlertError('เกิดข้อผิดพลาด : ' + message, 0);
+                        sweetAlertError('เกิดข้อผิดพลาด : ' + err.responseText); //  JSON.stringify(err)
+                        // loaderScreen("hide");
                     }).always(function() {
                         loaderScreen("hide");
                     })
                 }
             }
 
-            function confirmSave(item) {
-                if (editId) {
-                    const index = products.findIndex(m => m.productId == editId);
-                    if (index !== -1) {
-                        products[index] = item;
-                    }
-                } else {
-                    products.push(item);
-                }
-                createFilterDataAndRender();
-            }
-
             function confirmDelete(deleteId) {
                 products = products.filter(m => m.productId !== deleteId);
-                filtered = filtered.filter(m => m.productId != deleteId);
-                renderTable();
+                createFilterDataAndRender();
+                //renderTable();
             }
 
             const changeFilter = (item) => {
                 if (item) {
-                    searchData();
+                    searchData(1);
                     //$("#filterType").change(1);
                 }
             }
@@ -1130,19 +1035,20 @@ require_once("../../assets/php/common.php");
                     );
                 }
 
-                // sortData();
+                sortData();
 
-                renderTable();
+                // renderTable();
             }
 
 
             function renderTable() {
-                const tbody = document.getElementById('itemTable');
+                const tbody = document.getElementById('productTable');
+                tbody.innerHTML = '';
+
                 const totalPages = Math.ceil(filtered.length / perPage);
                 const start = (currentPage - 1) * perPage;
                 const pageItems = filtered.slice(start, start + perPage);
 
-                tbody.innerHTML = '';
                 for (let i = 0; i < pageItems.length; i++) {
                     const m = pageItems[i];
                     tbody.insertAdjacentHTML('beforeend', `
@@ -1167,7 +1073,7 @@ require_once("../../assets/php/common.php");
                 renderPagination(currentPage, totalPages);
             }
 
-            function _renderPagination(current, total) {
+            function renderPagination(current, total) {
                 const pagination = document.getElementById('pagination');
                 pagination.innerHTML = '';
 
@@ -1215,20 +1121,20 @@ require_once("../../assets/php/common.php");
             }
 
             $(document).ready(async function() {
-                try {
-                    loaderScreen("show");
-                    // await openDB();
-                    await syncOnLoad();
-                    products = await loadDataFromDB("products");
+                await openDB();
+                // loadAndSetData("products");
+                products = await loadDataFromDB("products");
+                createFilterDataAndRender();
+                //renderTable();
+                loadAndSetData("groupnames");
+                loadAndSetData("typenames");
+                loadAndSetData("suppliers");
+
+                $('#searchInput').on('input', function() {
+                    currentPage = 1;
                     createFilterDataAndRender();
-                    groupNames = await loadAndSetData("groupnames");
-                    typeNames = await loadAndSetData("typenames");
-                    suppliers = await loadAndSetData("suppliers");
-                } catch (error) {
-                    sweetAlertError("เกิดข้อผิดพลาด : " + error.message, 0);
-                } finally {
-                    loaderScreen("hide");
-                }
+                    //renderTable();
+                });
 
                 $(function() {
                     var focusedElement;
@@ -1241,40 +1147,25 @@ require_once("../../assets/php/common.php");
                     });
                 });
 
-                $('#searchInput').on('input', function() {
-                    createFilterDataAndRender();
+                loaderScreen("hide");
+                $("*").dblclick(function(e) {
+                    e.preventDefault();
                 });
 
-                // $("*").dblclick(function(e) {
-                //     e.preventDefault();
-                //     event.stopPropagation();
-                // });
+                // setInterval(updateSyncData,10000); // 10 วินาที
+                // setInterval(function() { updateSyncData({dataSource:products,dataName:"products"}); },10000); // 10 วินาที
 
-                setInterval(syncDataRealtime,10000); // 10 วินาที
-                // setInterval(function() {
-                //     updateSyncData({dataSource:colorNames,dataName:"colornames"}); 
-                // },5000); // 10 วินาที
             });
 
-            async function syncDataRealtime() {
-                let dataSource = await updateSyncData({
-                    dataName: "products"
-                });
-                if (dataSource) {
-                    products = dataSource;
-                    createFilterDataAndRender();
-                }
-            }
-
-            // document.addEventListener("dbclick", function(event) {
-            //     event.preventDefault();
-            //     event.stopPropagation();
-            // });
+            document.addEventListener("dbclick", function(event) {
+                event.preventDefault();
+                event.stopPropagation();
+            });
 
             async function loadAndSetData(storeName) {
                 let dataStore = await loadDataFromDB(storeName);
                 if (storeName == "products") {
-                    // products = dataStore;
+                    products = dataStore;
                     setupAutocompleteProducts(
                         "productInput", "productSuggestions", products, "productId", ["productId", "name"], ["productId", "name"], [{
                             elementId: "productCode",
@@ -1287,11 +1178,10 @@ require_once("../../assets/php/common.php");
                             elementValue: "price1"
                         }]
                     );
-                    return dataStore;
-                    // createFilterDataAndRender();
+                    createFilterDataAndRender();
                     //renderTable();
                 } else if (storeName == "groupnames") {
-                    // groupNames = dataStore;
+                    groupNames = dataStore;
                     /*
                     setupAutocomplete(
                         "groupName", "groupNameSuggestions", groupNames, "groupname", ["groupname"], ["groupname"], null, setProductName);
@@ -1299,7 +1189,7 @@ require_once("../../assets/php/common.php");
                     setupAutocompleteOnFocus({
                         inputId: "filterGroup",
                         suggestionsId: "filterGroupSuggestions",
-                        dataList: dataStore,
+                        dataList: groupNames,
                         codeId: "groupname",
                         arrayShowValue: ["groupname"],
                         arrayFindValue: ["groupname"],
@@ -1307,21 +1197,21 @@ require_once("../../assets/php/common.php");
                         sortField: "groupname"
                     });
                     setupAutocompleteOnFocus({
-                        inputId: "itemGroupName",
+                        inputId: "groupName",
                         suggestionsId: "groupNameSuggestions",
-                        dataList: dataStore,
+                        dataList: groupNames,
                         codeId: "groupname",
                         arrayShowValue: ["groupname"],
                         arrayFindValue: ["groupname"],
                         callbackFunction: setProductName,
                         sortField: "groupname"
                     });
-                    return dataStore;
                 } else if (storeName == "typenames") {
+                    typeNames = dataStore;
                     setupAutocompleteOnFocus({
                         inputId: "filterType",
                         suggestionsId: "filterTypeSuggestions",
-                        dataList: dataStore,
+                        dataList: typeNames,
                         codeId: "typename",
                         arrayShowValue: ["typename"],
                         arrayFindValue: ["typename"],
@@ -1329,20 +1219,20 @@ require_once("../../assets/php/common.php");
                         sortField: "typename"
                     });
                     setupAutocompleteOnFocus({
-                        inputId: "itemTypeName",
+                        inputId: "typeName",
                         suggestionsId: "typeNameSuggestions",
-                        dataList: dataStore,
+                        dataList: typeNames,
                         codeId: "typename",
                         arrayShowValue: ["typename"],
                         arrayFindValue: ["typename"],
                         callbackFunction: setProductName,
                         sortField: "typename"
                     });
-                    return dataStore;
+
                 } else if (storeName == "suppliers") {
                     suppliers = dataStore;
                     setupAutocompleteOnFocus({
-                        inputId: "itemSupplierName",
+                        inputId: "supplierName",
                         suggestionsId: "supplierNameSuggestions",
                         dataList: suppliers,
                         codeId: "name",
@@ -1352,17 +1242,17 @@ require_once("../../assets/php/common.php");
                         sortField: "name"
                     });
                 } else if (storeName == "colors") {
+                    colors = dataStore;
                     setupAutocompleteOnFocus({
-                        inputId: "itemColorName",
+                        inputId: "colorName",
                         suggestionsId: "colorNameSuggestions",
-                        dataList: dataStore,
+                        dataList: colors,
                         codeId: "colorname",
                         arrayShowValue: ["colorname"],
                         arrayFindValue: ["colorname"],
                         //callbackFunction: dataFilterProductModal,
                         sortField: "colorname"
                     });
-                    return dataStore;
                 }
             }
         </script>
