@@ -1250,7 +1250,7 @@ require_once("../../assets/php/common.php");
                 //     event.stopPropagation();
                 // });
 
-                setInterval(syncDataRealtime,10000); // 10 วินาที
+                // setInterval(syncDataRealtime,10000); // 10 วินาที
                 // setInterval(function() {
                 //     updateSyncData({dataSource:colorNames,dataName:"colornames"}); 
                 // },5000); // 10 วินาที
