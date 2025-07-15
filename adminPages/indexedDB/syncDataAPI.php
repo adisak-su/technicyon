@@ -22,7 +22,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="progressModalLabel">กำลังโหลดข้อมูลจาก Sever</h5>
+                    <h5 class="modal-title" id="progressModalLabel">กำลังโหลดข้อมูลจาก Server</h5>
                 </div>
                 <div class="modal-body">
                     <div id="progressBar"></div>
