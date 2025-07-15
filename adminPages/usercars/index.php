@@ -149,7 +149,7 @@ require_once("../../service/configData.php");
                                                             <div id="icon"></div>
                                                         </div>
                                                     </th>
-                                                    <th style="min-width: 120px;" onclick="sortColumnBy('mile',this);">
+                                                    <th style="min-width: 120px;" onclick="sortColumnBy('color',this);">
                                                         <div class="d-flex justify-content-around">
                                                             <div>เลขไมล์</div>
                                                             <div id="icon"></div>

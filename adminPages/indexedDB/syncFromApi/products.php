@@ -34,7 +34,6 @@ try {
 			// ตั้งค่า header สำหรับเนื้อหาที่บีบอัด
 			header('Content-Encoding: gzip');
 			header('Content-Length: ' . strlen($compressed));
-
 			echo $compressed;
 			exit;
 		}
