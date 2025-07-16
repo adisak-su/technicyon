@@ -22,6 +22,7 @@ function setupAutocompleteOnFocus({
         if (!value || value.length == 0) {
             this.value = "";
         }
+        if(value.length < sizeFind) return;
         // Dispatch it.
         input.dispatchEvent(event);
         return;
@@ -35,6 +36,8 @@ function setupAutocompleteOnFocus({
         if (callbackFunction) {
             callbackFunction(null);
         }
+        if(!value || value.length < sizeFind) return;
+
         let matches = dataList;
         if (value && value.length >= sizeFind) {
             matches = [];
