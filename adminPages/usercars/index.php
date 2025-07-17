@@ -290,7 +290,7 @@ require_once("../../service/configData.php");
                                     </div>
 
                                     <div class="col-12 col-md-6 col-lg-3 form-group position-relative mb-3">
-                                        <label for="itemColor" class="form-label">สี</label>
+                                        <label for="itemColor" class="form-label">สีรถยนต์</label>
                                         <div class="form-group autocomplete-container mb-4">
                                             <div class="input-icon-wrapper">
                                                 <i class="fa fa-keyboard input-icon"></i>
@@ -395,7 +395,7 @@ require_once("../../service/configData.php");
     <script src="../indexedDB/indexedDB.js?<?php echo time(); ?>"></script>
     <script src="../js/renderPagination.js"></script>
     <script src="../js/sortColumnBy.js"></script>
-    <script src="../js/validateInput.js"></script>
+    <script src="../js/validateInputNew.js?<?php echo time(); ?>"></script>
     <script src="../js/autocomplete.js?<?php echo time(); ?>"></script>
     <script type="text/javascript">
         let usercars = [];
@@ -407,16 +407,6 @@ require_once("../../service/configData.php");
         const perPage = 10;
         let editId = null;
         let deleteId = null;
-
-        //ตั้งค่าสำหรับการตรวจสอบข้อมูลการ Input
-        let arrayValidateInput = [{
-            id: "itemId",
-            name: "ทะเบียนรถ"
-            // }, {
-            //     id: "itemColor",
-            //     name: "สี"
-        }];
-        let validateInputForm = new ValidateInput("itemModal", arrayValidateInput);
 
         const STORE = "usercars";
 
@@ -449,6 +439,36 @@ require_once("../../service/configData.php");
             colName: "telephone",
             state: "ASC"
         }, ];
+
+        //ตั้งค่าสำหรับการตรวจสอบข้อมูลการ Input
+        let validateInputForm = null;
+        let arrayValidateInput = []
+
+        function createValidate() {
+            arrayValidateInput = [{
+                    id: "itemId",
+                    name: "ทะเบียนรถ",
+                    type: "value"
+                },
+                {
+                    id: "itemGroupName",
+                    name: "ยี่ห้อ/รุ่นรถยนต์",
+                    type: "list",
+                    dataSource: groupNames,
+                    key: "groupname",
+                    require: false,
+                },
+                {
+                    id: "itemColor",
+                    name: "สีรถยนต์",
+                    type: "list",
+                    dataSource: colorNames,
+                    key: "colorname",
+                    require: true,
+                }
+            ];
+            validateInputForm = new ValidateInput("itemModal", arrayValidateInput);
+        }
 
         async function openAddModal() {
             editId = null;
@@ -487,6 +507,14 @@ require_once("../../service/configData.php");
         }
 
         function saveItem() {
+            // let statusValidate = validateInputForm.validateList("itemColor","colorname",colorNames);
+
+            // if (!statusValidate.status) {
+            //     let invalidStr = statusValidate.invalidString;
+            //     sweetAlertError('กรุณากรอกข้อมูลให้ถูกต้อง' + invalidStr, 5000);
+            //     return;
+            // }
+
             let statusValidate = validateInputForm.validate();
 
             if (!statusValidate.status) {
@@ -495,10 +523,12 @@ require_once("../../service/configData.php");
                 return;
             }
 
+
             const thisfrm = document.getElementById('itemForm');
             const itemId_org = editId || thisfrm.elements.namedItem('itemId_org').value.trim();
             const itemId = thisfrm.elements.namedItem('itemId').value.trim();
-            const itemGroupName = thisfrm.elements.namedItem('itemGroupName').value.trim() !== "" ? thisfrm.elements.namedItem('itemGroupName').value.trim() : "-";
+            // const itemGroupName = thisfrm.elements.namedItem('itemGroupName').value.trim() !== "" ? thisfrm.elements.namedItem('itemGroupName').value.trim() : "-";
+            const itemGroupName = thisfrm.elements.namedItem('itemGroupName').value.trim();
             const itemColor = thisfrm.elements.namedItem('itemColor').value.trim() !== "" ? thisfrm.elements.namedItem('itemColor').value.trim() : "-";
             const itemMile = thisfrm.elements.namedItem('itemMile').value.trim() !== "" ? thisfrm.elements.namedItem('itemMile').value.trim() : "-";
             const itemYear = thisfrm.elements.namedItem('itemYear').value.trim() !== "" ? thisfrm.elements.namedItem('itemYear').value.trim() : "-";
@@ -705,11 +735,11 @@ require_once("../../service/configData.php");
             $('#searchInput').on('input', function() {
                 createFilterDataAndRender();
             });
-            setInterval(syncDataRealtime, 10000); // 10 วินาที
-            // setInterval(function() {
-            //     updateSyncData({dataSource:colorNames,dataName:"colornames"}); 
-            // },5000); // 10 วินาที
+            createValidate();
+
+            // setInterval(syncDataRealtime, 10000); // 10 วินาที
         });
+
 
         async function syncDataRealtime() {
             try {
