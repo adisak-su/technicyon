@@ -13,13 +13,19 @@
             font-size: 14px;
             margin-bottom: 5px;
         }
+
+        .modal-backdrop {
+            background-color: rgba(0, 0, 0, .0001) !important;
+        }
     </style>
 </head>
 
 <body>
+    <div class="bg">
+    </div>
     <!-- Progress Modal -->
-    <div class="modal fade" id="progressModal" tabindex="-1" role="dialog" aria-labelledby="progressModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+    <div class="modal fade" id="progressModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="progressModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="progressModalLabel">กำลังโหลดข้อมูลจาก Server</h5>
