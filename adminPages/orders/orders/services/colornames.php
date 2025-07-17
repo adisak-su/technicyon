@@ -6,19 +6,13 @@ http_response_code(200);
 try {
 	$DB = new Database();
 	$conn = $DB->connect();
-	$response = [
-		'status' => false,
-		'message' => []
-	];
+	$response = [];
 
-	$sql = "SELECT * FROM typename ORDER BY typename";
+	$sql = "SELECT * FROM colorname ORDER BY colorname";
 	$stmt = $conn->prepare($sql);
 	$stmt->execute();
 	$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-	$response = [
-		'status' => true,
-		'message' => $result
-	];
+	$response = $result;
 	if (function_exists('gzencode')) {
 		$compressed = gzencode(json_encode($response), 9); // ระดับการบีบอัดสูงสุด
 
