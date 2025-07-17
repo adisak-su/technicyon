@@ -9,12 +9,12 @@ try {
 	if (isset($_POST["itemId"]) && !empty($_POST["itemId"])) {
 		$itemId = $_POST["itemId"];
 
-		$DB->updateDataChange("products", $itemId, "DELETE", "productd");
+		$DB->updateDataChange("products", $itemId, "DELETE", "productId");
 
 		$params = [
 			"itemId" => $itemId
 		];
-		$sql = "DELETE FROM products WHERE productId=:itemId";
+		$sql = "DELETE FROM product WHERE productId=:itemId";
 		$stmt = $conn->prepare($sql);
 		$stmt->execute($params);
 		$rowEffect = $stmt->rowCount();

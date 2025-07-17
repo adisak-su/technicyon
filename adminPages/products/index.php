@@ -167,7 +167,7 @@ require_once("../../assets/php/common.php");
                             <div class="card">
                                 <div class="card-header d-flex justify-content-between">
                                     <label class="mr-auto" style="line-height: 2.1rem">รายการสินค้า</label>
-                                    <button class="btn btn-primary boxx float-right" data-bs-toggle="modal" data-bs-target="#productModal" onclick="openAddModal()"><i class="fa fa-plus"></i> เพิ่มสินค้า</a></button>
+                                    <button class="btn btn-primary boxx float-right" data-bs-toggle="modal" data-bs-target="#itemModal" onclick="openAddModal()"><i class="fa fa-plus"></i> เพิ่มสินค้า</a></button>
                                     <!-- <a href="form-create.php" class="btn btn-primary boxx float-right"><i class="fa fa-plus"></i> เพิ่มสินค้า</a> -->
                                 </div>
                                 <div class="card-body" style="font-size: 1rem;">
@@ -183,14 +183,14 @@ require_once("../../assets/php/common.php");
                                                 <label for="filterGroup" class="form-label">รหัส/ชื่อสินค้า</label>
                                                 <div class="input-icon-wrapper">
                                                     <i class="fa fa-keyboard input-icon" aria-hidden="true"></i>
-                                                    <input type="text" class="form-control" id="searchInput" value="" placeholder="..." value="" autocomplete="off" />
+                                                    <input type="text" class="form-control" id="searchInput" value="" placeholder="" value="" autocomplete="off" />
                                                 </div>
                                             </div>
                                             <div class="col-12 col-md-4 col-lg-3">
                                                 <label for="filterType" class="form-label">ประเภทสินค้า</label>
                                                 <div class="input-icon-wrapper">
                                                     <i class="fa fa-keyboard input-icon" aria-hidden="true"></i>
-                                                    <input type="text" class="form-control" id="filterType" value="" placeholder="..." value="" onchange="searchData(this.value);" autocomplete="off" />
+                                                    <input type="text" class="form-control" id="filterType" value="" placeholder="" value="" onchange="searchData(this.value);" autocomplete="off" />
                                                     <div id="filterTypeSuggestions" class="suggestions"></div>
                                                 </div>
                                             </div>
@@ -198,7 +198,7 @@ require_once("../../assets/php/common.php");
                                                 <label for="filterGroup" class="form-label">ยี่ห้อ/รุ่น</label>
                                                 <div class="input-icon-wrapper">
                                                     <i class="fa fa-keyboard input-icon" aria-hidden="true"></i>
-                                                    <input type="text" class="form-control" id="filterGroup" value="" placeholder="..." value="" onchange="searchData(this.value);" autocomplete="off" />
+                                                    <input type="text" class="form-control" id="filterGroup" value="" placeholder="" value="" onchange="searchData(this.value);" autocomplete="off" />
                                                     <div id="filterGroupSuggestions" class="suggestions"></div>
                                                 </div>
                                             </div>
@@ -206,7 +206,7 @@ require_once("../../assets/php/common.php");
                                                 <label for="filterGroup" class="form-label">ยี่ห้อ/รุ่น</label>
                                                 <div class="input-icon-wrapper" style="width:80%;">
                                                     <i class="fa fa-keyboard input-icon" aria-hidden="true"></i>
-                                                    <input type="text" class="form-control" id="filterGroup" value="" placeholder="..." value="" onchange="searchData(this.value);" autocomplete="off" />
+                                                    <input type="text" class="form-control" id="filterGroup" value="" placeholder="" value="" onchange="searchData(this.value);" autocomplete="off" />
                                                     <div id="filterGroupSuggestions" class="suggestions"></div>
                                                 </div>
                                             </div> -->
@@ -544,7 +544,7 @@ require_once("../../assets/php/common.php");
         </div>
 
         <!-- Modal คำนวนราคา -->
-        <div class="modal modal-child" id="computePriceModal" role="dialog" aria-labelledby="computePriceModalLabel" aria-hidden="true" data-backdrop-limit="1" tabindex="-1" data-modal-parent="#productModal">
+        <div class="modal modal-child" id="computePriceModal" role="dialog" aria-labelledby="computePriceModalLabel" aria-hidden="true" data-backdrop-limit="1" tabindex="-1" data-modal-parent="#itemModal">
             <div class="modal-dialog modal-dialog-centered" style="width:auto;max-width:800px;">
                 <div class="modal-content">
                     <div class="modal-header bg-success">
@@ -777,16 +777,16 @@ require_once("../../assets/php/common.php");
             }
 
             const setProductName = () => {
-                if ($("#productModal #groupName").val() && $("#productModal #typeName").val()) {
-                    $("#productModal #productName").val($("#productModal #typeName").val() + " " + $("#productModal #groupName").val());
-                } else if ($("#productModal #groupName").val()) {
-                    $("#productModal #productName").val($("#productModal #groupName").val());
-                } else if ($("#productModal #typeName").val()) {
-                    $("#productModal #productName").val($("#productModal #typeName").val());
+                if ($("#itemModal #itemGroupName").val() && $("#itemModal #itemTypeName").val()) {
+                    $("#itemModal #itemName").val($("#itemModal #itemTypeName").val() + " " + $("#itemModal #itemGroupName").val());
+                } else if ($("#itemModal #itemGroupName").val()) {
+                    $("#itemModal #itemName").val($("#itemModal #itemGroupName").val());
+                } else if ($("#itemModal #itemTypeName").val()) {
+                    $("#itemModal #itemName").val($("#itemModal #itemTypeName").val());
                 } else {
-                    //$("#productModal #productName").val($("#productModal #typeName").val());
+                    //$("#itemModal #productName").val($("#itemModal #typeName").val());
                 }
-                //$("#productModal #productName").val($("#productModal #groupName").val() + $("#productModal #typeName").val())
+                //$("#itemModal #productName").val($("#itemModal #groupName").val() + $("#itemModal #typeName").val())
             };
 
             function modalHide(modal) {
@@ -893,8 +893,8 @@ require_once("../../assets/php/common.php");
 
             function saveItem() {
                 const thisfrm = document.getElementById('itemForm');
-                const itemId_org = editId || thisfrm.elements.namedItem('itemId_org').value.trim();
-                const itemId = editId || thisfrm.elements.namedItem('itemId').value.trim();
+                const itemId_org = thisfrm.elements.namedItem('itemId_org').value.trim();
+                const itemId = thisfrm.elements.namedItem('itemId').value.trim();
                 const itemName = thisfrm.elements.namedItem('itemName').value.trim();
                 const itemGroupName = thisfrm.elements.namedItem('itemGroupName').value.trim();
                 const itemTypeName = thisfrm.elements.namedItem('itemTypeName').value.trim();
@@ -917,6 +917,7 @@ require_once("../../assets/php/common.php");
                 //     alert('กรุณากรอกข้อมูลให้ครบถ้วน');
                 //     return;
                 // }
+
                 let statusValidate = validateInputForm.validate();
 
                 if (!statusValidate.status) {
@@ -939,7 +940,7 @@ require_once("../../assets/php/common.php");
                     "priceFront": itemPriceFront,
                     "priceBack": itemPriceBack,
                     "priceShop": itemPriceShop,
-                    "localtion": itemLocation,
+                    "location": itemLocation,
                     "updatedAt": updatedAt,
                 };
 

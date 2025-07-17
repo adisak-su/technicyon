@@ -203,8 +203,11 @@ require_once("../../service/configData.php");
                                         <input
                                             type="hidden"
                                             class="form-control"
-                                            id="itemId"
-                                            placeholder="รหัส..." />
+                                            id="itemId"/>
+                                        <input
+                                            type="hidden"
+                                            class="form-control"
+                                            id="itemName_org"/>
                                         <label for="itemName" class="form-label">สีรถยนต์</label>
                                         <div class="input-icon-wrapper">
                                             <i class="fa fa-keyboard input-icon"></i>
@@ -292,6 +295,7 @@ require_once("../../service/configData.php");
                 editId = id;
                 const thisfrm = document.getElementById('itemForm');
                 thisfrm.elements.namedItem("itemId").value = id;
+                thisfrm.elements.namedItem("itemName_org").value = m.colorname;
                 thisfrm.elements.namedItem("itemName").value = m.colorname;
 
                 $('#itemModal #itemModalLabel').text('แก้ไขรายการ');
@@ -304,7 +308,8 @@ require_once("../../service/configData.php");
 
         function saveItem() {
             const thisfrm = document.getElementById('itemForm');
-            const itemId = editId || thisfrm.elements.namedItem('itemId').value.trim();
+            const itemId = thisfrm.elements.namedItem('itemId').value.trim();
+            const itemName_org = thisfrm.elements.namedItem('itemName_org').value.trim();
             const itemName = thisfrm.elements.namedItem('itemName').value.trim();
             const updatedAt = getDateTimeNow();
 
@@ -323,6 +328,7 @@ require_once("../../service/configData.php");
             };
             let dataSend = {
                 "itemId": 0,
+                "itemName_org": itemName_org,
                 "itemName": itemName,
                 "itemUpdatedAt": updatedAt,
             }
@@ -339,12 +345,6 @@ require_once("../../service/configData.php");
                         $('#itemModal').modal("hide");
                         toastr.success(resp.message);
                         confirmSave(item);
-                        // const index = colorNames.findIndex(m => m.colorId == editId);
-                        // if (index !== -1) {
-                        //     colorNames[index] = item;
-                        // }
-                        // updateDataToDB(STORE, item);
-                        // renderTable();
                     } else {
                         sweetAlertError('เกิดข้อผิดพลาด : ' + resp.message, 3000);
                     }
@@ -361,11 +361,6 @@ require_once("../../service/configData.php");
                     data: dataSend
                 }).done(function(resp) {
                     if (resp.status) {
-                        // const insertedId = resp.insertedId;
-                        // item.colorId = parseInt(insertedId);
-                        // updateDataToDB(STORE, item);
-                        // colorNames.push(item);
-                        // renderTable();
                         toastr.success(resp.message);
                         const insertedId = resp.insertedId;
                         item.colorId = insertedId;

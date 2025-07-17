@@ -20,7 +20,7 @@ try {
 		$stmt->execute($params);
 		$rowEffect = $stmt->rowCount();
 
-		$DB->updateDataChange("typenames", $itemId, "UPDATE", "typeId");
+		$DB->updateDataChange("typenames", $itemId, "UPDATE", "typeId", $itemId);
 
 		if ($rowEffect) {
 			$response = [

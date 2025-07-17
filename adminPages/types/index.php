@@ -511,7 +511,7 @@ require_once("../../service/configData.php");
             let dataSource = await updateSyncData({dataName:"typenames"});
             if(dataSource) {
                 typeNames = dataSource;
-                createFilterDataAndRender();1
+                createFilterDataAndRender();
             }
         }
 

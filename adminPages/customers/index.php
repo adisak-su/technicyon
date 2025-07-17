@@ -589,7 +589,7 @@ require_once("../../service/configData.php");
             let dataSource = await updateSyncData({dataName:"customers"});
             if(dataSource) {
                 customers = dataSource;
-                createFilterDataAndRender();1
+                createFilterDataAndRender();
             }
         }
 

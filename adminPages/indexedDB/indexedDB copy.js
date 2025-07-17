@@ -182,46 +182,12 @@ const deleteDataFrom = (params, key) => {
     });
 };
 
-const updateCursorDB = (params, value, key) => {
-    return new Promise((resolve, reject) => {
-        if (["groupnames", "typenames", "colornames"].includes(params)) {
-            key = key * 1;
-        }
-        const transaction = db.transaction([params], "readwrite");
-        const objectStore = transaction.objectStore(params);
-
-        var cursorRequest = objectStore.openCursor(key); //Correctly define result as request
-
-        cursorRequest.onsuccess = function (e) {
-            //Correctly set onsuccess for request
-            var objCursor = cursorRequest.result; //Get cursor from request
-            var obj = objCursor.value; //Get value from existing cursor ref
-            console.log(obj);
-            var request = objCursor.update(value);
-            request.onsuccess = () => {
-                resolve(true);
-            };
-
-            request.onerror = (event) => {
-                console.error("Error delete key:", event.target.error);
-                reject(event.target.error);
-            };
-        };
-        cursorRequest.onerror = (event) => {
-            //Correctly set onerror for request
-            console.log("DBM.activitati.edit -> error " + event); //Use "console" to log :)
-            reject(event.target.error);
-        };
-    });
-};
-
 async function loadDataFromDB(store) {
     try {
         const results = await getDataFromDB(store);
         return results;
     } catch (error) {
         console.error("Error loading products:", error);
-        throw new Error(error);
     }
 }
 
@@ -231,60 +197,15 @@ async function loadDataFromDBByKey(store, key) {
         return results;
     } catch (error) {
         console.error("Error loading products:", error);
-        throw new Error(error);
     }
 }
 
-async function createDataToDB(store, data) {
+async function updateDataToDB(store, data) {
     try {
         const results = await putDataToDB(store, data);
         return results;
     } catch (error) {
         console.error("Error put data:", error);
-        throw new Error(error);
-    }
-}
-
-async function updateDataToDB(store, data, key=null) {
-    try {
-        if(key) {
-            await deleteDataFromDB(store, key);
-        }
-        const results = await putDataToDB(store, data);
-        // const results = await updateCursorDB(store, data, key);
-        return results;
-    } catch (error) {
-        console.error("Error put data:", error);
-        throw new Error(error);
-    }
-}
-
-async function _updateDataToDB(store, data, key) {
-    try {
-        var cursorRequest = objectStore.openCursor(keyRange); //Correctly define result as request
-
-        cursorRequest.onsuccess = function (e) {
-            //Correctly set onsuccess for request
-            var objCursor = cursorRequest.result; //Get cursor from request
-            var obj = objCursor.value; //Get value from existing cursor ref
-            console.log(obj);
-            var request = objCursor.update(obj);
-            request.onsuccess = function () {
-                callback();
-            };
-            request.onerror = function (e) {
-                console.log("DBM.activitati.edit -> error " + e); //Use "console" to log :)
-                throw new Error(error);
-            };
-        };
-        cursorRequest.onerror = function (e) {
-            //Correctly set onerror for request
-            console.log("DBM.activitati.edit -> error " + e); //Use "console" to log :)
-            throw new Error(error);
-        };
-    } catch (error) {
-        console.error("Error put data:", error);
-        throw new Error(error);
     }
 }
 
@@ -294,9 +215,40 @@ async function deleteDataFromDB(store, key) {
         return results;
     } catch (error) {
         console.error("Error delete key:", error);
-        throw new Error(error);
     }
 }
+
+/*
+function getData() {
+  // open a read/write db transaction, ready for retrieving the data
+  const transaction = db.transaction(["toDoList"], "readwrite");
+
+  // report on the success of the transaction completing, when everything is done
+  transaction.oncomplete = (event) => {
+    note.appendChild(document.createElement("li")).textContent =
+      "Transaction completed.";
+  };
+
+  transaction.onerror = (event) => {
+    note.appendChild(document.createElement("li")).textContent =
+      `Transaction not opened due to error: ${transaction.error}`;
+  };
+
+  // create an object store on the transaction
+  const objectStore = transaction.objectStore("toDoList");
+
+  // Make a request to get a record by key from the object store
+  const objectStoreRequest = objectStore.get("Walk dog");
+
+  objectStoreRequest.onsuccess = (event) => {
+    // report the success of our request
+    note.appendChild(document.createElement("li")).textContent =
+      "Request successful.";
+
+    const myRecord = objectStoreRequest.result;
+  };
+}
+*/
 
 async function deleteIndexedDB() {
     // const dbName = 'myDatabase';
@@ -315,7 +267,6 @@ async function deleteIndexedDB() {
     request.onerror = function (event) {
         console.error("Error deleting database:", event.target.error);
         alert("Error deleting database:", event.target.error);
-        throw new Error(error);
     };
 
     request.onblocked = function () {
@@ -373,11 +324,8 @@ async function syncOnLoad() {
             const store = item.table;
             switch (item.type) {
                 case "CREATE":
-                    await createDataToDB(store, item.data);
-                    break;
-
                 case "UPDATE":
-                    await updateDataToDB(store, item.data, item.id);
+                    await updateDataToDB(store, item.data);
                     break;
 
                 case "DELETE":
@@ -394,25 +342,14 @@ async function syncOnLoad() {
         //     .substr(0, 19);
         let newSyncTime = getDateTimeNow();
 
-        // for (i = 0; i < changes.length; i++) {
-        //     item = changes[i];
-        //     let store = item.table;
-        //     updateDataToDB("meta", {
-        //         tableName: store,
-        //         lastSyncTime: newSyncTime,
-        //     });
-        // }
-
-        tableNames.forEach((item) => {
-            putDataToDB("meta", {
-                tableName: item,
+        for (i = 0; i < changes.length; i++) {
+            item = changes[i];
+            let store = item.table;
+            updateDataToDB("meta", {
+                tableName: store,
                 lastSyncTime: newSyncTime,
             });
-            // updateDataToDB("meta", {
-            //     tableName: item,
-            //     lastSyncTime: newSyncTime,
-            // });
-        })
+        }
 
         // updateDataToDB("meta", {
         //     tableName: "suppliers",
@@ -424,6 +361,53 @@ async function syncOnLoad() {
         throw new Error(error);
         // throw new Error("Parameter is not a number!");
     }
+}
+
+async function _loadAndSetDataFromDB({ dataSource, inputId, suggestionsId }) {
+    let dataStore = await loadDataFromDB(dataSource);
+    // groupNames = dataStore;
+    setupAutocompleteOnFocus({
+        inputId: inputId,
+        suggestionsId: suggestionsId, //"groupNameSuggestions",
+        dataList: dataStore,
+        codeId: "groupname",
+        arrayShowValue: ["groupname"],
+        arrayFindValue: ["groupname"],
+        // callbackFunction: changeFilter,
+        //sortField: "groupname"
+    });
+    return dataStore;
+}
+
+async function _loadAndSetDataFromDB({ dataSource, inputId, suggestionsId }) {
+    let dataStore = await loadDataFromDB(dataSource);
+    // groupNames = dataStore;
+    setupAutocompleteOnFocus({
+        inputId: inputId,
+        suggestionsId: suggestionsId, //"groupNameSuggestions",
+        dataList: dataStore,
+        codeId: "groupname",
+        arrayShowValue: ["groupname"],
+        arrayFindValue: ["groupname"],
+        // callbackFunction: changeFilter,
+        //sortField: "groupname"
+    });
+    return dataStore;
+}
+
+async function _loadAndSetDataColor(inputId, suggestionsId) {
+    let dataStore = await getColor();
+    setupAutocompleteOnFocus({
+        inputId: inputId,
+        suggestionsId: suggestionsId, //"colorSuggestions",
+        dataList: dataStore,
+        codeId: "colorname",
+        arrayShowValue: ["colorname"],
+        arrayFindValue: ["colorname"],
+        // callbackFunction: changeFilter,
+        //sortField: "groupname"
+    });
+    return dataStore;
 }
 
 async function updateSyncData({ dataName }) {

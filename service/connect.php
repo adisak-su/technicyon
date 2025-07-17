@@ -308,7 +308,7 @@ class Database
 		exit;
 	}
 
-	function updateDataChange($table_name, $record_id, $action, $keyId)
+	function updateDataChange($table_name, $record_id, $action, $keyId=null, $record_id_new=null)
 	{
 		/*
 	CREATE TABLE data_changes (
@@ -323,12 +323,21 @@ class Database
 	);
 */
 		try {
-
-			$tableName = substr($table_name, 0 ,strlen($table_name)-1);
-			$sql = "SELECT * FROM $tableName WHERE $keyId = '$record_id'";
-			$stmt = $this->conn->prepare($sql);
-			$stmt->execute();
-			$result = $stmt->fetch(PDO::FETCH_ASSOC);
+			$result = [];
+			if($action == "CREATE") {
+				$tableName = substr($table_name, 0 ,strlen($table_name)-1);
+				$sql = "SELECT * FROM $tableName WHERE $keyId = '$record_id'";
+				$stmt = $this->conn->prepare($sql);
+				$stmt->execute();
+				$result = $stmt->fetch(PDO::FETCH_ASSOC);
+			}
+			else if($action == "UPDATE") {
+				$tableName = substr($table_name, 0 ,strlen($table_name)-1);
+				$sql = "SELECT * FROM $tableName WHERE $keyId = '$record_id_new'";
+				$stmt = $this->conn->prepare($sql);
+				$stmt->execute();
+				$result = $stmt->fetch(PDO::FETCH_ASSOC);
+			}
 
 			$params = [
 				"table_name" => $table_name,
@@ -337,7 +346,6 @@ class Database
 				"data_after" => json_encode($result),
 			];
 			$sql = "INSERT INTO data_changes(table_name,record_id,action,data_after) VALUE(:table_name,:record_id,:action,:data_after)";
-			// $stmt = $conn->prepare($sql);
 			$stmt = $this->conn->prepare($sql);
 			$stmt->execute($params);
 		} catch (Exception $ex) {

@@ -57,199 +57,203 @@ require_once("../../service/configData.php");
                 <div class="container-fluid">
                     <div class="card pt-0 pb-0">
                         <div class="card-body" style="font-size: 1rem;" id="itemModal">
-                            <div class="row d-flex justify-content-around">
-                                <button id="resetProductSale" class="btn btn-secondary boxx w-25" style="max-width:200px;" onclick="resetValueSale();"><i class="fa fa-trash"></i> ล้างหน้าจอ</button>
-                                <button id="saveProductSale" class="btn btn-primary boxx w-25" style="max-width:200px;" onclick="saveProductSale();"><i class="fa fa-save"></i> บันทึกการซ่อม</button>
-                                <button id="printProductSale" class="btn btn-primary boxx w-25" style="max-width:200px;" onclick="window.location.href='print-repair.php';"><i class="fa fa-print"></i> Print</button>
-                            </div>
-
-                            <div class="row align-items-end">
-                                <div class="col-12 col-md-6 col-lg-3 col-xl-2 form-group position-relative">
-                                    <input type="hidden" id="orderCode">
-                                    <label for="orderInput">เลขบิล</label>
-                                    <div class="d-flex flex-row justify-content-between">
-                                        <div class="input-icon-wrapper" style="width: calc(100% - 50px);">
-                                            <i class="fa fa-keyboard input-icon" aria-hidden="true"></i>
-                                            <input type="text" class="form-control" id="orderInput" value="" placeholder="เลขบิล..." value="" onkeydown="checkEnter(event,this.value);" autocomplete="off" />
-                                            <div id="orderSuggestions" class="suggestions"></div>
+                            <div class="row">
+                                <div class="col-12 col-lg-2 rounded bg-white p-4 order-1 order-lg-2">
+                                    <div class="row form-group position-relative d-flex justify-content-between">
+                                        <button id="resetProductSale" class="btn btn-secondary boxx" style="max-width:200px;" onclick="resetValueSale();"><i class="fa fa-trash"></i> ล้างหน้าจอ</button>
+                                        <button id="saveProductSale" class="btn btn-primary boxx" style="max-width:200px;" onclick="saveProductSale();"><i class="fa fa-save"></i> บันทึกการซ่อม</button>
+                                    </div>
+                                    <div class="row form-group position-relative d-flex justify-content-between">
+                                        <div class="">
+                                            <label for="vatSale" class="col-form-label" style="padding:0px 0px;">ภาษี</label>
+                                            <div class="input-icon-wrapper">
+                                                <input class="toggle-event" id="vatSale" data-id="" type="checkbox" name="vatSale" data-toggle="toggle" data-off="ไม่มี Vat" data-on="&nbsp;&nbsp; มี Vat &nbsp;&nbsp;" data-onstyle="warning" data-offstyle="secondary" data-style="ios">
+                                            </div>
                                         </div>
-                                        <button id="btnViewOrder" class="btn btn-primary boxx" style="width: 40px;" data-toggle="modal" data-target="#viewOrderModal"><i class="fa fa-search"></i></button>
-                                    </div>
-                                </div>
-
-                                <div class="col-12 col-md-6 col-lg-2 col-xl-2 form-group position-relative">
-                                    <label for="customerInput" class="form-label">ทะเบียนรถ</label>
-                                    <div class="input-icon-wrapper">
-                                        <i class="fa fa-keyboard input-icon" aria-hidden="true"></i>
-                                        <input type="text" id="customerInput" class="form-control" value="" placeholder="" value="" onkeydown="checkEnter(event,this.value);" autocomplete="off" />
-                                    </div>
-                                    <div id="customerSuggestions" class="suggestions"></div>
-                                    <input type="hidden" id="customerCode">
-                                </div>
-                                <div class="col-12 col-md-8 col-lg-4 col-xl-4 form-group position-relative">
-                                    <label for="customerName">ชื่อเจ้าของ</label>
-                                    <div class="input-icon-wrapper">
-                                        <i class="fa fa-keyboard input-icon" aria-hidden="true"></i>
-                                        <input type="text" id="customerName" class="form-control" value="" placeholder="" autocomplete="off">
-                                    </div>
-                                    <input type="hidden" id="customerAddress" class="form-control" value="" placeholder="" autocomplete="off">
-                                    <input type="hidden" id="customerTelephone" class="form-control" value="" placeholder="" autocomplete="off">
-                                </div>
-                                <div class="col-12 col-md-4 col-lg-3 col-xl-2 form-group position-relative">
-                                    <label for="orderDate" class="d-block">วันที่</label>
-                                    <div class="d-flex justify-content-start" style="gap: 10px;">
-                                        <div class="input-icon-wrapper-after" style="width:180px; min-width:180px;">
-                                            <div class="input-icon">📅</div>
-                                            <input type="text" id="orderDate" class="form-control" style="cursor:pointer;" value="" placeholder="" readonly autocomplete="off">
+                                        <div class="">
+                                            <label for="typeSale" class="col-form-label" style="padding:0px 0px;">ประเภทการชำระ</label>
+                                            <div>
+                                                <input class="toggle-event" id="typeSale" data-id="" type="checkbox" name="typeSale" checked data-toggle="toggle" data-off="ค้างชำระ" data-on="ชำระเงินสด" data-onstyle="success" data-offstyle="secondary" data-style="ios">
+                                            </div>
                                         </div>
-                                        <!-- <button type="button" class="btn btn-outline-danger" id="reset-btn"><i class="fa fa-clock"></i></button> -->
-                                        <button id="reset-btn" class="btn btn-primary boxx" style="width: 40px;"><i class="fa fa-clock"></i></button>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="row align-items-end">
-                                <div class="col-12 col-md-6 col-lg-4 col-xl-3 form-group position-relative">
-                                    <label for="customerMile">เลขไมล์</label>
-                                    <div class="input-icon-wrapper">
-                                        <i class="fa fa-keyboard input-icon" aria-hidden="true"></i>
-                                        <input type="text" id="customerMile" class="form-control" value="" placeholder="" autocomplete="off">
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-6 col-lg-4 col-xl-3 form-group position-relative">
-                                    <label for="customerYear">ปี</label>
-                                    <div class="input-icon-wrapper">
-                                        <i class="fa fa-keyboard input-icon" aria-hidden="true"></i>
-                                        <input type="text" id="customerYear" class="form-control" value="" placeholder="" autocomplete="off">
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-12 col-lg-4 col-xl-6 form-group position-relative">
-                                    <label for="customerVehicleId">หมายเลขเครื่อง</label>
-                                    <div class="input-icon-wrapper">
-                                        <i class="fa fa-keyboard input-icon" aria-hidden="true"></i>
-                                        <input type="text" id="customerVehicleId" class="form-control" value="" placeholder="" autocomplete="off">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row align-items-end">
-                                <div class="col-12 col-md-5 col-lg-2 col-xl-2 form-group position-relative">
-                                    <!-- ค้นหาสินค้า -->
-                                    <input type="hidden" id="productCode">
-                                    <label for="productInput">รหัสสินค้า</label>
-                                    <div class="d-flex flex-row justify-content-between">
-                                        <div class="input-icon-wrapper" style="width: calc(100% - 50px);">
-                                            <i class="fa fa-keyboard input-icon" aria-hidden="true"></i>
-                                            <input type="text" class="form-control" id="productInput" value="" placeholder="รหัส/ชื่อสินค้า..." value="" onkeydown="checkEnter(event,this.value);" autocomplete="off" />
-                                            <div id="productSuggestions" class="suggestions"></div>
+                                    <div class="row">
+                                        <div class="col-12 form-group d-flex justify-content-between">
+                                            <label for="partsTotal" class="">ค่าอะไหล่รวม</label>
+                                            <div class="font-weight-bold text-right"
+                                                id="partsTotal">
+                                                0.00
+                                            </div>
                                         </div>
-                                        <button id="btnViewProduct" class="btn btn-primary boxx" style="width: 40px;" data-toggle="modal" data-target="#viewProductModal"><i class="fa fa-search"></i></button>
+                                        <div class="col-12 form-group d-flex justify-content-between">
+                                            <label for="vatValue" class="">ภาษี</label>
+                                            <div class="font-weight-bold text-right"
+                                                id="vatValue">
+                                                0.00
+                                            </div>
+                                        </div>
+                                        <div class="col-12 form-group d-flex justify-content-between">
+                                            <label for="orderTotal" class="">ยอดรวมสุทธิ</label>
+                                            <div class="font-weight-bold text-right"
+                                                id="orderTotal">
+                                                0.00
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-7 col-lg-4 col-xl-4 form-group position-relative">
-                                    <label for="productName">สินค้า</label>
-                                    <div class="input-icon-wrapper">
-                                        <i class="fa fa-keyboard input-icon" aria-hidden="true"></i>
-                                        <input type="text" id="productName" class="form-control" value="" placeholder="" autocomplete="off">
+                                <div class="col-12 col-lg-10 p-4 order-2 order-lg-1">
+                                    <div class="row align-items-end">
+                                        <div class="col-12 col-md-6 col-lg-3 col-xl-2 form-group position-relative">
+                                            <input type="hidden" id="orderCode">
+                                            <label for="orderInput">เลขบิล</label>
+                                            <div class="d-flex flex-row justify-content-between">
+                                                <div class="input-icon-wrapper" style="width: calc(100% - 50px);">
+                                                    <i class="fa fa-keyboard input-icon" aria-hidden="true"></i>
+                                                    <input type="text" class="form-control" id="orderInput" value="" placeholder="เลขบิล..." value="" onkeydown="checkEnter(event,this.value);" autocomplete="off" />
+                                                    <div id="orderSuggestions" class="suggestions"></div>
+                                                </div>
+                                                <button id="btnViewOrder" class="btn btn-primary boxx" style="width: 40px;" data-toggle="modal" data-target="#viewOrderModal"><i class="fa fa-search"></i></button>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12 col-md-6 col-lg-2 col-xl-2 form-group position-relative">
+                                            <label for="customerInput" class="form-label">ทะเบียนรถ</label>
+                                            <div class="input-icon-wrapper">
+                                                <i class="fa fa-keyboard input-icon" aria-hidden="true"></i>
+                                                <input type="text" id="customerInput" class="form-control" value="" placeholder="" value="" onkeydown="checkEnter(event,this.value);" autocomplete="off" />
+                                            </div>
+                                            <div id="customerSuggestions" class="suggestions"></div>
+                                            <input type="hidden" id="customerCode">
+                                        </div>
+                                        <div class="col-12 col-md-8 col-lg-4 col-xl-4 form-group position-relative">
+                                            <label for="customerName">ชื่อเจ้าของ</label>
+                                            <div class="input-icon-wrapper">
+                                                <i class="fa fa-keyboard input-icon" aria-hidden="true"></i>
+                                                <input type="text" id="customerName" class="form-control" value="" placeholder="" autocomplete="off">
+                                            </div>
+                                            <input type="hidden" id="customerAddress" class="form-control" value="" placeholder="" autocomplete="off">
+                                            <input type="hidden" id="customerTelephone" class="form-control" value="" placeholder="" autocomplete="off">
+                                        </div>
+                                        <div class="col-12 col-md-4 col-lg-3 col-xl-2 form-group position-relative">
+                                            <label for="orderDate" class="d-block">วันที่</label>
+                                            <div class="d-flex justify-content-start" style="gap: 10px;">
+                                                <div class="input-icon-wrapper-after" style="width:180px; min-width:180px;">
+                                                    <div class="input-icon">📅</div>
+                                                    <input type="text" id="orderDate" class="form-control" style="cursor:pointer;" value="" placeholder="" readonly autocomplete="off">
+                                                </div>
+                                                <!-- <button type="button" class="btn btn-outline-danger" id="reset-btn"><i class="fa fa-clock"></i></button> -->
+                                                <button id="reset-btn" class="btn btn-primary boxx" style="width: 40px;"><i class="fa fa-clock"></i></button>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-6 col-md-2 col-lg-1 col-xl-1 form-group position-relative">
-                                    <label for="productQty" class="w-100 text-center">จำนวน</label>
-                                    <div class="input-wrapper">
-                                        <!-- <i class="fa fa-keyboard input-icon" aria-hidden="true"></i> -->
-                                        <input type="number" id="productQty" class="form-control text-center" value="1" placeholder="0" autocomplete="off" onkeypress="return isNumber(event);" onkeyup="computePrice();" onchange="computePrice();">
+                                    <div class="row align-items-end">
+                                        <div class="col-12 col-md-6 col-lg-4 col-xl-3 form-group position-relative">
+                                            <label for="customerMile">เลขไมล์</label>
+                                            <div class="input-icon-wrapper">
+                                                <i class="fa fa-keyboard input-icon" aria-hidden="true"></i>
+                                                <input type="text" id="customerMile" class="form-control" value="" placeholder="" autocomplete="off">
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-6 col-lg-4 col-xl-3 form-group position-relative">
+                                            <label for="customerYear">ปี</label>
+                                            <div class="input-icon-wrapper">
+                                                <i class="fa fa-keyboard input-icon" aria-hidden="true"></i>
+                                                <input type="text" id="customerYear" class="form-control" value="" placeholder="" autocomplete="off">
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-12 col-lg-4 col-xl-6 form-group position-relative">
+                                            <label for="customerVehicleId">หมายเลขเครื่อง</label>
+                                            <div class="input-icon-wrapper">
+                                                <i class="fa fa-keyboard input-icon" aria-hidden="true"></i>
+                                                <input type="text" id="customerVehicleId" class="form-control" value="" placeholder="" autocomplete="off">
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-6 col-md-2 col-lg-1 col-xl-1 form-group position-relative">
-                                    <label for="productPrice" class="w-100 text-center">ราคา/หน่วย</label>
-                                    <div class="input-wrapper">
-                                        <!-- <i class="fa fa-keyboard input-icon" aria-hidden="true"></i> -->
-                                        <input type="number" id="productPrice" class="form-control text-center" value="0" placeholder="0" autocomplete="off" onkeypress="return isNumber(event);" onkeyup="computePrice();" onchange="computePrice();">
+
+                                    <div class="row align-items-end">
+                                        <div class="col-12 col-md-5 col-lg-2 col-xl-2 form-group position-relative">
+                                            <!-- ค้นหาสินค้า -->
+                                            <input type="hidden" id="productCode">
+                                            <label for="productInput">รหัสสินค้า</label>
+                                            <div class="d-flex flex-row justify-content-between">
+                                                <div class="input-icon-wrapper" style="width: calc(100% - 50px);">
+                                                    <i class="fa fa-keyboard input-icon" aria-hidden="true"></i>
+                                                    <input type="text" class="form-control" id="productInput" value="" placeholder="รหัส/ชื่อสินค้า..." value="" onkeydown="checkEnter(event,this.value);" autocomplete="off" />
+                                                    <div id="productSuggestions" class="suggestions"></div>
+                                                </div>
+                                                <button id="btnViewProduct" class="btn btn-primary boxx" style="width: 40px;" data-toggle="modal" data-target="#viewProductModal"><i class="fa fa-search"></i></button>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-7 col-lg-4 col-xl-4 form-group position-relative">
+                                            <label for="productName">สินค้า</label>
+                                            <div class="input-icon-wrapper">
+                                                <i class="fa fa-keyboard input-icon" aria-hidden="true"></i>
+                                                <input type="text" id="productName" class="form-control" value="" placeholder="" autocomplete="off">
+                                            </div>
+                                        </div>
+                                        <div class="col-6 col-md-2 col-lg-1 col-xl-1 form-group position-relative">
+                                            <label for="productQty" class="w-100 text-center">จำนวน</label>
+                                            <div class="input-wrapper">
+                                                <!-- <i class="fa fa-keyboard input-icon" aria-hidden="true"></i> -->
+                                                <input type="number" id="productQty" class="form-control text-center" value="1" placeholder="0" autocomplete="off" onkeypress="return isNumber(event);" onkeyup="computePrice();" onchange="computePrice();">
+                                            </div>
+                                        </div>
+                                        <div class="col-6 col-md-2 col-lg-1 col-xl-1 form-group position-relative">
+                                            <label for="productPrice" class="w-100 text-center">ราคา/หน่วย</label>
+                                            <div class="input-wrapper">
+                                                <!-- <i class="fa fa-keyboard input-icon" aria-hidden="true"></i> -->
+                                                <input type="number" id="productPrice" class="form-control text-center" value="0" placeholder="0" autocomplete="off" onkeypress="return isNumber(event);" onkeyup="computePrice();" onchange="computePrice();">
+                                            </div>
+                                        </div>
+                                        <div class="col-6 col-md-2 col-lg-1 col-xl-1 form-group position-relative">
+                                            <label for="productTotal" class="w-100 text-center">ราคา</label>
+                                            <div class="input-wrapper">
+                                                <!-- <i class="fa fa-keyboard input-icon" aria-hidden="true"></i> -->
+                                                <input type="text" readonly id="productTotal" class="form-control text-center" style="background-color: #fff;" value="0" placeholder="0">
+                                            </div>
+                                        </div>
+                                        <div class="col-6 col-md-2 col-lg-1 col-xl-1 form-group position-relative">
+                                            <label for="productInv" class="w-100 text-center">ราคาทุน</label>
+                                            <div class="input-wrapper">
+                                                <!-- <i class="fa fa-keyboard input-icon" aria-hidden="true"></i> -->
+                                                <input type="text" readonly id="productInv" class="form-control text-center" style="background-color: #fff;" value="" placeholder="0" autocomplete="off">
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-4 col-lg-2 col-xl-2 form-group position-relative">
+                                            <!-- ค้นหาสินค้า -->
+                                            <button id="saveItemBtn" class="btn btn-success btn-block boxx"><i class="fa fa-plus"></i> เพิ่มรายการ</button>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-6 col-md-2 col-lg-1 col-xl-1 form-group position-relative">
-                                    <label for="productTotal" class="w-100 text-center">ราคา</label>
-                                    <div class="input-wrapper">
-                                        <!-- <i class="fa fa-keyboard input-icon" aria-hidden="true"></i> -->
-                                        <input type="text" readonly id="productTotal" class="form-control text-center" style="background-color: #fff;" value="0" placeholder="0">
+                                    <!-- Repair Items -->
+                                    <div class="form-group row">
+                                        <label>รายการอะไหล่</label>
+                                        <div class="table-responsive">
+                                            <table
+                                                class="table table-bordered"
+                                                id="repairItemsTable">
+                                                <thead class="thead-light">
+                                                    <tr>
+                                                        <th width="40%">ชื่ออะไหล่</th>
+                                                        <th width="15%" class="text-center">จำนวน</th>
+                                                        <th width="20%" class="text-center">ราคาต่อหน่วย</th>
+                                                        <th width="20%" class="text-right">รวม</th>
+                                                        <th width="5%"></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="orderItemsBody">
+                                                    <!-- Repair items will be added here -->
+                                                </tbody>
+                                                <tfoot>
+                                                    <tr>
+                                                        <td colspan="5">
+                                                        </td>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-6 col-md-2 col-lg-1 col-xl-1 form-group position-relative">
-                                    <label for="productInv" class="w-100 text-center">ราคาทุน</label>
-                                    <div class="input-wrapper">
-                                        <!-- <i class="fa fa-keyboard input-icon" aria-hidden="true"></i> -->
-                                        <input type="text" readonly id="productInv" class="form-control text-center" style="background-color: #fff;" value="" placeholder="0" autocomplete="off">
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-4 col-lg-2 col-xl-2 form-group position-relative">
-                                    <!-- ค้นหาสินค้า -->
-                                    <button id="saveItemBtn" class="btn btn-success btn-block boxx"><i class="fa fa-plus"></i> เพิ่มรายการ</button>
                                 </div>
                             </div>
-                            <!-- Repair Items -->
-                            <div class="form-group row">
-                                <label>รายการอะไหล่</label>
-                                <div class="table-responsive">
-                                    <table
-                                        class="table table-bordered"
-                                        id="repairItemsTable">
-                                        <thead class="thead-light">
-                                            <tr>
-                                                <th width="40%">ชื่ออะไหล่</th>
-                                                <th width="15%" class="text-center">จำนวน</th>
-                                                <th width="20%" class="text-center">ราคาต่อหน่วย</th>
-                                                <th width="20%" class="text-right">รวม</th>
-                                                <th width="5%"></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="orderItemsBody">
-                                            <!-- Repair items will be added here -->
-                                        </tbody>
-                                        <tfoot>
-                                            <tr>
-                                                <td colspan="5">
-                                                    <div class="row">
-                                                        <div class="col-6 col-md-3 form-group position-relative">
-                                                            <label for="vatSale" class="col-form-label" style="padding:0px 0px;">ภาษี</label>
-                                                            <div class="input-icon-wrapper">
-                                                                <input class="toggle-event" id="vatSale" data-id="" type="checkbox" name="vatSale" data-toggle="toggle" data-off="ไม่มี Vat" data-on="&nbsp;&nbsp; มี Vat &nbsp;&nbsp;" data-onstyle="warning" data-offstyle="secondary" data-style="ios">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-6 col-md-3 form-group position-relative">
-                                                            <label for="typeSale" class="col-form-label" style="padding:0px 0px;">ประเภทการชำระ</label>
-                                                            <div>
-                                                                <input class="toggle-event" id="typeSale" data-id="" type="checkbox" name="typeSale" checked data-toggle="toggle" data-off="ค้างชำระ" data-on="ชำระเงินสด" data-onstyle="success" data-offstyle="secondary" data-style="ios">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-6 col-md-2 form-group position-relative">
-                                                            <label for="vatValue" class="w-100 text-right">ภาษี</label>
-                                                            <div class="font-weight-bold text-right"
-                                                                id="vatValue">
-                                                                0.00
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-6 col-md-2 form-group position-relative">
-                                                            <label for="orderTotal" class="w-100 text-right">ยอดรวมสุทธิ</label>
-                                                            <div class="font-weight-bold text-right"
-                                                                id="orderTotal">
-                                                                0.00
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-6 col-md-2 form-group position-relative">
-                                                            <label for="partsTotal" class="w-100 text-right">ค่าอะไหล่รวม</label>
-                                                            <div class="font-weight-bold text-right"
-                                                                id="partsTotal">
-                                                                0.00
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </tfoot>
-                                    </table>
-                                </div>
-                            </div>
-                            <table id="dataTable" class="table table-bordered" width="100%">
-                            </table>
                         </div>
                     </div>
                 </div>
@@ -633,7 +637,6 @@ require_once("../../service/configData.php");
                         status: true,
                         data: data.message
                     };
-                    // sweetAlert(`Data fetching ${endpoint} : ${data.message}`, 0);
                 } else {
                     sweetAlertError(`Error fetching ${endpoint} : ${result.message}`);
                 }
@@ -641,12 +644,9 @@ require_once("../../service/configData.php");
                     status: false,
                     error: result.message
                 };
-                // return null;
             } catch (error) {
                 let msg = error.response.data.message ?? error.response.data;
                 sweetAlertError(`Error fetching ${endpoint}: ${msg}`, 0);
-                // sweetAlertError(`Error fetching ${endpoint}: ${error}`, 0);
-                // return null;
                 return {
                     status: false,
                     error: msg
@@ -668,8 +668,11 @@ require_once("../../service/configData.php");
                     carId: order.carId,
                     mydate: order.orderDate,
                     nettotal: order.total
-                })
+                });
             }
+            orders.sort(function(a, b) {
+                return b.mydate.localeCompare(a.mydate);
+            });
         }
 
 
@@ -812,6 +815,7 @@ require_once("../../service/configData.php");
                 setReadOnly
                 $("#saveProductSale").removeClass("btn-primary");
                 $("#saveProductSale").addClass("btn-warning");
+                $("#saveProductSale").addClass("text-white");
                 $("#saveProductSale").html('<i class="fa fa-save"></i> บันทึกการแก้ไข');
                 $("#orderInput").attr("readonly", true);
                 $("#customerInput").attr("readonly", true);
@@ -847,6 +851,15 @@ require_once("../../service/configData.php");
             $("#customerYear").val("");
             $("#customerVehicleId").val("");
 
+            if ($("#vatSale")[0].checked) {
+                $("#vatSale")[0].checked = false;
+                $("#vatSale")[0].click();
+            }
+
+            if (!$("#typeSale")[0].checked) {
+                $("#typeSale")[0].checked = true;
+                $("#typeSale")[0].click();
+            }
 
             // orderDateFlatpickr.setDate(new Date());
             let myDateNow = new Date().toLocaleDateString("en-GB") + " " + new Date().toLocaleTimeString("en-GB");
@@ -1033,18 +1046,15 @@ require_once("../../service/configData.php");
                 $("#customerVehicleId").val(customerName?.vehicleId ?? "");
             }
             editOrder = await getDataOrderApiAxios("getOrderAxios.php", orderId);
-
             console.log(editOrder)
             setReadOnly();
             if (editOrder.status) {
-                let data = editOrder.data;
-
-                let orderItems = data.details;
+                editOrder = editOrder.data;
+                let orderItems = editOrder.details;
                 if (orderItems) {
                     orderItems = JSON.parse(orderItems);
                 }
-                // alert(orserItems.length)
-                if (Number(data.vatvalue) == 0) {
+                if (Number(editOrder.vatvalue) == 0) {
                     if ($("#vatSale")[0].checked) {
                         $("#vatSale")[0].checked = false;
                         $("#vatSale")[0].click();
@@ -1057,7 +1067,8 @@ require_once("../../service/configData.php");
                 }
                 addProductItemFromJSON(orderItems)
             } else {
-                sweetAlertError('เกิดข้อผิดพลาดในการบันทึกข้อมูล !!!' + editOrder.error, 0);
+                sweetAlertError('เกิดข้อผิดพลาดในการอ่านข้อมูล !!!' + editOrder.error, 0);
+                editOrder = null;
             }
         }
 

@@ -33,7 +33,7 @@ try {
 		$stmt->execute($params);
 		$rowEffect = $stmt->rowCount();
 
-		$DB->updateDataChange("usercars",$itemId,"UPDATE","carId");
+		$DB->updateDataChange("usercars",$itemId,"UPDATE","carId", $itemId);
 		if ($rowEffect) {
 			$response = [
 				'status' => true,

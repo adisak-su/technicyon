@@ -33,7 +33,7 @@ try {
 			if ($result) {
 				$response = [
 					'status' => true,
-					'message' => $result
+					'message' => $result 
 				];
 			} else {
 				$response = [
