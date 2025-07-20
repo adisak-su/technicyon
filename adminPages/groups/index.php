@@ -114,7 +114,7 @@ require_once("../../service/configData.php");
                                             <label for="searchInput" class="form-label">ยี่ห้อ/รุ่นรถยนต์</label>
                                             <div class="input-icon-wrapper">
                                                 <i class="fa fa-keyboard input-icon" aria-hidden="true"></i>
-                                                <input type="text" class="form-control" id="searchInput" value="" placeholder="..." value="" autocomplete="off" />
+                                                <input type="text" class="form-control" id="searchInput" value="" placeholder="" value="" autocomplete="off" />
                                             </div>
                                         </div>
                                         <div class="col-12 col-md-4 col-lg-2 col-xl-2 form-group align-content-end">
@@ -217,7 +217,7 @@ require_once("../../service/configData.php");
                                                 id="itemName"
                                                 value=""
                                                 maxlength="50"
-                                                placeholder="..." />
+                                                placeholder="" />
                                         </div>
                                     </div>
                                 </div>
@@ -427,8 +427,8 @@ require_once("../../service/configData.php");
             renderTable();
         }
 
-        function createFilterDataAndRender() {
-            currentPage = 1;
+        function createFilterDataAndRender(page=1) {
+            currentPage = page;
             const searchText = document.getElementById('searchInput').value.trim().toLowerCase();
             filtered = groupNames;
 
@@ -499,13 +499,33 @@ require_once("../../service/configData.php");
             $('#searchInput').on('input', function() {
                 createFilterDataAndRender();
             });
-            // setInterval(syncDataRealtime,10000); // 10 วินาที
+            setInterval(syncDataRealtime,10000); // 10 วินาที
             // setInterval(function() {
             //     updateSyncData({dataSource:colorNames,dataName:"colornames"}); 
             // },5000); // 10 วินาที
         });
 
         async function syncDataRealtime() {
+            let tableNames = await updateSyncData();
+            if (tableNames) {
+                if (tableNames.find((item) => item == "groupnames")) {
+                    let dataSource = await loadDataFromDB("groupnames");
+                    groupNames = dataSource;
+                    createFilterDataAndRender(currentPage);
+                }
+                // if (tableNames.find((item) => item == "groupnames")) {
+                //     groupNames = await loadAndSetData("groupnames");
+                // }
+                // if (tableNames.find((item) => item == "typenames")) {
+                //     typeNames = await loadAndSetData("typenames");
+                // }
+                // if (tableNames.find((item) => item == "suppliers")) {
+                //     suppliers = await loadAndSetData("suppliers");
+                // }
+            }
+        }
+
+        async function _syncDataRealtime() {
             let dataSource = await updateSyncData({dataName:"groupnames"});
             if(dataSource) {
                 groupNames = dataSource;

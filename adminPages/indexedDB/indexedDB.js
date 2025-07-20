@@ -245,9 +245,9 @@ async function createDataToDB(store, data) {
     }
 }
 
-async function updateDataToDB(store, data, key=null) {
+async function updateDataToDB(store, data, key = null) {
     try {
-        if(key) {
+        if (key) {
             await deleteDataFromDB(store, key);
         }
         const results = await putDataToDB(store, data);
@@ -408,16 +408,8 @@ async function syncOnLoad() {
                 tableName: item,
                 lastSyncTime: newSyncTime,
             });
-            // updateDataToDB("meta", {
-            //     tableName: item,
-            //     lastSyncTime: newSyncTime,
-            // });
-        })
+        });
 
-        // updateDataToDB("meta", {
-        //     tableName: "suppliers",
-        //     lastSyncTime: newSyncTime,
-        // });
         return { status: true, tableNames: tableNames };
     } catch (error) {
         console.error("Sync failed:", error);
@@ -426,7 +418,14 @@ async function syncOnLoad() {
     }
 }
 
-async function updateSyncData({ dataName }) {
+async function updateSyncData() {
+    let statusChange = await syncOnLoad();
+    if (statusChange.status) {
+        return statusChange.tableNames;
+    }
+    return null;
+}
+async function _updateSyncData({ dataName }) {
     let statusChange = await syncOnLoad();
     if (statusChange.status) {
         if (statusChange.tableNames.find((item) => item == dataName)) {

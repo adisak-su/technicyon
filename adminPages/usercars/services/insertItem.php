@@ -33,7 +33,7 @@ try {
 		$stmt = $conn->prepare($sql);
 		$stmt->execute($params);
 
-		$DB->updateDataChange("usercars", $itemId, "CREATE", "carId");
+		// $DB->updateDataChange("usercars", $itemId, "CREATE", "carId");
 		$response = [
 			'status' => true,
 			'message' => 'เพิ่มข้อมูลเรียบร้อย'

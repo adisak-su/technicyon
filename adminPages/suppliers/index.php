@@ -120,7 +120,7 @@ require_once("../../service/configData.php");
                                             <label for="searchInput" class="form-label">รหัส/ชื่อ</label>
                                             <div class="input-icon-wrapper">
                                                 <i class="fa fa-keyboard input-icon" aria-hidden="true"></i>
-                                                <input type="text" class="form-control" id="searchInput" value="" placeholder="..." value="" autocomplete="off" />
+                                                <input type="text" class="form-control" id="searchInput" value="" placeholder="" value="" autocomplete="off" />
                                             </div>
                                         </div>
                                         <div class="col-12 col-md-4 col-lg-2 col-xl-2 form-group align-content-end">
@@ -244,7 +244,7 @@ require_once("../../service/configData.php");
                                                 id="itemName"
                                                 value=""
                                                 maxlength="50"
-                                                placeholder="..." />
+                                                placeholder="" />
                                         </div>
                                     </div>
                                     <div class="col-12 form-group position-relative mb-3">
@@ -257,7 +257,7 @@ require_once("../../service/configData.php");
                                                 id="itemAddress"
                                                 value=""
                                                 maxlength="100"
-                                                placeholder="..." />
+                                                placeholder="" />
                                         </div>
                                     </div>
                                     <div class="col-12 form-group position-relative mb-3">
@@ -270,7 +270,7 @@ require_once("../../service/configData.php");
                                                 id="itemTelephone"
                                                 value=""
                                                 maxlength="20"
-                                                placeholder="..." />
+                                                placeholder="" />
                                         </div>
                                     </div>
                                 </div>
@@ -534,8 +534,8 @@ require_once("../../service/configData.php");
             renderTable();
         }
 
-        function createFilterDataAndRender() {
-            currentPage = 1;
+        function createFilterDataAndRender(page = 1) {
+            currentPage = page;
             const searchText = document.getElementById('searchInput').value.trim().toLowerCase();
             filtered = suppliers;
 
@@ -611,17 +611,31 @@ require_once("../../service/configData.php");
             $('#searchInput').on('input', function() {
                 createFilterDataAndRender();
             });
-            // setInterval(syncDataRealtime,10000); // 10 วินาที
+            setInterval(syncDataRealtime,10000); // 10 วินาที
             // setInterval(function() {
             //     updateSyncData({dataSource:colorNames,dataName:"colornames"}); 
             // },5000); // 10 วินาที
         });
 
         async function syncDataRealtime() {
-            let dataSource = await updateSyncData({dataName:"suppliers"});
-            if(dataSource) {
+            let tableNames = await updateSyncData();
+            if (tableNames) {
+                if (tableNames.find((item) => item == "suppliers")) {
+                    let dataSource = await loadDataFromDB("suppliers");
+                    suppliers = dataSource;
+                    createFilterDataAndRender(currentPage);
+                }
+            }
+        }
+
+        async function syncDataRealtime() {
+            let dataSource = await updateSyncData({
+                dataName: "suppliers"
+            });
+            if (dataSource) {
                 suppliers = dataSource;
-                createFilterDataAndRender();1
+                createFilterDataAndRender();
+                1
             }
         }
     </script>

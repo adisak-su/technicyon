@@ -1,0 +1,139 @@
+/* Custom Styles */
+body {
+    background-color: #f8f9fa;
+}
+
+.card {
+    box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+}
+
+.card-header {
+    font-weight: 600;
+}
+
+.table th {
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.table td {
+    vertical-align: middle;
+}
+
+.nav-tabs .nav-link.disabled {
+    color: #6c757d;
+}
+
+#carTable {
+    font-size: 0.9rem;
+}
+
+#carTable th {
+    white-space: nowrap;
+}
+
+.action-buttons .btn {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8rem;
+    margin: 0 2px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .table-responsive {
+        font-size: 0.8rem;
+    }
+
+    .action-buttons .btn {
+        margin-bottom: 2px;
+    }
+
+    .form-inline {
+        margin-top: 10px;
+    }
+}
+
+/* Custom badge for repair count */
+.badge-repair {
+    font-size: 0.75em;
+    padding: 0.35em 0.65em;
+}
+
+/* Animation for loading */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.3s ease-in;
+}
+
+/* Repair Page Styles */
+#repairItemsTable input {
+    width: 100%;
+    min-width: 60px;
+}
+
+#repairItemsTable .form-control-sm {
+    padding: 0.25rem 0.5rem;
+    height: calc(1.5em + 0.5rem + 2px);
+}
+
+#repairItemsTable td {
+    vertical-align: middle;
+}
+
+#partsTotal,
+#repairTotal {
+    text-align: right;
+}
+
+/*the container must be positioned relative:*/
+.autocomplete {
+    position: relative;
+    display: inline-block;
+    display: flex;
+    justify-content: space-between;
+}
+
+.inputStyle {
+    width: 100%;
+    padding: 8px 20px;
+    border-radius: 15px;
+}
+
+.inputStyle:focus {
+    border: none;
+    border-radius: 15px;
+}
+
+.inputStyleFind {
+    width: calc(100% - 50px);
+}
+
+.inputStyleIcon {
+    background-image: url("../../assets/img/search22.png");
+    background-image: url("../../assets/img/keyboard.jpg");
+    background-size: 25px 20px;
+    background-position: 8px 10px;
+    background-repeat: no-repeat;
+    padding: 8px 20px 8px 40px;
+}
+
+.btnSearch {
+    background-image: url("../../assets/img/search22.png");
+    background-position: 6px 8px;
+    background-repeat: no-repeat;
+    width: 40px;
+    height: 40px;
+}
+
+.btn-fa {
+    width: 40px;
+    height: 40px;
+}

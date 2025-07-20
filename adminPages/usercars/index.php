@@ -393,9 +393,12 @@ require_once("../../service/configData.php");
     <?php include_once('../../includes/pagesScript.php') ?>
     <?php include_once('../../includes/myScript.php') ?>
     <script src="../indexedDB/indexedDB.js?<?php echo time(); ?>"></script>
+
+    <!-- <script src="../serviceDB/startInitData.js?<?php echo time(); ?>"></script> -->
+
     <script src="../js/renderPagination.js"></script>
     <script src="../js/sortColumnBy.js"></script>
-    <script src="../js/validateInputNew.js?<?php echo time(); ?>"></script>
+    <script src="../js/validateInput.js?<?php echo time(); ?>"></script>
     <script src="../js/autocomplete.js?<?php echo time(); ?>"></script>
     <script type="text/javascript">
         let usercars = [];
@@ -407,6 +410,10 @@ require_once("../../service/configData.php");
         const perPage = 10;
         let editId = null;
         let deleteId = null;
+
+        // use for another update data
+        let lastDataSyncTime = getDateTimeNow();
+        // alert(lastDataSyncTime)
 
         const STORE = "usercars";
 
@@ -456,7 +463,7 @@ require_once("../../service/configData.php");
                     type: "list",
                     dataSource: groupNames,
                     key: "groupname",
-                    require: false,
+                    require: true,
                 },
                 {
                     id: "itemColor",
@@ -654,8 +661,8 @@ require_once("../../service/configData.php");
             renderTable();
         }
 
-        function createFilterDataAndRender() {
-            currentPage = 1;
+        function createFilterDataAndRender(page = 1) {
+            currentPage = page;
             const searchText = document.getElementById('searchInput').value.trim().toLowerCase();
             filtered = usercars;
 
@@ -707,6 +714,32 @@ require_once("../../service/configData.php");
             createFilterDataAndRender();
         }
 
+        const ajaxFetchData = async (endpoint, lastSyncTime, statusType) => {
+            return new Promise(function(resolve, reject) {
+                $.ajax({
+                    url: `../serviceDB/${endpoint}s.php`,
+                    type: "POST",
+                    data: {
+                        lastSyncTime: lastSyncTime,
+                        statusType: statusType
+                    },
+                    success: function(data) {
+                        if (data.status) {
+                            resolve(data);
+                        } else {
+                            sweetAlertError("เกิดข้อผิดพลาด : " + data.message, 0);
+                            resolve(null);
+                        }
+                    },
+                    error: function(error) {
+                        // let message = error?.responseJSON?.message ?? error.responseText;
+                        // sweetAlertError('เกิดข้อผิดพลาด : ' + message, 0);
+                        reject(error);
+                    },
+                });
+            });
+        };
+
         $(document).ready(async function() {
             try {
                 loaderScreen("show");
@@ -737,11 +770,32 @@ require_once("../../service/configData.php");
             });
             createValidate();
 
-            // setInterval(syncDataRealtime, 10000); // 10 วินาที
+            lastDataSyncTime = getDateTimeNow();
+            // syncDataRealtimeDB(lastDataSyncTime);
+
+            setInterval(syncDataRealtime, 10000); // 10 วินาที
         });
 
 
         async function syncDataRealtime() {
+            let tableNames = await updateSyncData();
+            if (tableNames) {
+                if (tableNames.find((item) => item == "usercars")) {
+                    let dataSource = await loadDataFromDB("usercars");
+                    usercars = dataSource;
+                    createFilterDataAndRender(currentPage);
+                }
+                if (tableNames.find((item) => item == "groupnames")) {
+                    groupNames = await loadAndSetData("groupnames");
+                }
+                if (tableNames.find((item) => item == "colornames")) {
+                    colorNames = await loadAndSetData("colornames");
+                }
+
+            }
+        }
+
+        async function _syncDataRealtime() {
             try {
                 // loaderScreen("show");
                 let dataSource = await updateSyncData({
@@ -749,12 +803,45 @@ require_once("../../service/configData.php");
                 });
                 if (dataSource) {
                     usercars = dataSource;
-                    createFilterDataAndRender();
+                    createFilterDataAndRender(currentPage);
                 }
             } catch (error) {
                 sweetAlertError("เกิดข้อผิดพลาด : " + error.message, 0);
             } finally {
                 // loaderScreen("hide");
+            }
+        }
+
+        async function syncDataRealtimeDB(lastDataSyncTime) {
+            let dataExpires = [];
+            try {
+                // loaderScreen("show");
+                // let dataSource = await startCheckDataExpired(["usercar", "colorname", "groupname", "typename"],lastDataSyncTime);
+                let dataSource = await startCheckDataExpired(["colorname"], lastDataSyncTime);
+                if (dataSource) {
+                    for (i = 0; i < dataSource.length; i++) {
+                        tableExpire = dataSource[i];
+                        let dataExpire = await ajaxFetchData(tableExpire.tableName, lastDataSyncTime, tableExpire.statusType)
+                        if (dataExpire) {
+                            dataExpires.push({
+                                tableName: tableExpire.tableName,
+                                statusType: tableExpire.statusType,
+                                data: dataExpire
+                            });
+                        }
+                    }
+
+                    // dataSource.forEach(tableExpire => {
+                    //     let dataExpire = await fetchData(endpoint,lastSyncTime,lastDataSyncTime)
+                    // });
+                    // usercars = dataSource;
+                    // createFilterDataAndRender();
+                }
+            } catch (error) {
+                let message = error?.responseJSON?.message ?? error.responseText;
+                sweetAlertError('เกิดข้อผิดพลาด : ' + message, 0);
+            } finally {
+                // alert(dataExpires)
             }
         }
 
@@ -794,6 +881,211 @@ require_once("../../service/configData.php");
             } catch (error) {
                 sweetAlertError("เกิดข้อผิดพลาด : " + error.message, 0);
             }
+        }
+
+        let localTableStatus = [];
+        // let localTableStatus = getStorage("tableStatus");
+
+        async function startCheckDataExpired(dataSource = [], lastDataSyncTime = null) {
+            let result = await getTableStatus();
+            if (result) {
+                setStorage("tableStatus", result);
+                return await checkExpired(dataSource, result);
+            }
+            return [];
+        }
+
+        async function checkExpired(dataSource, tableStatus) {
+            let tableExpires = [];
+            lastDataSyncTime = getDateTimeNow();
+            console.table(tableStatus);
+            dataSource.forEach((item) => {
+                if (tableStatus) {
+                    // console.log(localTableStatus);
+                    // let insertTime = findInsertTime(tableStatus, item.tableName, lastDataSyncTime);
+                    // let updateTime = findUpdateTime(tableStatus, item.tableName, lastDataSyncTime);
+                    // let expiredStatus = findUpdateTime(tableStatus, item.tableName, lastDataSyncTime);
+                    let expiredStatus = tableStatus.find(
+                        (element) => element.tableName === item && (element.insertTime >= lastDataSyncTime || element.updateTime >= lastDataSyncTime)
+                    );
+
+                    let expiredStatusInsert = tableStatus.find(
+                        (element) => element.tableName === item && element.insertTime >= lastDataSyncTime
+                    );
+
+                    let expiredStatusUpdate = tableStatus.find(
+                        (element) => element.tableName === item && element.updateTime >= lastDataSyncTime
+                    );
+
+                    if (expiredStatusInsert || expiredStatusUpdate) {
+                        if (expiredStatusInsert && !expiredStatusUpdate) {
+                            tableExpires.push({
+                                tableName: item,
+                                statusType: "insertExpire"
+                            });
+                        } else {
+                            tableExpires.push({
+                                tableName: item,
+                                statusType: "updateExpire"
+                            });
+                        }
+                    }
+
+                    // if (expiredStatus) {
+                    //     tableExpires.push(expiredStatus);
+                    // }
+                    // alert(insertTime + " : " + element.insertTime)
+                    // if (insertTime || updateTime) {
+                    //     if (
+                    //         insertTime != element.insertTime ||
+                    //         updateTime != element.updateTime
+                    //     ) {
+                    //         return true;
+                    //     }
+                    // }
+                    //     return false;
+                    // } else {
+                    //     return true;
+                }
+
+            });
+            return tableExpires
+        }
+
+        function _checkExpired(element) {
+            if (localTableStatus) {
+                // console.log(localTableStatus);
+                let insertTime = findInsertTime(localTableStatus, element.tableName);
+                let updateTime = findUpdateTime(localTableStatus, element.tableName);
+                // alert(insertTime + " : " + element.insertTime)
+                if (
+                    insertTime != element.insertTime ||
+                    updateTime != element.updateTime
+                ) {
+                    return true;
+                }
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        function findInsertTime(tableStatus, tableName, lastDataSyncTime) {
+            let index = tableStatus.findIndex(
+                (element) => element.tableName === tableName
+            );
+            if (index != -1) {
+                return tableStatus[index].insertTime;
+            }
+            return null;
+        }
+
+        function findUpdateTime(tableStatus, tableName, lastDataSyncTime) {
+            let index = tableStatus.findIndex(
+                (element) => element.tableName === tableName
+            );
+            if (index != -1) {
+                return tableStatus[index].updateTime;
+            }
+            return null;
+        }
+
+        async function getTableStatus() {
+            // localTableStatus = getStorage("tableStatus");
+            return new Promise((resolve, reject) => {
+                $.ajax({
+                        type: "GET",
+                        url: "../serviceDB/readTableStatus.php",
+                    })
+                    .done(function(resp) {
+                        let tableNameExpire = [];
+                        let urls = [];
+                        result = resp.message;
+                        if (result) {
+                            setStorage("tableStatus", result);
+                            resolve(result);
+                        } else {
+                            resolve(null);
+                        }
+                    })
+                    .fail(function(error) {
+                        alert("Error get : " + JSON.stringify(error));
+                        reject(null);
+                    });
+            });
+        }
+
+        async function _getTableStatus() {
+            localTableStatus = getStorage("tableStatus");
+            return new Promise((resolve, reject) => {
+                $.ajax({
+                        type: "GET",
+                        url: "service/readTableStatus.php",
+                    })
+                    .done(function(resp) {
+                        let tableNameExpire = [];
+                        let urls = [];
+                        result = JSON.parse(resp.message);
+                        versionConfigServerData = resp.versionData;
+                        versionStatusConfigServerData = resp.statusData;
+
+                        if (result) {
+                            setStorage("tableStatus", result);
+                            let lastIndex = result.length - 1;
+                            result.forEach((element, index) => {
+                                tableName = element.tableName;
+                                let expired = checkExpired(element);
+                                if (expired) {
+                                    if (tableName === "autowords") {
+                                        tableNameExpire.push(tableName);
+                                        urls.push("service/getAutoWord.php");
+                                    } else if (
+                                        !(
+                                            tableName == "sales" ||
+                                            tableName == "test_sales"
+                                        )
+                                    ) {
+                                        tableNameExpire.push(tableName);
+                                        urls.push(
+                                            "service/readTable.php?status=1&tableName=" +
+                                            tableName
+                                        );
+                                    }
+                                }
+                            });
+                            if (tableNameExpire) {
+                                const fetchNames = async () => {
+                                    try {
+                                        // var arrayFetch = urls.map(function (url) {
+                                        //     return fetch(url);
+                                        // });
+                                        // const requests = await Promise.all(arrayFetch);
+
+                                        // const results = await Promise.all(
+                                        //     requests.map((r) => r.json())
+                                        // );
+                                        // tableNameExpire.forEach((tableName, index) => {
+                                        //     setStorage(
+                                        //         tableName,
+                                        //         JSON.parse(results[index].message)
+                                        //     );
+                                        // });
+                                        return true;
+                                    } catch {
+                                        return false;
+                                    }
+                                };
+                                resolve(fetchNames());
+                            } else {
+                                resolve(true);
+                            }
+                        }
+                    })
+                    .fail(function(error) {
+                        alert("Error get : " + JSON.stringify(error));
+                        reject(false);
+                    });
+            });
         }
     </script>
 </body>

@@ -18,7 +18,9 @@ try {
 		$stmt->execute($params);
 		$last_id = $conn->lastInsertId();
 		
-		$DB->updateDataChange("colornames",$last_id,"CREATE","colorId");
+		// $DB->updateDataChange("colornames",$last_id,"CREATE","colorId");
+		// $DB->insertTableStatus("colorname");
+		
 		$response = [
 			'status' => true,
 			'insertedId' => $last_id,

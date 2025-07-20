@@ -47,7 +47,7 @@ try {
 		$stmt = $conn->prepare($sql);
 		$stmt->execute($params);
 
-		$DB->updateDataChange("products", $itemId, "CREATE", "productId");
+		// $DB->updateDataChange("products", $itemId, "CREATE", "productId");
 		$response = [
 			'status' => true,
 			'message' => 'เพิ่มข้อมูลเรียบร้อย'

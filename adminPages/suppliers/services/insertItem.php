@@ -24,7 +24,7 @@ try {
 		$stmt = $conn->prepare($sql);
 		$stmt->execute($params);
 		
-		$DB->updateDataChange("suppliers",$itemId,"CREATE","supplierId");
+		// $DB->updateDataChange("suppliers",$itemId,"CREATE","supplierId");
 		$response = [
 			'status' => true,
 			'insertedId' => $itemId,

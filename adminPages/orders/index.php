@@ -130,17 +130,17 @@ require_once("../../service/configData.php");
                                             <label for="customerName">ชื่อ</label>
                                             <div class="input-icon-wrapper">
                                                 <i class="fa fa-keyboard input-icon" aria-hidden="true"></i>
-                                                <input type="text" id="customerName" class="form-control" value="" placeholder="..." autocomplete="off">
+                                                <input type="text" id="customerName" class="form-control" value="" placeholder="" autocomplete="off">
                                             </div>
-                                            <input type="hidden" id="customerAddress" class="form-control" value="" placeholder="..." autocomplete="off">
-                                            <input type="hidden" id="customerTelephone" class="form-control" value="" placeholder="..." autocomplete="off">
+                                            <input type="hidden" id="customerAddress" class="form-control" value="" placeholder="" autocomplete="off">
+                                            <input type="hidden" id="customerTelephone" class="form-control" value="" placeholder="" autocomplete="off">
                                         </div>
                                         <div class="col-12 col-md-4 col-lg-3 col-xl-2 form-group position-relative">
                                             <label for="orderDate" class="d-block">วันที่</label>
                                             <div class="d-flex justify-content-start" style="gap: 10px;">
                                                 <div class="input-icon-wrapper-after" style="width:180px; min-width:180px;">
                                                     <div class="input-icon">📅</div>
-                                                    <input type="text" id="orderDate" class="form-control" style="cursor:pointer;" value="" placeholder="..." readonly autocomplete="off">
+                                                    <input type="text" id="orderDate" class="form-control" style="cursor:pointer;" value="" placeholder="" readonly autocomplete="off">
                                                 </div>
                                                 <!-- <button type="button" class="btn btn-outline-danger" id="reset-btn"><i class="fa fa-clock"></i></button> -->
                                                 <button id="reset-btn" class="btn btn-primary boxx" style="width: 40px;"><i class="fa fa-clock"></i></button>
@@ -165,7 +165,7 @@ require_once("../../service/configData.php");
                                             <label for="productName">สินค้า</label>
                                             <div class="input-icon-wrapper">
                                                 <i class="fa fa-keyboard input-icon" aria-hidden="true"></i>
-                                                <input type="text" id="productName" class="form-control" value="" placeholder="..." autocomplete="off">
+                                                <input type="text" id="productName" class="form-control" value="" placeholder="" autocomplete="off">
                                             </div>
                                         </div>
                                         <div class="col-6 col-md-2 col-lg-1 col-xl-1 form-group position-relative">
@@ -258,7 +258,7 @@ require_once("../../service/configData.php");
                             <label for="filterType" class="form-label">ประเภทสินค้า</label>
                             <div class="input-icon-wrapper" style="width:80%;">
                                 <i class="fa fa-keyboard input-icon" aria-hidden="true"></i>
-                                <input type="text" class="form-control" id="filterType" value="" placeholder="..." value="" onkeydown="checkEnterTypeFilter(event,this.value);" autocomplete="off" />
+                                <input type="text" class="form-control" id="filterType" value="" placeholder="" value="" onkeydown="checkEnterTypeFilter(event,this.value);" autocomplete="off" />
                                 <div id="filterTypeSuggestions" class="suggestions"></div>
                             </div>
                         </div>
@@ -266,7 +266,7 @@ require_once("../../service/configData.php");
                             <label for="filterGroup" class="form-label">ยี่ห้อ/รุ่น</label>
                             <div class="input-icon-wrapper" style="width:80%;">
                                 <i class="fa fa-keyboard input-icon" aria-hidden="true"></i>
-                                <input type="text" class="form-control" id="filterGroup" value="" placeholder="..." value="" onkeydown="checkEnterTypeFilter(event,this.value);" autocomplete="off" />
+                                <input type="text" class="form-control" id="filterGroup" value="" placeholder="" value="" onkeydown="checkEnterTypeFilter(event,this.value);" autocomplete="off" />
                                 <div id="filterGroupSuggestions" class="suggestions"></div>
                             </div>
                         </div>

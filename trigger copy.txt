@@ -1,0 +1,37 @@
+CREATE TRIGGER `After Create Typename` AFTER INSERT ON `typename`
+ FOR EACH ROW 
+ BEGIN
+    SET @typeId = NEW.typeId;
+    SET @typename = NEW.typename;
+    SET @updatedAt = NEW.updatedAt;
+    SET @rowData = JSON_OBJECT('typeId', @typeId,
+  'typename', @typename,'updatedAt', @updatedAt);
+
+	INSERT INTO data_changes(table_name, record_id, action, changed_at, data_after)
+    VALUES ('typenames', NEW.typeId, "CREATE", NOW(), @rowData);
+END
+
+CREATE TRIGGER `After Delete Typename` AFTER DELETE ON `typename`
+ FOR EACH ROW 
+ BEGIN
+    INSERT INTO data_changes(table_name, record_id, action, changed_at)
+    VALUES ('typenames', OLD.typeId, "DELETE", NOW());
+    
+    UPDATE usercar SET typename = "" WHERE typename = OLD.typename;
+END
+
+CREATE TRIGGER `After Update Typename` AFTER UPDATE ON `typename`
+ FOR EACH ROW
+ BEGIN
+    SET @typeId_old = OLD.typeId;
+    SET @typeId = NEW.typeId;
+    SET @typename = NEW.typename;
+    SET @updatedAt = NEW.updatedAt;
+    SET @rowData = JSON_OBJECT('typeId', @typeId,
+  'typename', @typename,'updatedAt', @updatedAt);
+
+	INSERT INTO data_changes(table_name, record_id, action, changed_at, data_after)
+    VALUES ('typenames', OLD.typeId, "UPDATE", NOW(), @rowData);
+    
+    UPDATE usercar SET typename = NEW.typename WHERE typename = OLD.typename;
+END

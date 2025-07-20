@@ -37,8 +37,7 @@ try {
 		$stmt->execute($params);
 		$rowEffect = $stmt->rowCount();
 
-		// $DB->updateDataChange("usercars",$itemId_org,"UPDATE","carId");
-		$DB->updateDataChange("usercars",$itemId_org,"UPDATE","carId",$itemId);
+		// $DB->updateDataChange("usercars",$itemId_org,"UPDATE","carId",$itemId);
 
 		if ($rowEffect) {
 			$response = [

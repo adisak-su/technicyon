@@ -97,47 +97,56 @@
     <script src="../../assets/js/adminlte.min.js"></script>
 
     -->
-    <script src="../../plugins/jquery/jquery.slim.min.js"></script>
+    <!-- <script src="../../plugins/jquery/jquery.slim.min.js"></script> -->
+    <script src="../../plugins/jquery/jquery.min.js"></script>
     <script src="../../plugins/bootstrap/js/bootstrap.min.js"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
 
     <!-- <script src="app.js"></script> -->
     <script>
         // Database setup
         const dbVersion = 1;
 
-        const dbName = "LocalDBTest",
-            storeNames = [{
-                storeName: "products",
-                storeNameThai: "ข้อมูลสินค้า",
-                keyPath: "productId"
-            }, {
-                storeName: "usercars",
-                storeNameThai: "ข้อมูลทะเบียนรถ",
-                keyPath: "carId"
-            }, {
-                storeName: "customers",
-                storeNameThai: "ข้อมูลลูกค้า",
-                keyPath: "customerId"
-            }, {
-                storeName: "suppliers",
-                storeNameThai: "ข้อมูลร้านค้า",
-                keyPath: "supplierId"
-            }, {
-                storeName: "groupnames",
-                storeNameThai: "ข้อมูลยี่ห้อ/รุ่นรถยนต์",
-                keyPath: "groupId"
-                // keyPath: "groupname"
-            }, {
-                storeName: "typenames",
-                storeNameThai: "ข้อมูลประเภทสินค้า",
-                keyPath: "typeId"
-                // keyPath: "typename"
-            }, {
-                storeName: "colornames",
-                storeNameThai: "ข้อมูลสีรถยนต์",
-                keyPath: "colorId"
-                // keyPath: "typename"
-            }];
+        const dbName = "LocalDBTest";
+        let storeNames = [{
+            storeName: "products",
+            storeNameThai: "ข้อมูลสินค้า",
+            keyPath: "productId",
+            count: 0
+        }, {
+            storeName: "usercars",
+            storeNameThai: "ข้อมูลทะเบียนรถ",
+            keyPath: "carId",
+            count: 0
+        }, {
+            storeName: "customers",
+            storeNameThai: "ข้อมูลลูกค้า",
+            keyPath: "customerId",
+            count: 0
+        }, {
+            storeName: "suppliers",
+            storeNameThai: "ข้อมูลร้านค้า",
+            keyPath: "supplierId",
+            count: 0
+        }, {
+            storeName: "groupnames",
+            storeNameThai: "ข้อมูลยี่ห้อ/รุ่นรถยนต์",
+            keyPath: "groupId",
+            count: 0
+            // keyPath: "groupname"
+        }, {
+            storeName: "typenames",
+            storeNameThai: "ข้อมูลประเภทสินค้า",
+            keyPath: "typeId",
+            count: 0
+            // keyPath: "typename"
+        }, {
+            storeName: "colornames",
+            storeNameThai: "ข้อมูลสีรถยนต์",
+            keyPath: "colorId",
+            count: 0
+            // keyPath: "typename"
+        }];
         metaStore = "meta";
         let lastSyncTime = "empty";
 
@@ -305,6 +314,80 @@
             }
         };
 
+        const updateData = async (endpoint, progressKey) => {
+            try {
+                // Show initial progress
+                document.getElementById(`${progressKey}-progress`).style.width = '0%';
+
+                const lastSyncTime = await getLastSyncTime(progressKey);
+                //const lastSyncTime = "empty";
+                const response = await fetch(`syncFromApi/${endpoint}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer my-secret-token',
+                        'Accept-Encoding': 'gzip, deflate, br',
+                        'Custom-Header': 'HelloWorld',
+                    },
+                    body: JSON.stringify({
+                        lastSyncTime: lastSyncTime
+                    })
+                })
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                let data = await response.json();
+                // if (progressKey == "products" || progressKey == "usercars") {
+                //     data = await response.json();
+                // }
+
+                await storeData(progressKey, data);
+                let nowSyncTime = new Date().addHours(7).toISOString().replace("T", " ").substr(0, 19);
+                await saveLastSyncTime(progressKey, nowSyncTime);
+
+                // Complete progress
+                document.getElementById(`${progressKey}-progress`).style.width = '100%';
+
+                return data;
+            } catch (error) {
+                console.error(`Error fetching ${endpoint}:`, error);
+                throw error;
+            }
+        };
+
+        let getRowData = async (store) => {
+            return new Promise((resolve, reject) => {
+                // let store = storeNames[i];
+                let transaction = db.transaction([store.storeName], "readonly");
+                let objectStore = transaction.objectStore(store.storeName);
+                let count = objectStore.count();
+                count.onsuccess = function() {
+                    resolve(count);
+                };
+            });
+        }
+
+        let checkTableIndexeddb = async () => {
+            return new Promise((resolve, reject) => {
+                let countRecordInTable = [];
+                for (i = 0; i < storeNames.length; i++) {
+                    let store = storeNames[i];
+                    let transaction = db.transaction([store.storeName], "readonly");
+                    let objectStore = transaction.objectStore(store.storeName);
+                    let count = objectStore.count();
+                    count.onsuccess = function() {
+                        countRecordInTable.push({
+                            storeName: store.storeName,
+                            count: count.result
+                        });
+
+                        if (countRecordInTable.length == storeNames.length) {
+                            resolve(countRecordInTable);
+                        }
+                    };
+                }
+            });
+        }
         // Load all data with progress tracking
         const loadAllData = async () => {
             $('#progressModal').modal('show');
@@ -312,6 +395,29 @@
 
             try {
                 await openDB();
+                // let tableCount = await checkTableIndexeddb();
+                // tableCount.forEach((item) => {
+                //     let store = storeNames.find((elem) => elem.storeName === item.storeName);
+                //     if (store) {
+                //         store.count = item.count;
+                //     }
+                // });
+
+                let dataSync = await syncOnLoad();
+                if (dataSync.status) {
+                    closeModal();
+                    // alert(dataSync.status)
+                    return;
+                }
+
+                // let urls = [];
+                // storeNames.forEach((store) => {
+                //     if (store.count == 0) {
+                //         urls.push(fetchData(store.storeName + ".php", store.storeName));
+                //     } else {
+                //         urls.push(fetchData(store.storeName + ".php", store.storeName));
+                //     }
+                // })
 
                 let urls = storeNames.map(store => fetchData(store.storeName + ".php", store.storeName));
                 await Promise.all(urls);
@@ -403,23 +509,196 @@
             });
         });
 
-        /*
-        $(document).ready(async function() {
-            // createProgressBar();
-            loadAllData();
+        //  update data from server to indexeddb
+        async function syncOnLoad() {
+            try {
+                // await openDB();
+                // 1. ดึงเวลาซิงค์ล่าสุดจาก IndexedDB
+                const lastSyncRecord = await getLastSyncFromMeta();
+                if (!lastSyncRecord?.length) {
+                    return {
+                        status: false
+                    };
+                }
 
-            // Close modal handler
-            document.getElementById('closeModalBtn').addEventListener('click', () => {
-                //$('#progressModal').modal('hide');
-                // document.getElementById('closeModalBtn').disabled = true;
-                // document.getElementById('closeModalBtn').classList.remove("d-none");
-                $('#closeModalBtn').removeClass("d-none");
+                // 2. ดึงการเปลี่ยนแปลงจากเซิร์ฟเวอร์
+                let changes = await getDataLastSync(lastSyncRecord);
 
-                reloadDB();
+                if (!changes || changes.length === 0) return {
+                    status: true
+                };
+                // let tableNames = changes.map(item=>item.table_name);
+                const tableNames = [...new Set(changes.map((item) => item.table))];
 
+                let total = changes.length
+                const updateProgressAll = (count) => {
+                    const progress = Math.floor((count / total) * 100);
+                    document.getElementById('overall-progress').style.width = `${progress}%`;
+                };
+
+                // 3. ประมวลผลการเปลี่ยนแปลง
+                for (i = 0; i < changes.length; i++) {
+                    item = changes[i];
+                    const store = item.table;
+                    switch (item.type) {
+                        case "CREATE":
+                            await createDataToDB(store, item.data);
+                            break;
+
+                        case "UPDATE":
+                            await updateDataToDB(store, item.data, item.id);
+                            break;
+
+                        case "DELETE":
+                            await deleteDataFromDB(store, item.id);
+                            break;
+                    }
+                    updateProgressAll(i);
+                }
+
+                // 4. อัปเดตเวลาซิงค์ล่าสุด
+                let newSyncTime = new Date()
+                    .addHours(7)
+                    .toISOString()
+                    .replace("T", " ")
+                    .substr(0, 19);
+                // let newSyncTime = getDateTimeNow();
+
+                // for (i = 0; i < changes.length; i++) {
+                //     item = changes[i];
+                //     let store = item.table;
+                //     updateDataToDB("meta", {
+                //         tableName: store,
+                //         lastSyncTime: newSyncTime,
+                //     });
+                // }
+
+                tableNames.forEach((item) => {
+                    putDataToDB("meta", {
+                        tableName: item,
+                        lastSyncTime: newSyncTime,
+                    });
+                })
+
+                return {
+                    status: true,
+                    tableNames: tableNames
+                };
+            } catch (error) {
+                console.error("Sync failed:", error);
+                throw new Error(error);
+                // throw new Error("Parameter is not a number!");
+            }
+        }
+
+        const getLastSyncFromMeta = () => {
+            return new Promise((resolve, reject) => {
+                const transaction = db.transaction("meta", "readonly");
+                const store = transaction.objectStore("meta");
+
+                const request = store.getAll();
+                request.onsuccess = () => {
+                    resolve(request.result);
+                };
+
+                request.onerror = (event) => {
+                    console.error("Error getting products:", event.target.error);
+                    reject(event.target.error);
+                };
             });
-        });
-        */
+        };
+
+        async function getDataLastSync(lastSyncRecord) {
+            return new Promise(function(resolve, reject) {
+                $.ajax({
+                    url: "../js/syncData.php",
+                    type: "POST",
+                    dataType: "json",
+                    data: {
+                        lastSyncRecord: lastSyncRecord,
+                    },
+                    beforeSend: function() {},
+                    success: function(data) {
+                        resolve(data);
+                    },
+                    error: function(err) {
+                        // sweetAlertError("เกิดข้อผิดพลาด : " + err.responseText, 0);
+                        reject(null);
+                    },
+                });
+            });
+        }
+
+        async function createDataToDB(store, data) {
+            try {
+                const results = await putDataToDB(store, data);
+                return results;
+            } catch (error) {
+                console.error("Error put data:", error);
+                throw new Error(error);
+            }
+        }
+
+        async function updateDataToDB(store, data, key = null) {
+            try {
+                if (key) {
+                    await deleteDataFromDB(store, key);
+                }
+                const results = await putDataToDB(store, data);
+                // const results = await updateCursorDB(store, data, key);
+                return results;
+            } catch (error) {
+                console.error("Error put data:", error);
+                throw new Error(error);
+            }
+        }
+
+        async function deleteDataFromDB(store, key) {
+            try {
+                const results = await deleteDataFrom(store, key);
+                return results;
+            } catch (error) {
+                console.error("Error delete key:", error);
+                throw new Error(error);
+            }
+        }
+
+        const putDataToDB = (params, data) => {
+            return new Promise((resolve, reject) => {
+                const transaction = db.transaction([params], "readwrite");
+                const store = transaction.objectStore(params);
+                const request = store.put(data);
+
+                request.onsuccess = () => {
+                    resolve(true);
+                };
+
+                request.onerror = (event) => {
+                    console.error("Error getting products:", event.target.error);
+                    reject(event.target.error);
+                };
+            });
+        };
+
+        const deleteDataFrom = (params, key) => {
+            return new Promise((resolve, reject) => {
+                if (["groupnames", "typenames", "colornames"].includes(params)) {
+                    key = key * 1;
+                }
+                const transaction = db.transaction([params], "readwrite");
+                const store = transaction.objectStore(params);
+                const request = store.delete(key);
+
+                request.onsuccess = () => {
+                    resolve(true);
+                };
+
+                request.onerror = (event) => {
+                    console.error("Error delete key:", event.target.error);
+                    reject(event.target.error);
+                };
+            });
+        };
     </script>
 
 </body>

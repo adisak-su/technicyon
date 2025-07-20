@@ -1,0 +1,236 @@
+.card {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(15px);
+    border-radius: 25px;
+    padding: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+    animation: slideInUp 0.5s ease;
+}
+
+/* .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 25px 70px rgba(0, 0, 0, 0.2);
+} */
+
+.glass-card {
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(15px);
+    border-radius: 25px;
+    padding: 1.5rem;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+    animation: slideInUp 0.5s ease;
+}
+
+/* .glass-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 25px 70px rgba(0, 0, 0, 0.2);
+} */
+
+.primary {
+    background: linear-gradient(to right, #0055ff, #3679ff, #4380fa);
+}
+.primary-new {
+    color: white;
+    background: #0055ff;
+    background: linear-gradient(
+        90deg,
+        rgba(0, 85, 255, 1) 0%,
+        rgba(54, 121, 255, 1) 50%,
+        rgba(110, 158, 255, 1) 100%
+    );
+}
+.success {
+    background: #56ab2f;
+}
+
+.warning {
+    background: #fdcb6e;
+}
+.error {
+    background: #e17055;
+}
+
+.button {
+    padding: 0.75rem 1.5rem;
+    border-radius: 15px;
+    background: linear-gradient(to right, #667eea, #764ba2);
+    color: white;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.5);
+}
+
+@keyframes slideInUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.dashboard {
+    grid-template-columns: 1fr;
+}
+
+.btn-glass {
+    border-radius: 15px;
+    background: linear-gradient(to right, #667eea, #764ba2);
+    color: white;
+    font-weight: 600;
+    border: none;
+    padding: 0.6rem 1.4rem;
+    transition: all 0.3s ease;
+    box-shadow: inset 0 4px 2px rgba(255, 255, 255, 0.15),
+        0 4px 8px rgba(0, 0, 0, 0.2), 0 6px 16px rgba(118, 75, 162, 0.25);
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
+}
+
+.btn-glass:hover {
+    transform: translateY(-3px);
+    color: white;
+    box-shadow: inset 0 4px 2px rgba(255, 255, 255, 0.2),
+        0 6px 12px rgba(0, 0, 0, 0.25), 0 10px 24px rgba(102, 126, 234, 0.4);
+}
+
+/* เอฟเฟกต์ตอนคลิก */
+.btn-glass:active {
+    transform: scale(0.97);
+    color: white;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15),
+        0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: all 0.2s ease;
+}
+
+.form-control.glass-input {
+    background: rgba(255, 255, 255, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 12px;
+    padding: 0.6rem 1rem;
+    color: #2d3436;
+    font-weight: 500;
+    backdrop-filter: blur(10px);
+    box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.1),
+        /* แสงขอบบนใน */ 0 4px 10px rgba(0, 0, 0, 0.1); /* เงาลอย */
+    transition: all 0.3s ease;
+}
+
+.form-control.glass-input:focus {
+    background: rgba(255, 255, 255, 0.4);
+    box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.3),
+        0 0 0 3px rgba(102, 126, 234, 0.25), 0 4px 12px rgba(102, 126, 234, 0.3); /* เพิ่มเงา gradient ตอน focus */
+    border-color: rgba(102, 126, 234, 0.4);
+    outline: none;
+}
+
+.glass-form-group {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+.glass-form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #2d3436;
+    transition: color 0.3s ease;
+}
+
+.glass-input::placeholder {
+    color: rgba(99, 110, 114, 0.5); /* สี placeholder เบาๆ */
+}
+
+.input-wrapper, .input-icon-wrapper, .input-icon-wrapper-after
+{
+    position: relative;
+}
+
+.input-icon-wrapper .input-icon {
+    position: absolute;
+    top: 50%;
+    left: 15px;
+    transform: translateY(-50%);
+    color: #764ba2;
+    pointer-events: none;
+    font-size: 1rem;
+    z-index: 2;
+}
+
+.input-icon-wrapper-after .input-icon {
+    position: absolute;
+    top: 50%;
+    right: 0.75rem;
+    transform: translateY(-50%);
+    /* color: #764ba2; */
+    pointer-events: none;
+    font-size: 1rem;
+    z-index: 2;
+}
+
+.input-icon-wrapper .input-icon + input,
+.input-icon-wrapper input {
+    padding-left: 3rem; /* ให้เว้นที่ซ้ายสำหรับไอคอน */
+    border-radius: 15px;
+    /* border: 1px solid rgba(255, 255, 255, 0.3); */
+    /* background: rgba(255, 255, 255, 0.95); */
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.input-icon-wrapper .input-icon + input:focus,
+.input-icon-wrapper input:focus {
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* .input-icon-wrapper .input-icon + input[class="is-invalid"],
+.input-icon-wrapper input[class="is-invalid"] {
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+    border-color: red;
+    
+} */
+
+.input-icon-wrapper-after .input-icon + input,
+.input-icon-wrapper-after input {
+    padding-right: 3rem; /* ให้เว้นที่ซ้ายสำหรับไอคอน */
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.input-icon-wrapper input:focus,
+.input-wrapper input:focus {
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+    border-color: #667eea;
+}
+
+.input-wrapper input {
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+label {
+    color: blue;
+    font-size: 1.1rem;
+    /* font-family: sans-serif; */
+}

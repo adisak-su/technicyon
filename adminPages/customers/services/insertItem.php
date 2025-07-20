@@ -26,7 +26,7 @@ try {
 		$stmt = $conn->prepare($sql);
 		$stmt->execute($params);
 		
-		$DB->updateDataChange("customers",$itemId,"CREATE","customerId");
+		// $DB->updateDataChange("customers",$itemId,"CREATE","customerId");
 		$response = [
 			'status' => true,
 			'insertedId' => $itemId,

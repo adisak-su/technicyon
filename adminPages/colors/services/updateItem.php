@@ -12,14 +12,6 @@ try {
 		$itemName = $_POST["itemName"];
 		$itemUpdatedAt = $_POST["itemUpdatedAt"];
 
-		// $params = [
-		// 	"itemId" => $itemId,
-		// ];
-		// $sql = "SELECT colorname FROM colorname WHERE colorId=:itemId";
-		// $stmt = $conn->prepare($sql);
-		// $stmt->execute($params);
-		// $resultColor = $stmt->fetch(PDO::FETCH_ASSOC);
-
 		$params = [
 			"itemId" => $itemId,
 			"itemName" => $itemName,
@@ -30,11 +22,9 @@ try {
 		$stmt->execute($params);
 		$rowEffect = $stmt->rowCount();
 
-		// $DB->updateDataChange("colornames", $itemId, "UPDATE", "colorId");
-		$DB->updateDataChange("colornames",$itemId,"UPDATE","colorId",$itemId);
-
-		// updateUsercar($resultColor["colorname"], $itemName, $conn, $DB);
-		updateUsercar($itemName_org, $itemName, "colorname", $conn, $DB);
+		// $DB->updateDataChange("colornames",$itemId,"UPDATE","colorId",$itemId);
+		// updateUsercar($itemName_org, $itemName, "colorname", $conn, $DB);
+		// $DB->updateTableStatus("colorname");
 
 		if ($rowEffect) {
 			$response = [
@@ -101,37 +91,9 @@ function updateUsercar($itemValueOld, $itemValueNew, $key, $conn, $DB) {
 		foreach ($resultCarIds as $item) {
 			$DB->updateDataChange("usercars", $item["carId"], "UPDATE", "carId", $item["carId"]);
 		}
+		
 	} catch (Exception $ex) {
 		throw new Exception($ex);
 	}
 }
 
-function _updateUsercar($itemColorNameOld, $itemColorNameNew, $conn, $DB)
-{
-	try {
-		$params = [
-			"itemColorNameOld" => $itemColorNameOld
-		];
-
-		$sql = "SELECT carId FROM usercar WHERE colorname = :itemColorNameOld";
-		$stmt = $conn->prepare($sql);
-		$stmt->execute($params);
-		$resultCarIds = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-		$params = [
-			"itemColorNameOld" => $itemColorNameOld,
-			"itemColorNameNew" => $itemColorNameNew
-		];
-
-		$sql = "UPDATE usercar SET colorname=:itemColorNameNew WHERE colorname = :itemColorNameOld";
-
-		$stmt = $conn->prepare($sql);
-		$stmt->execute($params);
-
-		foreach ($resultCarIds as $item) {
-			$DB->updateDataChange("usercars", $item["carId"], "UPDATE", "carId", $item["carId"]);
-		}
-	} catch (Exception $ex) {
-		throw new Exception($ex);
-	}
-}

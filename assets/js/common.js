@@ -30,6 +30,11 @@ Date.prototype.addHours = function (h) {
     return this;
 };
 
+Array.prototype.sortASC = function (key) {
+    this.sort((a, b) => a[key].localeCompare(b[key]));
+    return this;
+};
+
 function formatNumber(number) {
     if (typeof number !== "number") {
         number = Number(number);

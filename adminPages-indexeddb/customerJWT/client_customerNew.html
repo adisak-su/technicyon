@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ระบบจัดการข้อมูลลูกค้า</title>
+    <!-- Bootstrap v4 -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        :root {
+            --primary: #3498db;
+            --secondary: #2c3e50;
+            --sidebar: #2c3e50;
+            --sidebar-hover: #34495e;
+            --sidebar-active: #3498db;
+            --content-bg: #f8f9fa;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
+            overflow-x: hidden;
+        }
+        
+        /* Slide Menu Styles */
+        #sidebar {
+            min-width: 250px;
+            max-width: 250px;
+            background: var(--sidebar);
+            color: #fff;
+            transition: all 0.3s;
+            position: fixed;
+            height: 100vh;
+            z-index: 1000;
+            box-shadow: 3px 0 10px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
+        }
+        
+        #sidebar.active {
+            margin-left: -250px;
+        }
+        
+        #sidebar .sidebar-header {
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        #sidebar .sidebar-header h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        #sidebar .sidebar-header h3 i {
+            margin-right: 10px;
+        }
+        
+        #sidebar ul.components {
+            padding: 20px 0;
+        }
+        
+        #sidebar ul li a {
+            padding: 15px 20px;
+            font-size: 1.1em;
+            display: block;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: all 0.3s;
+            border-left: 4px solid transparent;
+            display: flex;
+            align-items: center;
+        }
+        
+        #sidebar ul li a:hover {
+            color: #fff;
+            background: var(--sidebar-hover);
+            border-left: 4px solid var(--sidebar-active);
+        }
+        
+        #sidebar ul li a i {
+            margin-right: 10px;
+            min-width: 20px;
+            text-align: center;
+            font-size: 1.2rem;
+        }
+        
+        #sidebar ul li.active > a {
+            color: #fff;
+            background: var(--sidebar-hover);
+            border-left: 4px solid var(--sidebar-active);
+        }
+        
+        #sidebar .sidebar-footer {
+            position: sticky;
+            bottom: 0;
+            width: 100%;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.2);
+            text-align: center;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        /* Content Styles */
+        #content {
+            width: calc(100% - 250px);
+            min-height: 100vh;
+            transition: all 0.3s;
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: var(--content-bg);
+        }
+        
+        #content.active {
+            width: 100%;
+        }
+        
+        /* Navbar Styles */
+        .top-navbar {
+            background: #fff;
+            padding: 15px 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 900;
+            position: sticky;
+            top: 0;
+        }
+        
+        .menu-toggle-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+        
+        .menu-toggle-btn:hover {
+            background-color: #f0f0f0;
+        }
+        
+        .menu-toggle-btn i {
+            margin-right: 8px;
+        }
+        
+        .user-controls {
+            display: flex;
+            align-items: center;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            margin-right: 20px;
+            padding: 8px 15px;
+            border-radius: 30px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .user-info:hover {
+            background-color: #f0f0f0;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            margin-right: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .user-text {
+            text-align: right;
+        }
+        
+        .user-text .user-name {
+            font-weight: 600;
+            font-size: 1rem;
+        }
+        
+        .user-text .user-role {
+            font-size: 0.85rem;
+            color: #6c757d;
+        }
+        
+        /* Main Content Styles */
+        .main-content {
+            padding: 30px;
+        }
+        
+        .page-header {
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eaeaea;
+        }
+        
+        .page-header h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--secondary);
+            display: flex;
+            align-items: center;
+        }
+        
+        .page-header h1 i {
+            margin-right: 10px;
+            color: var(--primary);
+        }
+        
+        .page-header p {
+            color: #6c757d;
+            margin-bottom: 0;
+        }
+        
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 25px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-header {
+            background-color: #fff;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            font-weight: 600;
+            padding: 15px 20px;
+            border-radius: 10px 10px 0 0 !important;
+            display: flex;
+            align-items: center;
+        }
+        
+        .card-header i {
+            margin-right: 10px;
+            color: var(--primary);
+        }
+        
+        .card-body {
+            padding: 20px;
+        }
+        
+        /* Stats Cards */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .stat-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+        
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: var(--secondary);
+        }
+        
+        .stat-label {
+            color: #6c757d;
+            font-size: 0.95rem;
+        }
+        
+        /* Table Styles */
+        .table-container {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .table {
+            margin-bottom: 0;
+        }
+        
+        .table thead th {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            font-weight: 600;
+        }
+        
+        .table tbody td {
+            padding: 12px 20px;
+            vertical-align: middle;
+            border-top: 1px solid #f0f0f0;
+        }
+        
+        .table tbody tr {
+            transition: background 0.2s;
+        }
+        
+        .table tbody tr:hover {
+            background-color: rgba(52, 152, 219, 0.03);
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            #sidebar {
+                margin-left: -250px;
+            }
+            #sidebar.active {
+                margin-left: 0;
+            }
+            #content {
+                width: 100%;
+            }
+            #content.active {
+                width: calc(100% - 250px);
+            }
+            
+            .user-text {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Slide Menu -->
+    <nav id="sidebar">
+        <div class="sidebar-header">
+            <h3><i class="fas fa-store"></i> CRM System</h3>
+        </div>
+
+        <ul class="list-unstyled components">
+            <li>
+                <a href="#"><i class="fas fa-tachometer-alt"></i> ภาพรวมระบบ</a>
+            </li>
+            <li class="active">
+                <a href="#"><i class="fas fa-user-tag"></i> ข้อมูลลูกค้า</a>
+            </li>
+            <li>
+                <a href="#"><i class="fas fa-shopping-cart"></i> การสั่งซื้อ</a>
+            </li>
+            <li>
+                <a href="#"><i class="fas fa-box"></i> สินค้า</a>
+            </li>
+            <li>
+                <a href="#"><i class="fas fa-chart-bar"></i> รายงาน</a>
+            </li>
+            <li>
+                <a href="#"><i class="fas fa-users"></i> ผู้ใช้งาน</a>
+            </li>
+            <li>
+                <a href="#"><i class="fas fa-cog"></i> การตั้งค่า</a>
+            </li>
+            <li>
+                <a href="#"><i class="fas fa-question-circle"></i> ช่วยเหลือ</a>
+            </li>
+        </ul>
+        
+        <div class="sidebar-footer">
+            ระบบจัดการข้อมูลลูกค้า<br>เวอร์ชั่น 2.0
+        </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div id="content">
+        <!-- Top Navbar -->
+        <nav class="top-navbar">
+            <div>
+                <button class="menu-toggle-btn" id="sidebarToggle">
+                    <i class="fas fa-bars"></i> <span class="d-none d-md-inline">เมนู</span>
+                </button>
+            </div>
+            
+            <div class="user-controls">
+                <div class="user-info" id="userDropdown">
+                    <div class="user-avatar">AD</div>
+                    <div class="user-text">
+                        <div class="user-name">ผู้ดูแลระบบ</div>
+                        <div class="user-role">Admin</div>
+                    </div>
+                </div>
+                <button class="btn btn-outline-danger btn-sm" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i> <span class="d-none d-md-inline">ออกจากระบบ</span>
+                </button>
+            </div>
+        </nav>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="page-header">
+                <h1><i class="fas fa-user-tag"></i> ข้อมูลลูกค้าและประวัติการซื้อ</h1>
+                <p>จัดการข้อมูลลูกค้าและดูประวัติการสั่งซื้อทั้งหมด</p>
+            </div>
+            
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-value">1,254</div>
+                    <div class="stat-label">ลูกค้าทั้งหมด</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <div class="stat-value">542</div>
+                    <div class="stat-label">คำสั่งซื้อใหม่</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="stat-value">89.2%</div>
+                    <div class="stat-label">อัตราการเติบโต</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-money-bill-wave"></i>
+                    </div>
+                    <div class="stat-value">฿2.5M</div>
+                    <div class="stat-label">รายได้รวม</div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-list"></i> รายการลูกค้าล่าสุด
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>ชื่อลูกค้า</th>
+                                            <th>อีเมล</th>
+                                            <th>โทรศัพท์</th>
+                                            <th>สถานะ</th>
+                                            <th>การดำเนินการ</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>สมชาย ใจดี</td>
+                                            <td>somchai@example.com</td>
+                                            <td>081-234-5678</td>
+                                            <td><span class="badge badge-success">ใช้งานอยู่</span></td>
+                                            <td>
+                                                <button class="btn btn-sm btn-outline-primary">
+                                                    <i class="fas fa-eye"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>สมหญิง น่ารัก</td>
+                                            <td>somying@example.com</td>
+                                            <td>082-345-6789</td>
+                                            <td><span class="badge badge-success">ใช้งานอยู่</span></td>
+                                            <td>
+                                                <button class="btn btn-sm btn-outline-primary">
+                                                    <i class="fas fa-eye"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>สมหมาย เก่งมาก</td>
+                                            <td>somma@example.com</td>
+                                            <td>083-456-7890</td>
+                                            <td><span class="badge badge-warning">รอการยืนยัน</span></td>
+                                            <td>
+                                                <button class="btn btn-sm btn-outline-primary">
+                                                    <i class="fas fa-eye"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>สมปอง ขยัน</td>
+                                            <td>sompong@example.com</td>
+                                            <td>084-567-8901</td>
+                                            <td><span class="badge badge-danger">ไม่ใช้งาน</span></td>
+                                            <td>
+                                                <button class="btn btn-sm btn-outline-primary">
+                                                    <i class="fas fa-eye"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>สมศรี ใจเย็น</td>
+                                            <td>somsri@example.com</td>
+                                            <td>085-678-9012</td>
+                                            <td><span class="badge badge-success">ใช้งานอยู่</span></td>
+                                            <td>
+                                                <button class="btn btn-sm btn-outline-primary">
+                                                    <i class="fas fa-eye"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-chart-pie"></i> สถิติลูกค้า
+                        </div>
+                        <div class="card-body">
+                            <div id="chart-container" style="height: 300px; display: flex; align-items: center; justify-content: center;">
+                                <div class="text-center">
+                                    <div style="width: 200px; height: 200px; border-radius: 50%; 
+                                        background: conic-gradient(
+                                            #3498db 0% 40%, 
+                                            #2ecc71 40% 65%, 
+                                            #f39c12 65% 85%, 
+                                            #e74c3c 85% 100%
+                                        ); 
+                                        margin: 0 auto 20px;"></div>
+                                    <p class="text-muted">การกระจายประเภทลูกค้า</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-star"></i> ลูกค้าดีเด่น
+                        </div>
+                        <div class="card-body">
+                            <div class="media mb-4">
+                                <div class="media-body">
+                                    <h5 class="mt-0">นางสาวสมหญิง ใจดี</h5>
+                                    <p class="mb-1">ยอดซื้อรวม: <strong>฿125,800</strong></p>
+                                    <p class="mb-0">การซื้อล่าสุด: <strong>28 ตุลาคม 2023</strong></p>
+                                </div>
+                            </div>
+                            <div class="media mb-4">
+                                <div class="media-body">
+                                    <h5 class="mt-0">นายสมชาย ใจกล้า</h5>
+                                    <p class="mb-1">ยอดซื้อรวม: <strong>฿98,500</strong></p>
+                                    <p class="mb-0">การซื้อล่าสุด: <strong>25 ตุลาคม 2023</strong></p>
+                                </div>
+                            </div>
+                            <div class="media">
+                                <div class="media-body">
+                                    <h5 class="mt-0">นางสมศรี น่ารัก</h5>
+                                    <p class="mb-1">ยอดซื้อรวม: <strong>฿87,200</strong></p>
+                                    <p class="mb-0">การซื้อล่าสุด: <strong>20 ตุลาคม 2023</strong></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery and Bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+    <script>
+        $(document).ready(function() {
+            // Toggle sidebar
+            $('#sidebarToggle').click(function(e) {
+                e.stopPropagation();
+                $('#sidebar').toggleClass('active');
+                $('#content').toggleClass('active');
+            });
+            
+            // Close sidebar when clicking on content (except when clicking on sidebar)
+            $('#content').click(function(e) {
+                if ($(window).width() < 768) {
+                    if ($('#sidebar').hasClass('active')) {
+                        $('#sidebar').removeClass('active');
+                        $('#content').removeClass('active');
+                    }
+                }
+            });
+            
+            // Prevent closing when clicking inside sidebar
+            $('#sidebar').click(function(e) {
+                e.stopPropagation();
+            });
+            
+            // ตั้งค่าขนาดเริ่มต้นสำหรับหน้าจอมือถือ
+            if ($(window).width() < 768) {
+                $('#sidebar').removeClass('active');
+                $('#content').removeClass('active');
+            }
+            
+            // ปรับเมนูเมื่อหน้าจอเปลี่ยนขนาด
+            $(window).resize(function() {
+                if ($(window).width() >= 768) {
+                    $('#sidebar').removeClass('active');
+                    $('#content').removeClass('active');
+                } else {
+                    if (!$('#sidebar').hasClass('active')) {
+                        $('#sidebar').addClass('active');
+                        $('#content').addClass('active');
+                    }
+                }
+            });
+            
+            // Logout button
+            $('#logoutBtn').click(function() {
+                if (confirm('คุณแน่ใจว่าต้องการออกจากระบบหรือไม่?')) {
+                    window.location.href = 'login.html';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

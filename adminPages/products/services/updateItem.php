@@ -48,7 +48,7 @@ try {
 		$rowEffect = $stmt->rowCount();
 
 		// $DB->updateDataChange("products",$itemId,"UPDATE","productId");
-		$DB->updateDataChange("products",$itemId_org,"UPDATE","productId",$itemId);
+		// $DB->updateDataChange("products",$itemId_org,"UPDATE","productId",$itemId);
 		if ($rowEffect) {
 			$response = [
 				'status' => true,

@@ -29,7 +29,7 @@ try {
 		$rowEffect = $stmt->rowCount();
 
 		// $DB->updateDataChange("customers",$itemId,"UPDATE","customerId");
-		$DB->updateDataChange("customers",$itemId,"UPDATE","customerId",$itemId);
+		// $DB->updateDataChange("customers",$itemId,"UPDATE","customerId",$itemId);
 
 		if ($rowEffect) {
 			$response = [

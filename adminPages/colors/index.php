@@ -114,7 +114,7 @@ require_once("../../service/configData.php");
                                             <label for="searchInput" class="form-label">สีรถยนต์</label>
                                             <div class="input-icon-wrapper">
                                                 <i class="fa fa-keyboard input-icon" aria-hidden="true"></i>
-                                                <input type="text" class="form-control" id="searchInput" value="" placeholder="..." value="" autocomplete="off" />
+                                                <input type="text" class="form-control" id="searchInput" value="" placeholder="" value="" autocomplete="off" />
                                             </div>
                                         </div>
                                         <div class="col-12 col-md-4 col-lg-2 col-xl-2 form-group align-content-end">
@@ -203,11 +203,11 @@ require_once("../../service/configData.php");
                                         <input
                                             type="hidden"
                                             class="form-control"
-                                            id="itemId"/>
+                                            id="itemId" />
                                         <input
                                             type="hidden"
                                             class="form-control"
-                                            id="itemName_org"/>
+                                            id="itemName_org" />
                                         <label for="itemName" class="form-label">สีรถยนต์</label>
                                         <div class="input-icon-wrapper">
                                             <i class="fa fa-keyboard input-icon"></i>
@@ -217,7 +217,7 @@ require_once("../../service/configData.php");
                                                 id="itemName"
                                                 value=""
                                                 maxlength="20"
-                                                placeholder="..." />
+                                                placeholder="" />
                                         </div>
                                     </div>
                                 </div>
@@ -427,8 +427,8 @@ require_once("../../service/configData.php");
             renderTable();
         }
 
-        function createFilterDataAndRender() {
-            currentPage = 1;
+        function createFilterDataAndRender(page = 1) {
+            currentPage = page;
             const searchText = document.getElementById('searchInput').value.trim().toLowerCase();
             filtered = colorNames;
 
@@ -499,15 +499,37 @@ require_once("../../service/configData.php");
             $('#searchInput').on('input', function() {
                 createFilterDataAndRender();
             });
-            // setInterval(syncDataRealtime,10000); // 10 วินาที
+            setInterval(syncDataRealtime,10000); // 10 วินาที
             // setInterval(function() {
             //     updateSyncData({dataSource:colorNames,dataName:"colornames"}); 
             // },5000); // 10 วินาที
         });
 
         async function syncDataRealtime() {
-            let dataSource = await updateSyncData({dataName:"colornames"});
-            if(dataSource) {
+            let tableNames = await updateSyncData();
+            if (tableNames) {
+                if (tableNames.find((item) => item == "colornames")) {
+                    let dataSource = await loadDataFromDB("colornames");
+                    colorNames = dataSource;
+                    createFilterDataAndRender(currentPage);
+                }
+                // if (tableNames.find((item) => item == "groupnames")) {
+                //     groupNames = await loadAndSetData("groupnames");
+                // }
+                // if (tableNames.find((item) => item == "typenames")) {
+                //     typeNames = await loadAndSetData("typenames");
+                // }
+                // if (tableNames.find((item) => item == "suppliers")) {
+                //     suppliers = await loadAndSetData("suppliers");
+                // }
+            }
+        }
+
+        async function _syncDataRealtime() {
+            let dataSource = await updateSyncData({
+                dataName: "colornames"
+            });
+            if (dataSource) {
                 colorNames = dataSource;
                 createFilterDataAndRender();
             }

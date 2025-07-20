@@ -9,7 +9,7 @@ try {
 	if (isset($_POST["itemId"]) && !empty($_POST["itemId"])) {
 		$itemId = $_POST["itemId"];
 
-		$DB->updateDataChange("suppliers", $itemId, "DELETE", "supplierId");
+		// $DB->updateDataChange("suppliers", $itemId, "DELETE", "supplierId");
 
 		$params = [
 			"itemId" => $itemId

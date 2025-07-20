@@ -17,7 +17,8 @@ require_once("../../assets/php/common.php");
     <?php include_once('../../includes/pagesFavicons.php'); ?>
 
     <!-- stylesheet -->
-    <!-- <?php //include_once('../../includes/pagesStylesheet.php'); ?> -->
+    <!-- <?php //include_once('../../includes/pagesStylesheet.php'); 
+            ?> -->
 
     <link rel="stylesheet" href="../../assets/css/adminlte.min.css">
     <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.css">
@@ -1206,17 +1207,39 @@ require_once("../../assets/php/common.php");
                 //     event.stopPropagation();
                 // });
 
-                // setInterval(syncDataRealtime,10000); // 10 วินาที
+                setInterval(syncDataRealtime, 10000); // 10 วินาที
                 // setInterval(function() {
                 //     updateSyncData({dataSource:colorNames,dataName:"colornames"}); 
                 // },5000); // 10 วินาที
             });
 
             async function syncDataRealtime() {
+                let tableNames = await updateSyncData();
+                if (tableNames) {
+                    if (tableNames.find((item) => item == "products")) {
+                        let dataSource = await loadDataFromDB("products");
+                        products = dataSource;
+                        createFilterDataAndRender(currentPage);
+                    }
+                    if (tableNames.find((item) => item == "groupnames")) {
+                        groupNames = await loadAndSetData("groupnames");
+                    }
+                    if (tableNames.find((item) => item == "typenames")) {
+                        typeNames = await loadAndSetData("typenames");
+                    }
+                    if (tableNames.find((item) => item == "suppliers")) {
+                        suppliers = await loadAndSetData("suppliers");
+                    }
+
+                }
+            }
+
+            async function _syncDataRealtime() {
                 let dataSource = await updateSyncData({
                     dataName: "products"
                 });
                 if (dataSource) {
+
                     products = dataSource;
                     createFilterDataAndRender();
                 }

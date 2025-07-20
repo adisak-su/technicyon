@@ -26,7 +26,7 @@ try {
 		$stmt->execute($params);
 		$rowEffect = $stmt->rowCount();
 
-		$DB->updateDataChange("suppliers", $itemId, "UPDATE", "supplierId", $itemId);
+		// $DB->updateDataChange("suppliers", $itemId, "UPDATE", "supplierId", $itemId);
 		if ($rowEffect) {
 			$response = [
 				'status' => true,

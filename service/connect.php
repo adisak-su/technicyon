@@ -352,4 +352,26 @@ class Database
 			throw new Exception($ex);
 		}
 	}
+
+	function insertTableStatus($tableName)
+	{
+		$params = array(
+			'tableName' => $tableName,
+			'time' => date("Y-m-d H:i:s")
+		);
+		$sql = "UPDATE tablestatus SET insertTime=:time WHERE tableName = :tableName";
+		$stmt = $this->conn->prepare($sql);
+		$stmt->execute($params);
+	}
+
+	function updateTableStatus($tableName)
+	{
+		$params = array(
+			'tableName' => $tableName,
+			'time' => date("Y-m-d H:i:s")
+		);
+		$sql = "UPDATE tablestatus SET updateTime=:time WHERE tableName = :tableName";
+		$stmt = $this->conn->prepare($sql);
+		$stmt->execute($params);
+	}
 }

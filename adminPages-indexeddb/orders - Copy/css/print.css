@@ -1,0 +1,95 @@
+/* Print Styles */
+@media print {
+    body {
+        background-color: white;
+        color: black;
+        /* font-size: 12pt; */
+    }
+
+    .container {
+        width: 100%;
+        max-width: 100%;
+        padding: 0;
+    }
+
+    .d-print-none {
+        display: none !important;
+    }
+
+    #repairInvoice {
+        border: none;
+        box-shadow: none;
+    }
+
+    .table {
+        page-break-inside: avoid;
+    }
+
+    .table td,
+    .table th {
+        padding: 0.3rem;
+        border-top: none;
+    }
+    .table th {
+        border-top: 1px solid #000000 !important;
+        border-bottom: 1px solid #000000 !important;
+    }
+    h3,
+    h4,
+    h5 {
+        page-break-after: avoid;
+    }
+
+    .no-break {
+        page-break-inside: avoid;
+    }
+
+    /* .border-top-bottom {
+        border-top: 1px solid #dee2e6 !important;
+        border-bottom: 1px solid #dee2e6 !important;
+    } */
+
+    .table tr .border-top-bottom {
+        border-top: 1px solid #000000 !important;
+        border-bottom: 1px solid #000000 !important;
+    }
+    .table tr .border-bottom {
+        border-bottom: 1px solid #000000 !important;
+    }
+
+    @page {
+        /* size: A4; */
+        width: 21cm;
+        height: 15cm;
+        margin: 0cm;
+    }
+
+    /* @page {
+        size: A4;
+        margin: 0;
+    } */
+    @media print {
+        html,
+        body {
+            width: 210mm;
+            height: 150mm;
+        }
+        /* ... the rest of the rules ... */
+    }
+}
+
+/* Additional Print Styles */
+#repairInvoice {
+    background-color: white;
+    color: black;
+}
+
+.table-bordered td,
+.table-bordered th {
+    border: 1px solid #000000 !important;
+}
+
+.border-top-bottom {
+    border-top: 1px solid #000000 !important;
+    border-bottom: 1px solid #000000 !important;
+}

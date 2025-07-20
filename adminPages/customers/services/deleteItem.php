@@ -8,7 +8,7 @@ $conn->beginTransaction();
 try {
 	if (isset($_POST["itemId"]) && !empty($_POST["itemId"])) {
 		$itemId = $_POST["itemId"];
-		$DB->updateDataChange("customers", $itemId, "DELETE", "customerId");
+		// $DB->updateDataChange("customers", $itemId, "DELETE", "customerId");
 		
 		$params = [
 			"itemId" => $itemId
@@ -18,7 +18,7 @@ try {
 		$stmt->execute($params);
 		$rowEffect = $stmt->rowCount();
 
-		$DB->updateDataChange("customers", $itemId, "DELETE", "customerId");
+		// $DB->updateDataChange("customers", $itemId, "DELETE", "customerId");
 
 		if ($rowEffect) {
 			$response = [

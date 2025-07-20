@@ -22,10 +22,8 @@ try {
 		$stmt->execute($params);
 		$rowEffect = $stmt->rowCount();
 
-		// $DB->updateDataChange("groupnames", $itemId, "UPDATE", "groupId");
-		$DB->updateDataChange("groupnames", $itemId, "UPDATE", "groupId", $itemId);
-
-		updateUsercar($itemName_org, $itemName, "groupname", $conn, $DB);
+		// $DB->updateDataChange("groupnames", $itemId, "UPDATE", "groupId", $itemId);
+		// updateUsercar($itemName_org, $itemName, "groupname", $conn, $DB);
 
 		if ($rowEffect) {
 			$response = [
