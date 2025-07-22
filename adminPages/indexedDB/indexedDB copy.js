@@ -8,7 +8,7 @@ const dbName = "LocalDBTest",
         },
         {
             storeName: "usercars",
-            keyPath: "carId",
+            keyPath: "usercarId",
         },
         {
             storeName: "customers",
@@ -20,15 +20,15 @@ const dbName = "LocalDBTest",
         },
         {
             storeName: "groupnames",
-            keyPath: "groupId",
+            keyPath: "groupNo",
         },
         {
             storeName: "typenames",
-            keyPath: "typeId",
+            keyPath: "typeNo",
         },
         {
             storeName: "colornames",
-            keyPath: "colorId",
+            keyPath: "colorNo",
         },
     ];
 metaStore = "meta";

@@ -290,9 +290,9 @@ require_once("../../service/configData.php");
     <?php include_once('../../includes/pagesScript.php') ?>
     <?php include_once('../../includes/myScript.php') ?>
     <script src="../indexedDB/indexedDB.js?<?php echo time(); ?>"></script>
-    <script src="../js/renderPagination.js"></script>
-    <script src="../js/sortColumnBy.js"></script>
-    <script src="../js/validateInput.js"></script>
+    <script src="../js/renderPagination.js?<?php echo time(); ?>"></script>
+    <script src="../js/sortColumnBy.js?<?php echo time(); ?>"></script>
+    <script src="../js/validateInput.js?<?php echo time(); ?>"></script>
     <script type="text/javascript">
         let suppliers = [];
         let filtered = [];
@@ -303,14 +303,31 @@ require_once("../../service/configData.php");
         let deleteId = null;
 
         //ตั้งค่าสำหรับการตรวจสอบข้อมูลการ Input
-        let arrayValidateInput = [{
+        // let arrayValidateInput = [{
+        //     id: "itemId",
+        //     name: "รหัสร้านค้า"
+        // }, {
+        //     id: "itemName",
+        //     name: "ชื่อร้านค้า"
+        // }];
+        // let validateInputForm = new ValidateInput("itemModal", arrayValidateInput);
+
+        //ตั้งค่าสำหรับการตรวจสอบข้อมูลการ Input
+        let validateInputForm = null;
+        let arrayValidateInput = []
+
+        function createValidate() {
+            arrayValidateInput = [{
             id: "itemId",
-            name: "รหัสร้านค้า"
+            name: "รหัส",
+            type: "value"
         }, {
             id: "itemName",
-            name: "ชื่อร้านค้า"
+            name: "ชื่อร้านค้า",
+            type: "value"
         }];
-        let validateInputForm = new ValidateInput("itemModal", arrayValidateInput);
+            validateInputForm = new ValidateInput("itemModal", arrayValidateInput);
+        }
 
         const STORE = "suppliers";
 
@@ -407,6 +424,7 @@ require_once("../../service/configData.php");
             }
 
             const item = {
+                "supplierNo": 0,
                 "supplierId": 0,
                 "name": itemName,
                 "address": itemAddress,
@@ -525,13 +543,12 @@ require_once("../../service/configData.php");
             } else {
                 suppliers.push(item);
             }
-            createFilterDataAndRender();
+            createFilterDataAndRender(currentPage);
         }
 
         function confirmDelete(deleteId) {
             suppliers = suppliers.filter(m => m.supplierId != deleteId);
-            filtered = filtered.filter(m => m.supplierId != deleteId);
-            renderTable();
+            createFilterDataAndRender(currentPage);
         }
 
         function createFilterDataAndRender(page = 1) {
@@ -588,7 +605,7 @@ require_once("../../service/configData.php");
             try {
                 loaderScreen("show");
                 await syncOnLoad();
-                suppliers = await loadDataFromDB("suppliers");
+                suppliers = await loadDataFromDB("suppliers","supplierId");
                 // await loadAndSetData(STORE);
                 createFilterDataAndRender();
                 loaderScreen("hide");
@@ -611,7 +628,10 @@ require_once("../../service/configData.php");
             $('#searchInput').on('input', function() {
                 createFilterDataAndRender();
             });
-            setInterval(syncDataRealtime,10000); // 10 วินาที
+            
+            createValidate();
+
+            setInterval(syncDataRealtime,timeSync); // 10 วินาที
             // setInterval(function() {
             //     updateSyncData({dataSource:colorNames,dataName:"colornames"}); 
             // },5000); // 10 วินาที
@@ -622,20 +642,19 @@ require_once("../../service/configData.php");
             if (tableNames) {
                 if (tableNames.find((item) => item == "suppliers")) {
                     let dataSource = await loadDataFromDB("suppliers");
-                    suppliers = dataSource;
+                    suppliers = sortColumnData(dataSource);
                     createFilterDataAndRender(currentPage);
                 }
             }
         }
 
-        async function syncDataRealtime() {
+        async function _syncDataRealtime() {
             let dataSource = await updateSyncData({
                 dataName: "suppliers"
             });
             if (dataSource) {
                 suppliers = dataSource;
-                createFilterDataAndRender();
-                1
+                createFilterDataAndRender(currentPage);
             }
         }
     </script>

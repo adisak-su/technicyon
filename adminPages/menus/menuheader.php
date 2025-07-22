@@ -13,6 +13,17 @@
             </div>
             <!-- เมนูที่ 1 -->
             <div class="">
+                <a href="../customers/" class="text-decoration-none">
+                    <div class="menu-item shadow-sm">
+                        <div class="icon-container">
+                            <i class="fa fa-home text-primary"></i>
+                        </div>
+                        <div class="menu-text">ลูกค้า</div>
+                    </div>
+                </a>
+            </div>
+            <!-- เมนูที่ 1 -->
+            <div class="">
                 <a href="../suppliers/" class="text-decoration-none">
                     <div class="menu-item shadow-sm">
                         <div class="icon-container">
@@ -84,7 +95,7 @@
             
             <!-- เมนูที่ 4 -->
             <div class="">
-                <div onclick="deleteIndexedDB();" class="text-decoration-none">
+                <div onclick="deleteIndexedDB(this);" class="text-decoration-none">
                     <div class="menu-item shadow-sm">
                         <div class="icon-container">
                             <i class="fa fa-car text-danger"></i>
@@ -93,6 +104,5 @@
                     </div>
                 </div>
             </div>
-            
         </div>
     </div>

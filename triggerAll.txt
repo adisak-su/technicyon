@@ -1,0 +1,518 @@
+--
+-- Triggers `technicalname`
+--
+
+DROP TRIGGER IF EXISTS `After insert Color`;
+DROP TRIGGER IF EXISTS `After Update Color`;
+DROP TRIGGER IF EXISTS `After Delete Color`;
+
+DROP TRIGGER IF EXISTS `After insert Group`;
+DROP TRIGGER IF EXISTS `After Update Group`;
+DROP TRIGGER IF EXISTS `After Delete Group`;
+
+DROP TRIGGER IF EXISTS `After insert Type`;
+DROP TRIGGER IF EXISTS `After Update Type`;
+DROP TRIGGER IF EXISTS `After Delete Type`;
+
+DROP TRIGGER IF EXISTS `After insert Technical`;
+DROP TRIGGER IF EXISTS `After Update Technical`;
+DROP TRIGGER IF EXISTS `After Delete Technical`;
+
+DROP TRIGGER IF EXISTS `After insert TypeName`;
+DROP TRIGGER IF EXISTS `After Update TypeName`;
+DROP TRIGGER IF EXISTS `After Delete TypeName`;
+
+DROP TRIGGER IF EXISTS `After insert Customer`;
+DROP TRIGGER IF EXISTS `After Update Customer`;
+DROP TRIGGER IF EXISTS `After Delete Customer`;
+
+DROP TRIGGER IF EXISTS `After insert Supplier`;
+DROP TRIGGER IF EXISTS `After Update Supplier`;
+DROP TRIGGER IF EXISTS `After Delete Supplier`;
+
+DROP TRIGGER IF EXISTS `After insert Usercar`;
+DROP TRIGGER IF EXISTS `After Update Usercar`;
+DROP TRIGGER IF EXISTS `After Delete Usercar`;
+
+DROP TRIGGER IF EXISTS `After insert Product`;
+DROP TRIGGER IF EXISTS `After Update Product`;
+DROP TRIGGER IF EXISTS `After Delete Product`;
+
+--
+-- Triggers `colorname`
+--
+
+DELIMITER $$
+CREATE TRIGGER `After Insert Color` AFTER INSERT ON `colorname`
+ FOR EACH ROW BEGIN
+    SET @colorNo = NEW.colorNo;
+    SET @colorname = NEW.colorname;
+    SET @updatedAt = NEW.updatedAt;
+    SET @rowData = JSON_OBJECT('colorNo', @colorNo,'colorname', @colorname,'updatedAt', @updatedAt);
+
+	INSERT INTO data_changes(table_name, record_id, action, changed_at, data_after)
+    VALUES ('colornames', NEW.colorNo, "CREATE", NOW(), @rowData);
+    
+    UPDATE tablestatus SET insertTime = NOW() WHERE tableName = 'colorname';
+END
+$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE TRIGGER `After Update Color` AFTER UPDATE ON `colorname`
+ FOR EACH ROW BEGIN
+    SET @colorNo_old = OLD.colorNo;
+    SET @colorNo = NEW.colorNo;
+    SET @colorname = NEW.colorname;
+    SET @updatedAt = NEW.updatedAt;
+    SET @rowData = JSON_OBJECT('colorNo', @colorNo,'colorname', @colorname,'updatedAt', @updatedAt);
+
+	INSERT INTO data_changes(table_name, record_id, action, changed_at, data_after)
+    VALUES ('colornames', OLD.colorNo, "UPDATE", NOW(), @rowData);
+    
+    UPDATE usercar SET colorname = NEW.colorname WHERE colorname = OLD.colorname;
+    
+    UPDATE tablestatus SET updateTime = NOW() WHERE tableName = 'colorname';
+END
+$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE TRIGGER `After Delete Color` AFTER DELETE ON `colorname`
+ FOR EACH ROW BEGIN
+    INSERT INTO data_changes(table_name, record_id, action, changed_at)
+    VALUES ('colornames', OLD.colorNo, "DELETE", NOW());
+    
+    UPDATE usercar SET colorname = "" WHERE colorname = OLD.colorname;
+
+    UPDATE tablestatus SET updateTime = NOW() WHERE tableName = 'colorname';
+END
+$$
+DELIMITER ;
+
+--
+-- Triggers `customer`
+--
+DELIMITER $$
+CREATE TRIGGER `After Insert Customer` AFTER INSERT ON `customer`
+ FOR EACH ROW BEGIN
+    # customerNo customerId name address telephone discount type updatedAt
+    SET @customerNo = NEW.customerNo;
+    SET @customerId = NEW.customerId;
+    SET @name = NEW.name;
+    SET @address = NEW.address;
+    SET @telephone = NEW.telephone;
+    SET @discount = NEW.discount;
+    SET @type = NEW.type;
+    SET @updatedAt = NEW.updatedAt;
+    
+    SET @rowData = JSON_OBJECT('customerNo',@customerNo,'customerId',@customerId,'name',@name,'address',@address,'telephone', @telephone,'discount', @discount,'type', @type,'updatedAt', @updatedAt);
+
+	INSERT INTO data_changes(table_name, record_id, action, changed_at, data_after)
+    VALUES ('customers', NEW.customerNo, "CREATE", NOW(), @rowData);
+    
+    UPDATE tablestatus SET insertTime = NOW() WHERE tableName = 'customer';
+END
+$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE TRIGGER `After Update Customer` AFTER UPDATE ON `customer`
+ FOR EACH ROW BEGIN
+    # customerNo customerId name address telephone discount type updatedAt
+    SET @customerNo = NEW.customerNo;
+    SET @customerId = NEW.customerId;
+    SET @name = NEW.name;
+    SET @address = NEW.address;
+    SET @telephone = NEW.telephone;
+    SET @discount = NEW.discount;
+    SET @type = NEW.type;
+    SET @updatedAt = NEW.updatedAt;
+    
+    SET @rowData = JSON_OBJECT('customerNo',@customerNo,'customerId',@customerId,'name',@name,'address',@address,'telephone', @telephone,'discount', @discount,'type', @type,'updatedAt', @updatedAt);
+
+	INSERT INTO data_changes(table_name, record_id, action, changed_at, data_after)
+    VALUES ('customers', OLD.customerNo, "UPDATE", NOW(), @rowData);
+    
+    UPDATE tablestatus SET updateTime = NOW() WHERE tableName = 'customer';
+END
+$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE TRIGGER `After Delete Customer` AFTER DELETE ON `customer`
+ FOR EACH ROW BEGIN
+    # customerNo customerId name address telephone discount type updatedAt
+    # SET @customerNo = OLD.customerNo;
+
+	INSERT INTO data_changes(table_name, record_id, action, changed_at)
+    VALUES ('customers', OLD.customerNo, "DELETE", NOW());
+    
+    UPDATE tablestatus SET updateTime = NOW() WHERE tableName = 'customer';
+END
+$$
+DELIMITER ;
+
+--
+-- Triggers `groupname`
+--
+DELIMITER $$
+CREATE TRIGGER `After Insert Group` AFTER INSERT ON `groupname`
+ FOR EACH ROW BEGIN
+	SET @groupNo = NEW.groupNo;
+    SET @groupname = NEW.groupname;
+    SET @updatedAt = NEW.updatedAt;
+    SET @rowData = JSON_OBJECT('groupNo', @groupNo,'groupname', @groupname,'updatedAt', @updatedAt);
+
+	INSERT INTO data_changes(table_name, record_id, action, changed_at, data_after)
+    VALUES ('groupnames', NEW.groupNo, "CREATE", NOW(), @rowData);
+    
+    UPDATE tablestatus SET insertTime = NOW() WHERE tableName = 'groupname';
+END
+$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE TRIGGER `After Update Group` AFTER UPDATE ON `groupname`
+ FOR EACH ROW BEGIN
+    SET @groupNo_old = OLD.groupNo;
+    SET @groupNo = NEW.groupNo;
+    SET @groupname = NEW.groupname;
+    SET @updatedAt = NEW.updatedAt;
+    SET @rowData = JSON_OBJECT('groupNo', @groupNo,'groupname', @groupname,'updatedAt', @updatedAt);
+	INSERT INTO data_changes(table_name, record_id, action, changed_at, data_after)
+    VALUES ('groupnames', OLD.groupNo, "UPDATE", NOW(), @rowData);
+    
+    UPDATE usercar SET groupname = NEW.groupname WHERE groupname = OLD.groupname;
+    UPDATE product SET groupname = NEW.groupname WHERE groupname = OLD.groupname;
+    
+    UPDATE tablestatus SET updateTime = NOW() WHERE tableName = 'groupname';
+END
+$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE TRIGGER `After Delete Group` AFTER DELETE ON `groupname`
+ FOR EACH ROW BEGIN
+    INSERT INTO data_changes(table_name, record_id, action, changed_at)
+    VALUES ('groupnames', OLD.groupNo, "DELETE", NOW());
+    
+    UPDATE usercar SET groupname = "" WHERE groupname = OLD.groupname;
+    UPDATE product SET groupname = "" WHERE groupname = OLD.groupname;
+    
+    UPDATE tablestatus SET updateTime = NOW() WHERE tableName = 'groupname';
+END
+$$
+DELIMITER ;
+
+--
+-- Triggers `product`
+--
+DELIMITER $$
+CREATE TRIGGER `After insert Product` AFTER INSERT ON `product`
+ FOR EACH ROW BEGIN
+    SET @productNo = NEW.productNo;
+    SET @productId = NEW.productId;
+    SET @name = NEW.name;
+    SET @storeMax = NEW.storeMax;
+    SET @storeMin = NEW.storeMin;
+    SET @storeFront = NEW.storeFront;
+    SET @storeBack = NEW.storeBack;
+    SET @priceInv = NEW.priceInv;
+    SET @priceFront = NEW.priceFront;
+    SET @priceBack = NEW.priceBack;
+    SET @priceShop = NEW.priceShop;
+    SET @location = NEW.location;
+    SET @typename = NEW.typename;
+    SET @groupname = NEW.groupname;
+    SET @suppliername = NEW.suppliername;
+    SET @updatedAt = NEW.updatedAt;
+    
+    SET @rowData = JSON_OBJECT('productNo',@productNo,'productId',@productId,'name',@name,'storeMax',@storeMax,'storeMin', @storeMin,'storeFront',@storeFront,'storeBack', @storeBack,'priceInv', @priceInv,'priceFront', @priceFront
+                              ,'priceBack', @priceBack,'priceShop', @priceShop,'location', @location,'typename', @typename,'groupname', @groupname,'suppliername', @suppliername,'updatedAt', @updatedAt);
+
+	INSERT INTO data_changes(table_name, record_id, action, changed_at, data_after)
+    VALUES ('products', NEW.productNo, "UPDATE", NOW(), @rowData);
+    
+    UPDATE tablestatus SET insertTime = NOW() WHERE tableName = 'product';
+END
+$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE TRIGGER `After Update Product` AFTER UPDATE ON `product`
+ FOR EACH ROW BEGIN
+    SET @productNo = OLD.productNo;
+    SET @productId = NEW.productId;
+    SET @name = NEW.name;
+    SET @storeMax = NEW.storeMax;
+    SET @storeMin = NEW.storeMin;
+    SET @storeFront = NEW.storeFront;
+    SET @storeBack = NEW.storeBack;
+    SET @priceInv = NEW.priceInv;
+    SET @priceFront = NEW.priceFront;
+    SET @priceBack = NEW.priceBack;
+    SET @priceShop = NEW.priceShop;
+    SET @location = NEW.location;
+    SET @typename = NEW.typename;
+    SET @groupname = NEW.groupname;
+    SET @suppliername = NEW.suppliername;
+    SET @updatedAt = NEW.updatedAt;
+    
+    SET @rowData = JSON_OBJECT('productNo',@productNo,'productId',@productId,'name',@name,'storeMax',@storeMax,'storeMin', @storeMin,'storeFront',@storeFront,'storeBack', @storeBack,'priceInv', @priceInv,'priceFront', @priceFront
+                              ,'priceBack', @priceBack,'priceShop', @priceShop,'location', @location,'typename', @typename,'groupname', @groupname,'suppliername', @suppliername,'updatedAt', @updatedAt);
+
+	INSERT INTO data_changes(table_name, record_id, action, changed_at, data_after)
+    VALUES ('products', OLD.productNo, "UPDATE", NOW(), @rowData);
+    
+    UPDATE tablestatus SET updateTime = NOW() WHERE tableName = 'product';
+END
+$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE TRIGGER `After Delete Product` AFTER DELETE ON `product`
+ FOR EACH ROW BEGIN
+    SET @productNo = OLD.productNo;
+
+	INSERT INTO data_changes(table_name, record_id, action, changed_at)
+    VALUES ('products', OLD.productNo, "DELETE", NOW());
+
+    UPDATE tablestatus SET updateTime = NOW() WHERE tableName = 'product';
+END
+$$
+DELIMITER ;
+
+--
+-- Triggers `supplier`
+--
+DELIMITER $$
+CREATE TRIGGER `After Insert Supplier` AFTER INSERT ON `supplier`
+ FOR EACH ROW BEGIN
+    # supplierNo supplierId name address telephone updatedAt
+    SET @supplierNo = NEW.supplierNo;
+    SET @supplierId = NEW.supplierId;
+    SET @name = NEW.name;
+    SET @address = NEW.address;
+    SET @telephone = NEW.telephone;
+    SET @updatedAt = NEW.updatedAt;
+    
+    SET @rowData = JSON_OBJECT('supplierNo',@supplierNo,'supplierId',@supplierId,'name',@name,'address',@address,'telephone', @telephone,'updatedAt', @updatedAt);
+
+	INSERT INTO data_changes(table_name, record_id, action, changed_at, data_after)
+    VALUES ('suppliers', NEW.supplierNo, "CREATE", NOW(), @rowData);
+    
+    UPDATE tablestatus SET insertTime = NOW() WHERE tableName = 'supplier';
+END
+$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE TRIGGER `After Update Supplier` AFTER UPDATE ON `supplier`
+ FOR EACH ROW BEGIN
+    # supplierNo supplierId name address telephone updatedAt
+    SET @supplierNo = NEW.supplierNo;
+    SET @supplierId = NEW.supplierId;
+    SET @name = NEW.name;
+    SET @address = NEW.address;
+    SET @telephone = NEW.telephone;
+    SET @updatedAt = NEW.updatedAt;
+    
+    SET @rowData = JSON_OBJECT('supplierNo',@supplierNo,'supplierId',@supplierId,'name',@name,'address',@address,'telephone', @telephone,'updatedAt', @updatedAt);
+
+	INSERT INTO data_changes(table_name, record_id, action, changed_at, data_after)
+    VALUES ('suppliers', OLD.supplierNo, "UPDATE", NOW(), @rowData);
+    
+    UPDATE tablestatus SET updateTime = NOW() WHERE tableName = 'supplier';
+END
+$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE TRIGGER `After Delete Supplier` AFTER DELETE ON `supplier`
+ FOR EACH ROW BEGIN
+    # supplierNo supplierId name address telephone updatedAt
+    # SET @supplierNo = OLD.supplierNo;
+
+	INSERT INTO data_changes(table_name, record_id, action, changed_at)
+    VALUES ('suppliers', OLD.supplierNo, "DELETE", NOW());
+    
+    UPDATE tablestatus SET updateTime = NOW() WHERE tableName = 'supplier';
+END
+$$
+DELIMITER ;
+
+--
+-- Triggers `technicalname`
+--
+DELIMITER $$
+CREATE TRIGGER `After Insert Technical` AFTER INSERT ON `technicalname`
+ FOR EACH ROW BEGIN
+    SET @technicalNo = NEW.technicalNo;
+    SET @technicalname = NEW.technicalname;
+    SET @updatedAt = NEW.updatedAt;
+    SET @rowData = JSON_OBJECT('technicalNo', @technicalNo,'technicalname', @technicalname,'updatedAt', @updatedAt);
+    
+    # INSERT INTO data_changes(table_name, record_id, action, changed_at, data_after)
+    # VALUES ('technicalnames', NEW.technicalNo, "CREATE", NOW(), @rowData);
+    
+    UPDATE tablestatus SET insertTime = NOW() WHERE tableName = 'technicalname';
+END
+$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE TRIGGER `After Update Technical` AFTER UPDATE ON `technicalname`
+ FOR EACH ROW BEGIN
+    SET @technicalNo_old = OLD.technicalNo;
+    SET @technicalNo = NEW.technicalNo;
+    SET @technicalname = NEW.technicalname;
+    SET @updatedAt = NEW.updatedAt;
+    SET @rowData = JSON_OBJECT('technicalNo', @technicalNo,'technicalname', @technicalname,'updatedAt', @updatedAt);
+    
+    # INSERT INTO data_changes(table_name, record_id, action, changed_at, data_after)
+    # VALUES ('technicalnames', OLD.technicalNo, "UPDATE", NOW(), @rowData);
+    
+    UPDATE usercar_head SET technicalname = NEW.technicalname WHERE technicalname = OLD.technicalname;
+    
+    UPDATE tablestatus SET updateTime = NOW() WHERE tableName = 'technicalname';
+END
+$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE TRIGGER `After Delete Technical` AFTER DELETE ON `technicalname`
+ FOR EACH ROW BEGIN
+    # INSERT INTO data_changes(table_name, record_id, action, changed_at)
+    # VALUES ('technicalnames', OLD.technicalNo, "DELETE", NOW());
+    
+    UPDATE usercar_head SET technicalname = "" WHERE technicalname = OLD.technicalname;
+
+    UPDATE tablestatus SET updateTime = NOW() WHERE tableName = 'technicalname';
+END
+$$
+DELIMITER ;
+
+--
+-- Triggers `typename`
+--
+DELIMITER $$
+CREATE TRIGGER `After Insert Typename` AFTER INSERT ON `typename`
+ FOR EACH ROW BEGIN
+    SET @typeNo = NEW.typeNo;
+    SET @typename = NEW.typename;
+    SET @updatedAt = NEW.updatedAt;
+    SET @rowData = JSON_OBJECT('typeNo', @typeNo,'typename', @typename,'updatedAt', @updatedAt);
+
+	INSERT INTO data_changes(table_name, record_id, action, changed_at, data_after)
+    VALUES ('typenames', NEW.typeNo, "CREATE", NOW(), @rowData);
+    
+    UPDATE tablestatus SET insertTime = NOW() WHERE tableName = 'typename';
+END
+$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE TRIGGER `After Update Typename` AFTER UPDATE ON `typename`
+ FOR EACH ROW BEGIN
+    SET @typeNo_old = OLD.typeNo;
+    SET @typeNo = NEW.typeNo;
+    SET @typename = NEW.typename;
+    SET @updatedAt = NEW.updatedAt;
+    SET @rowData = JSON_OBJECT('typeNo', @typeNo,'typename', @typename,'updatedAt', @updatedAt);
+
+	INSERT INTO data_changes(table_name, record_id, action, changed_at, data_after)
+    VALUES ('typenames', OLD.typeNo, "UPDATE", NOW(), @rowData);
+    
+    UPDATE product SET typename = NEW.typename WHERE typename = OLD.typename;
+    
+    UPDATE tablestatus SET updateTime = NOW() WHERE tableName = 'typename';
+END
+$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE TRIGGER `After Delete Typename` AFTER DELETE ON `typename`
+ FOR EACH ROW BEGIN
+    INSERT INTO data_changes(table_name, record_id, action, changed_at)
+    VALUES ('typenames', OLD.typeNo, "DELETE", NOW());
+    
+    UPDATE product SET typename = "" WHERE typename = OLD.typename;
+    
+    UPDATE tablestatus SET updateTime = NOW() WHERE tableName = 'typename';
+END
+$$
+DELIMITER ;
+
+--
+-- Triggers `usercar`
+--
+DELIMITER $$
+CREATE TRIGGER `After Insert Usercar` AFTER INSERT ON `usercar`
+ FOR EACH ROW BEGIN
+    # `usercarINo`, `usercarId`, `groupname`, `colorname`, `name`, `address`, `telephone`, `mile`, `birthday`, `year`, `vehicleId`, `updatedAt`
+    SET @usercarNo = NEW.usercarNo;
+    SET @usercarId = NEW.usercarId;
+    SET @groupname = NEW.groupname;
+    SET @colorname = NEW.colorname;
+    SET @name = NEW.name;
+    SET @address = NEW.address;
+    SET @telephone = NEW.telephone;
+    SET @mile = NEW.mile;
+    SET @birthday = NEW.birthday;
+    SET @year = NEW.year;
+    SET @vehicleId = NEW.vehicleId;
+    SET @updatedAt = NEW.updatedAt;
+    
+    SET @rowData = JSON_OBJECT('usercarNo',@usercarNo,'usercarId',@usercarId,'groupname',@groupname,'colorname',@colorname,'name', @name,'address',@address,'telephone', @telephone,'mile', @mile,'birthday', @birthday
+                              ,'year', @year,'vehicleId', @vehicleId,'updatedAt', @updatedAt);
+
+	INSERT INTO data_changes(table_name, record_id, action, changed_at, data_after)
+    VALUES ('usercars', NEW.usercarNo, "CREATE", NOW(), @rowData);
+    
+    UPDATE tablestatus SET insertTime = NOW() WHERE tableName = 'usercar';
+END
+$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE TRIGGER `After Update Usercar` AFTER UPDATE ON `usercar`
+ FOR EACH ROW BEGIN
+    # `usercarINo`, `usercarId`, `groupname`, `colorname`, `name`, `address`, `telephone`, `mile`, `birthday`, `year`, `vehicleId`, `updatedAt`
+    SET @usercarNo = OLD.usercarNo;
+    SET @usercarId = NEW.usercarId;
+    SET @groupname = NEW.groupname;
+    SET @colorname = NEW.colorname;
+    SET @name = NEW.name;
+    SET @address = NEW.address;
+    SET @telephone = NEW.telephone;
+    SET @mile = NEW.mile;
+    SET @birthday = NEW.birthday;
+    SET @year = NEW.year;
+    SET @vehicleId = NEW.vehicleId;
+    SET @updatedAt = NEW.updatedAt;
+    
+    SET @rowData = JSON_OBJECT('usercarNo',@usercarNo,'usercarId',@usercarId,'groupname',@groupname,'colorname',@colorname,'name', @name,'address',@address,'telephone', @telephone,'mile', @mile,'birthday', @birthday
+                              ,'year', @year,'vehicleId', @vehicleId,'updatedAt', @updatedAt);
+
+	INSERT INTO data_changes(table_name, record_id, action, changed_at, data_after)
+    VALUES ('usercars', OLD.usercarNo, "UPDATE", NOW(), @rowData);
+    
+    UPDATE tablestatus SET updateTime = NOW() WHERE tableName = 'usercar';
+END
+$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE TRIGGER `After Delete Usercar` AFTER DELETE ON `usercar`
+ FOR EACH ROW BEGIN
+    # `usercarINo`, `usercarId`, `groupname`, `colorname`, `name`, `address`, `telephone`, `mile`, `birthday`, `year`, `vehicleId`, `updatedAt`
+    SET @usercarNo = OLD.usercarNo;
+
+	INSERT INTO data_changes(table_name, record_id, action, changed_at)
+    VALUES ('usercars', OLD.usercarNo, "DELETE", NOW());
+    
+    UPDATE tablestatus SET updateTime = NOW() WHERE tableName = 'usercar';
+END
+$$
+DELIMITER ;

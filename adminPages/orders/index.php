@@ -110,7 +110,7 @@ require_once("../../service/configData.php");
                                             <div class="d-flex flex-row justify-content-between">
                                                 <div class="input-icon-wrapper" style="width: calc(100% - 50px);">
                                                     <i class="fa fa-keyboard input-icon" aria-hidden="true"></i>
-                                                    <input type="text" class="form-control" id="orderInput" value="" placeholder="เลขบิล..." value="" onkeydown="checkEnter(event,this.value);" autocomplete="off" />
+                                                    <input type="text" class="form-control" id="orderInput" value="" placeholder="เลขบิล..." value="" onkeydown="checkEnterOrderId(event,this.value);" autocomplete="off" />
                                                     <div id="orderSuggestions" class="suggestions"></div>
                                                 </div>
                                                 <button id="btnViewOrder" class="btn btn-primary boxx" style="width: 40px;" data-toggle="modal" data-target="#viewOrderModal"><i class="fa fa-search"></i></button>
@@ -121,17 +121,20 @@ require_once("../../service/configData.php");
                                             <label for="customerInput" class="form-label">รหัสลูกค้า</label>
                                             <div class="input-icon-wrapper">
                                                 <i class="fa fa-keyboard input-icon" aria-hidden="true"></i>
-                                                <input type="text" id="customerInput" class="form-control" value="" placeholder="รหัส/ชื่อลูกค้า..." value="" onkeydown="checkEnter(event,this.value);" autocomplete="off" />
+                                                <input type="text" id="customerInput" class="form-control" value="" placeholder="รหัส/ชื่อลูกค้า..." value="" onkeydown="checkEnterCustomerId(event,this.value);" autocomplete="off" />
                                             </div>
                                             <div id="customerSuggestions" class="suggestions"></div>
                                             <input type="hidden" id="customerCode">
                                         </div>
                                         <div class="col-12 col-md-8 col-lg-4 col-xl-4 form-group position-relative">
                                             <label for="customerName">ชื่อ</label>
-                                            <div class="input-icon-wrapper">
-                                                <i class="fa fa-keyboard input-icon" aria-hidden="true"></i>
-                                                <input type="text" id="customerName" class="form-control" value="" placeholder="" autocomplete="off">
+                                            <div class="input-wrapper">
+                                                <input type="text" readonly id="customerName" class="form-control" style="background-color: #fff;" value="" placeholder="" autocomplete="off">
                                             </div>
+                                            <!-- <div class="input-icon-wrapper">
+                                                <i class="fa fa-keyboard input-icon" aria-hidden="true"></i>
+                                                <input type="text" readonly id="customerName" class="form-control" style="background-color: #fff;" value="" placeholder="" autocomplete="off">
+                                            </div> -->
                                             <input type="hidden" id="customerAddress" class="form-control" value="" placeholder="" autocomplete="off">
                                             <input type="hidden" id="customerTelephone" class="form-control" value="" placeholder="" autocomplete="off">
                                         </div>
@@ -155,7 +158,7 @@ require_once("../../service/configData.php");
                                             <div class="d-flex flex-row justify-content-between">
                                                 <div class="input-icon-wrapper" style="width: calc(100% - 50px);">
                                                     <i class="fa fa-keyboard input-icon" aria-hidden="true"></i>
-                                                    <input type="text" class="form-control" id="productInput" value="" placeholder="รหัส/ชื่อสินค้า..." value="" onkeydown="checkEnter(event,this.value);" autocomplete="off" />
+                                                    <input type="text" class="form-control" id="productInput" value="" placeholder="รหัส/ชื่อสินค้า..." value="" onkeydown="checkEnterProductId(event,this.value);" autocomplete="off" />
                                                     <div id="productSuggestions" class="suggestions"></div>
                                                 </div>
                                                 <button id="btnViewProduct" class="btn btn-primary boxx" style="width: 40px;" data-toggle="modal" data-target="#viewProductModal"><i class="fa fa-search"></i></button>
@@ -379,21 +382,63 @@ require_once("../../service/configData.php");
         // alert(MAXRowPerPage);
 
         //ตั้งค่าสำหรับการตรวจสอบข้อมูลการ Input
-        let arrayValidateInput = [{
-                id: "customerInput",
-                name: "รหัสลูกค้า"
-            },
-            {
-                id: "customerName",
-                name: "ชื่อลูกค้า"
-            },
-            {
-                id: "orderDate",
-                name: "วันที่"
-            }
-        ];
-        let validateInputForm = new ValidateInput("itemModal", arrayValidateInput);
+        // let arrayValidateInput = [{
+        //         id: "customerInput",
+        //         name: "รหัสลูกค้า"
+        //     },
+        //     {
+        //         id: "customerName",
+        //         name: "ชื่อลูกค้า"
+        //     },
+        //     {
+        //         id: "orderDate",
+        //         name: "วันที่"
+        //     }
+        // ];
+        // let validateInputForm = new ValidateInput("itemModal", arrayValidateInput);
 
+        //ตั้งค่าสำหรับการตรวจสอบข้อมูลการ Input
+        let validateInputForm = null;
+        let arrayValidateInput = []
+
+        function createValidate() {
+            arrayValidateInput = [{
+                    id: "customerInput",
+                    name: "รหัสลูกค้า",
+                    type: "list",
+                    dataSource: customers,
+                    key: "customerId",
+                    require: true,
+                },
+                {
+                    id: "customerName",
+                    name: "ชื่อลูกค้า",
+                    type: "value"
+                },
+                {
+                    id: "orderDate",
+                    name: "วันที่",
+                    type: "value"
+                },
+                // {
+                //     id: "itemGroupName",
+                //     name: "ยี่ห้อ/รุ่นรถยนต์",
+                //     type: "list",
+                //     dataSource: groupNames,
+                //     key: "groupname",
+                //     require: true,
+                // },
+                // {
+                //     id: "itemColor",
+                //     name: "สีรถยนต์",
+                //     type: "list",
+                //     dataSource: colorNames,
+                //     key: "colorname",
+                //     require: true,
+                // }
+            ];
+            validateInputForm = new ValidateInput("itemModal", arrayValidateInput);
+        }
 
         $('#vatSale').bootstrapToggle();
         $('#vatSale').off('change');
@@ -650,19 +695,6 @@ require_once("../../service/configData.php");
             });
         }
 
-        $(document).ready(async function() {
-            loaderScreen("show");
-            orders = await fetchData("getOrder_head.php");
-            await openDB();
-            loadAndSetData("products");
-            loadAndSetData("customers");
-            loadAndSetData("groupnames");
-            loadAndSetData("typenames");
-            setupProductItemEventHandlers();
-            resetValueSale();
-            loaderScreen("hide");
-        });
-
         function setSelectedDate(selectedDate, displaySelector) {
             // alert(selectedDate);
             let date = new Date(selectedDate);
@@ -736,10 +768,36 @@ require_once("../../service/configData.php");
             $("#productTotal").val(total);
         }
 
-        function checkEnter(event, value) {
+        function checkEnterProductId(event, value) {
             // alert(event.key)
             if (event.key === "Enter") {
                 findProductId(value);
+            }
+        }
+
+        function checkEnterCustomerId(event, value) {
+            // alert(event.key)
+            if (event.key === "Enter") {
+                // findCustomerId(value);
+                let item = customers.find(item => item.customerId == value);
+                if (!item) {
+                    toastr.error("ไม่พบรายการลูกค้า : " + value);
+                }
+                setValueCustomerSale(item);
+            }
+        }
+
+        function checkEnterOrderId(event, value) {
+            // alert(event.key)
+            if (event.key === "Enter") {
+                let item = orders.find(item => item.orderId == value);
+                if (item) {
+                    // setValueCustomerSale(item);
+                    setOrderOnSelected(item.orderId, item.customerId, item.mydate);
+                } else {
+                    toastr.error("ไม่พบรายการขาย : " + value);
+                    // sweetAlert("ไม่พบรายการขาย : " + value, 1500);
+                }
             }
         }
 
@@ -760,6 +818,8 @@ require_once("../../service/configData.php");
                     setValueProductSale(item);
                     // setFocusInput("#productPrice");
                     document.getElementById("productSuggestions").innerHTML = "";
+                } else {
+                    toastr.error("ไม่พบรายการสินค้า : " + id);
                 }
             }
         }
@@ -810,7 +870,7 @@ require_once("../../service/configData.php");
                 $("#saveProductSale").html('<i class="fa fa-save"></i> บันทึกการขาย');
                 $("#orderInput").attr("readonly", false);
                 $("#customerInput").attr("readonly", false);
-                $("#customerName").attr("readonly", false);
+                // $("#customerName").attr("readonly", false);
                 // $("#orderDate").attr("disabled", false);
             }
         }
@@ -873,94 +933,6 @@ require_once("../../service/configData.php");
 
             $("#orderItemsBody").html("");
             setFocusInput("#customerInput");
-        }
-
-        async function loadAndSetData(storeName) {
-            // setupAutocompleteOnFocus({
-            //     inputId:inputId ,
-            //     suggestionsId: ,
-            //     dataList: ,
-            //     codeId: ,
-            //     arrayShowValue: ,
-            //     arrayFindValue ,
-            //     sizeFind = 0,
-            //     sortField = null,
-            //     callbackFunction = null
-            // })
-            let dataStore = await loadDataFromDB(storeName);
-            if (storeName == "products") {
-                products = dataStore;
-                setupAutocompleteProducts(
-                    "productInput", "productSuggestions", products, "productId", ["productId", "name"], ["productId", "name"], setValueProductSale);
-            } else if (storeName == "groupnames") {
-                groupNames = dataStore;
-                // setupAutocomplete(
-                //     "filterGroup", "filterGroupSuggestions", groupNames, "groupname", ["groupname"], ["groupname"], dataFilterProductModal);
-                setupAutocompleteOnFocus({
-                    inputId: "filterGroup",
-                    suggestionsId: "filterGroupSuggestions",
-                    dataList: groupNames,
-                    codeId: "groupname",
-                    arrayShowValue: ["groupname"],
-                    arrayFindValue: ["groupname"],
-                    callbackFunction: dataFilterProductModal,
-                    sortField: "groupname"
-                });
-            } else if (storeName == "typenames") {
-                typeNames = dataStore;
-                // setupAutocomplete(
-                //     "filterType", "filterTypeSuggestions", typeNames, "typename", ["typename"], ["typename"], dataFilterProductModal);
-                setupAutocompleteOnFocus({
-                    inputId: "filterType",
-                    suggestionsId: "filterTypeSuggestions",
-                    dataList: typeNames,
-                    codeId: "typename",
-                    arrayShowValue: ["typename"],
-                    arrayFindValue: ["typename"],
-                    callbackFunction: dataFilterProductModal,
-                    sortField: "typename"
-                });
-            } else if (storeName == "suppliers") {
-                suppliers = dataStore;
-                // setupAutocomplete(
-                //     "supplierName", "supplierNameSuggestions", suppliers, "name", ["name"], ["supplierId", "name"]);
-                setupAutocompleteOnFocus({
-                    inputId: "customerInput",
-                    suggestionsId: "customerSuggestions",
-                    dataList: customers,
-                    codeId: "customerId",
-                    arrayShowValue: ["customerId", "name"],
-                    arrayFindValue: ["customerId", "name"],
-                    callbackFunction: setValueCustomerSale,
-                    sortField: "customerId"
-                });
-            } else if (storeName == "customers") {
-                customers = dataStore;
-                setupAutocompleteOnFocus({
-                    inputId: "customerInput",
-                    suggestionsId: "customerSuggestions",
-                    dataList: customers,
-                    codeId: "customerId",
-                    arrayShowValue: ["customerId", "name"],
-                    arrayFindValue: ["customerId", "name"],
-                    callbackFunction: setValueCustomerSale,
-                    sortField: "customerId"
-                });
-
-                setupAutocompleteOnFocus({
-                    inputId: "filterCustomerModal",
-                    suggestionsId: "filterCustomerModalSuggestions",
-                    dataList: customers,
-                    codeId: "customerId",
-                    arrayShowValue: ["customerId", "name"],
-                    arrayFindValue: ["customerId", "name"],
-                    callbackFunction: dataFilterOrderModal,
-                    sortField: "customerId"
-                });
-
-                // setupAutocompleteOnFocus(
-                //     "customerInput", "customerSuggestions", customers, "customerId", ["customerId", "name"], ["customerId", "name"], setValueCustomerSale);
-            }
         }
 
         function dataFilterProductNameModal() {
@@ -1088,17 +1060,7 @@ require_once("../../service/configData.php");
             $("#orderInput").val(orderId);
             $("#customerInput").val(customerId);
 
-
-
             let date = new Date(orderDate).toLocaleDateString("en-GB");
-            //alert(orderDate)
-            //alert(date);
-            // $("#orderDate").val(date);
-            // $("#orderDate").val(new Date().toLocaleDateString("en-GB"));
-            //orderDateFlatpickr.setDate(date);
-            //orderDateFlatpickr.setDate(date + " 15:35");
-
-            //let myDateNow = new Date(orderDate).toLocaleDateString("en-GB") + " " + orderDate.sustr(11,5);
 
             let orderMyDate = new Date(orderDate);
             let myDateNow = orderMyDate.toLocaleDateString("en-GB") + " " + orderMyDate.toLocaleTimeString("en-GB");
@@ -1113,7 +1075,7 @@ require_once("../../service/configData.php");
                 $("#customerName").val(customerName.name);
             }
             editOrder = await getDataOrderApiAxios("getOrderAxios.php", orderId);
-            console.log(editOrder)
+            console.table(editOrder)
             setReadOnly();
             if (editOrder.status) {
                 editOrder = editOrder.data;
@@ -1132,6 +1094,19 @@ require_once("../../service/configData.php");
                         $("#vatSale")[0].click();
                     }
                 }
+
+                if (Number(editOrder.typesale) == 0) {
+                    if ($("#typeSale")[0].checked) {
+                        $("#typeSale")[0].checked = false;
+                        $("#typeSale")[0].click();
+                    }
+                } else {
+                    if (!$("#typeSale")[0].checked) {
+                        $("#typeSale")[0].checked = true;
+                        $("#typeSale")[0].click();
+                    }
+                }
+
                 addProductItemFromJSON(orderItems)
             } else {
                 sweetAlertError('เกิดข้อผิดพลาดในการอ่านข้อมูล !!!' + editOrder.error, 0);
@@ -1139,18 +1114,145 @@ require_once("../../service/configData.php");
             }
         }
 
-        $(function() {
-            var focusedElement;
-            $(document).on('focus', 'input', function() {
-                if (focusedElement == this) return;
-                if (this.readOnly) return;
-                if ("customerInput" == this.id) return;
-                focusedElement = this;
-                setTimeout(function() {
-                    focusedElement.select();
-                }, 100);
+        $(document).ready(async function() {
+            try {
+                loaderScreen("show");
+                orders = await fetchData("getOrder_head.php");
+                // await openDB();
+                await syncOnLoad();
+                products = await loadAndSetData("products");
+                customers = await loadAndSetData("customers");
+                groupNames = await loadAndSetData("groupnames");
+                typeNames = await loadAndSetData("typenames");
+                setupProductItemEventHandlers();
+                resetValueSale();
+            } catch (error) {
+                sweetAlertError("เกิดข้อผิดพลาด : " + error.message, 0);
+            } finally {
+                loaderScreen("hide");
+            }
+            $(function() {
+                var focusedElement;
+                $(document).on('focus', 'input', function() {
+                    if (focusedElement == this) return;
+                    if (this.readOnly) return;
+                    if ("customerInput" == this.id) return;
+                    focusedElement = this;
+                    setTimeout(function() {
+                        focusedElement.select();
+                    }, 100);
+                });
             });
+
+            createValidate();
+
+            setInterval(syncDataRealtime, timeSync);
         });
+
+        async function syncDataRealtime() {
+            let tableNames = await updateSyncData();
+            if (tableNames) {
+                if (tableNames.find((item) => item == "products")) {
+                    products = await loadAndSetData("products");
+                }
+                if (tableNames.find((item) => item == "customers")) {
+                    customers = await loadAndSetData("customers");
+                }
+                if (tableNames.find((item) => item == "groupnames")) {
+                    groupNames = await loadAndSetData("groupnames");
+                }
+                if (tableNames.find((item) => item == "typenames")) {
+                    typeNames = await loadAndSetData("typenames");
+                }
+                createValidate();
+            }
+        }
+
+        async function loadAndSetData(storeName) {
+            try {
+                // setupAutocompleteOnFocus({
+                //     inputId:inputId ,
+                //     suggestionsId: ,
+                //     dataList: ,
+                //     codeId: ,
+                //     arrayShowValue: ,
+                //     arrayFindValue ,
+                //     sizeFind = 0,
+                //     sortField = null,
+                //     callbackFunction = null
+                // })
+                let dataStore = await loadDataFromDB(storeName);
+                if (storeName == "products") {
+                    setupAutocompleteProducts(
+                        "productInput", "productSuggestions", dataStore, "productId", ["productId", "name"], ["productId", "name"], setValueProductSale);
+                } else if (storeName == "groupnames") {
+                    // setupAutocomplete(
+                    //     "filterGroup", "filterGroupSuggestions", groupNames, "groupname", ["groupname"], ["groupname"], dataFilterProductModal);
+                    setupAutocompleteOnFocus({
+                        inputId: "filterGroup",
+                        suggestionsId: "filterGroupSuggestions",
+                        dataList: dataStore,
+                        codeId: "groupname",
+                        arrayShowValue: ["groupname"],
+                        arrayFindValue: ["groupname"],
+                        callbackFunction: dataFilterProductModal,
+                        sortField: "groupname"
+                    });
+                } else if (storeName == "typenames") {
+                    // setupAutocomplete(
+                    //     "filterType", "filterTypeSuggestions", typeNames, "typename", ["typename"], ["typename"], dataFilterProductModal);
+                    setupAutocompleteOnFocus({
+                        inputId: "filterType",
+                        suggestionsId: "filterTypeSuggestions",
+                        dataList: dataStore,
+                        codeId: "typename",
+                        arrayShowValue: ["typename"],
+                        arrayFindValue: ["typename"],
+                        callbackFunction: dataFilterProductModal,
+                        sortField: "typename"
+                    });
+                } else if (storeName == "suppliers") {
+                    // setupAutocomplete(
+                    //     "supplierName", "supplierNameSuggestions", suppliers, "name", ["name"], ["supplierId", "name"]);
+                    setupAutocompleteOnFocus({
+                        inputId: "customerInput",
+                        suggestionsId: "customerSuggestions",
+                        dataList: dataStore,
+                        codeId: "customerId",
+                        arrayShowValue: ["customerId", "name"],
+                        arrayFindValue: ["customerId", "name"],
+                        callbackFunction: setValueCustomerSale,
+                        sortField: "customerId"
+                    });
+                } else if (storeName == "customers") {
+                    setupAutocompleteOnFocus({
+                        inputId: "customerInput",
+                        suggestionsId: "customerSuggestions",
+                        dataList: dataStore,
+                        codeId: "customerId",
+                        arrayShowValue: ["customerId", "name"],
+                        arrayFindValue: ["customerId", "name"],
+                        callbackFunction: setValueCustomerSale,
+                        sortField: "customerId"
+                    });
+
+                    setupAutocompleteOnFocus({
+                        inputId: "filterCustomerModal",
+                        suggestionsId: "filterCustomerModalSuggestions",
+                        dataList: dataStore,
+                        codeId: "customerId",
+                        arrayShowValue: ["customerId", "name"],
+                        arrayFindValue: ["customerId", "name"],
+                        callbackFunction: dataFilterOrderModal,
+                        sortField: "customerId"
+                    });
+                }
+                return dataStore;
+
+            } catch (error) {
+                sweetAlertError("เกิดข้อผิดพลาด : " + error.message, 0);
+            }
+        }
     </script>
 </body>
 

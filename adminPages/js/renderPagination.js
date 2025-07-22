@@ -41,7 +41,7 @@ function renderPagination(current, total) {
 }
 
 function sortData() {
-    let sorted = $("#sorted")[0].checked ? "carId" : "name";
+    let sorted = $("#sorted")[0].checked ? "usercarId" : "name";
     usercars.sort((a, b) => a[sorted].localeCompare(b[sorted]));
     currentPage = 1;
     renderTable();

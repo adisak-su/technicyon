@@ -997,8 +997,7 @@ require_once("../../assets/php/common.php");
 
             function confirmDelete(deleteId) {
                 products = products.filter(m => m.productId !== deleteId);
-                createFilterDataAndRender();
-                //renderTable();
+                createFilterDataAndRender(currentPage)
             }
 
             const changeFilter = (item) => {

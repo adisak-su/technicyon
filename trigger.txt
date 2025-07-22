@@ -1,36 +1,48 @@
-CREATE TRIGGER `After Create Group` AFTER INSERT ON `groupname`
- FOR EACH ROW 
- BEGIN
-    SET @groupId = NEW.groupId;
-    SET @groupname = NEW.groupname;
+--
+-- Triggers `technicalname`
+--
+DELIMITER $$
+CREATE TRIGGER `After Insert Technical` AFTER INSERT ON `technicalname` FOR EACH ROW BEGIN
+    SET @technicalNo = NEW.technicalNo;
+    SET @technicalname = NEW.technicalname;
     SET @updatedAt = NEW.updatedAt;
-    SET @rowData = JSON_OBJECT('groupId', @groupId,
-  'groupname', @groupname,'updatedAt', @updatedAt);
-	INSERT INTO data_changes(table_name, record_id, action, changed_at, data_after)
-    VALUES ('groupnames', NEW.groupId, "CREATE", NOW(), @rowData);
-END
-
-CREATE TRIGGER `After Delete Group` AFTER DELETE ON `groupname`
- FOR EACH ROW 
- BEGIN
-    INSERT INTO data_changes(table_name, record_id, action, 	changed_at)
-    VALUES ('groupnames', OLD.groupId, "DELETE", NOW());
+    SET @rowData = JSON_OBJECT('technicalNo', @technicalNo,'technicalname', @technicalname,'updatedAt', @updatedAt);
     
-    UPDATE usercar SET groupname = "" WHERE groupname = OLD.groupname;
+    # INSERT INTO data_changes(table_name, record_id, action, changed_at, data_after)
+    # VALUES ('technicalnames', NEW.technicalNo, "CREATE", NOW(), @rowData);
+    
+    UPDATE tablestatus SET insertTime = NEW.updatedAt WHERE tableName = 'technicalname';
+    
 END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `After Delete Technical` AFTER DELETE ON `technicalname` FOR EACH ROW BEGIN
+    # INSERT INTO data_changes(table_name, record_id, action, changed_at)
+    # VALUES ('technicalnames', OLD.technicalNo, "DELETE", NOW());
+    
+    UPDATE usercar_head SET technicalname = "" WHERE technicalname = OLD.technicalname;
 
-CREATE TRIGGER `After Update Group` AFTER UPDATE ON `groupname`
- FOR EACH ROW
- BEGIN
-    SET @groupId_old = OLD.groupId;
-    SET @groupId = NEW.groupId;
-    SET @groupname = NEW.groupname;
+    UPDATE tablestatus SET updateTime = NEW.updatedAt WHERE tableName = 'technicalname';
+
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `After Update Technical` AFTER UPDATE ON `technicalname` FOR EACH ROW BEGIN
+    SET @technicalNo_old = OLD.technicalNo;
+    SET @technicalNo = NEW.technicalNo;
+    SET @technicalname = NEW.technicalname;
     SET @updatedAt = NEW.updatedAt;
-    SET @rowData = JSON_OBJECT('groupId', @groupId,
-  'groupname', @groupname,'updatedAt', @updatedAt);
-	INSERT INTO data_changes(table_name, record_id, action, changed_at, data_after)
-    VALUES ('groupnames', OLD.groupId, "UPDATE", NOW(), @rowData);
+    SET @rowData = JSON_OBJECT('technicalNo', @technicalNo,'technicalname', @technicalname,'updatedAt', @updatedAt);
     
-    UPDATE usercar SET groupname = NEW.groupname WHERE groupname = OLD.groupname;
+    # INSERT INTO data_changes(table_name, record_id, action, changed_at, data_after)
+    # VALUES ('technicalnames', OLD.technicalNo, "UPDATE", NOW(), @rowData);
     
+    UPDATE usercar_head SET technicalname = NEW.technicalname WHERE technicalname = OLD.technicalname;
+    
+    UPDATE tablestatus SET updateTime = NEW.updatedAt WHERE tableName = 'technicalname';
+
 END
+$$
+DELIMITER ;

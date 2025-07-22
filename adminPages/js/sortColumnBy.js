@@ -1,6 +1,8 @@
+let sortColName = "";
 function sortColumnBy(colName, element) {
     let index = sortColumn.findIndex((item) => item.colName === colName);
     if (index >= 0) {
+        sortColName = colName;
         let sortType = sortColumn[index].state;
         sortColumn = sortColumn.map((item) => {
             return {
@@ -38,4 +40,30 @@ function sortColumnBy(colName, element) {
             renderTable();
         }
     }
+}
+
+function sortColumnData(dataSource) {
+    if (sortColName == "") {
+        sortColName = sortColumn[0].colName;
+        dataSource.sort((a, b) => a[sortColName].localeCompare(b[sortColName]));
+        sortColName = "";
+    } else {
+        let index = sortColumn.findIndex(
+            (item) => item.colName === sortColName
+        );
+        if (index >= 0) {
+            let sortType = sortColumn[index].state;
+
+            if (sortType === "ASC") {
+                dataSource.sort((a, b) =>
+                    b[sortColName].localeCompare(a[sortColName])
+                );
+            } else {
+                dataSource.sort((a, b) =>
+                    a[sortColName].localeCompare(b[sortColName])
+                );
+            }
+        }
+    }
+    return dataSource;
 }

@@ -111,39 +111,40 @@
         let storeNames = [{
             storeName: "products",
             storeNameThai: "ข้อมูลสินค้า",
-            keyPath: "productId",
+            // keyPath: "productId",
+            keyPath: "productNo",
             count: 0
         }, {
             storeName: "usercars",
             storeNameThai: "ข้อมูลทะเบียนรถ",
-            keyPath: "carId",
+            keyPath: "usercarNo",
             count: 0
         }, {
             storeName: "customers",
             storeNameThai: "ข้อมูลลูกค้า",
-            keyPath: "customerId",
+            keyPath: "customerNo",
             count: 0
         }, {
             storeName: "suppliers",
             storeNameThai: "ข้อมูลร้านค้า",
-            keyPath: "supplierId",
+            keyPath: "supplierNo",
             count: 0
         }, {
             storeName: "groupnames",
             storeNameThai: "ข้อมูลยี่ห้อ/รุ่นรถยนต์",
-            keyPath: "groupId",
+            keyPath: "groupNo",
             count: 0
             // keyPath: "groupname"
         }, {
             storeName: "typenames",
             storeNameThai: "ข้อมูลประเภทสินค้า",
-            keyPath: "typeId",
+            keyPath: "typeNo",
             count: 0
             // keyPath: "typename"
         }, {
             storeName: "colornames",
             storeNameThai: "ข้อมูลสีรถยนต์",
-            keyPath: "colorId",
+            keyPath: "colorNo",
             count: 0
             // keyPath: "typename"
         }];

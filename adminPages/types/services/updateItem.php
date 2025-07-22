@@ -15,12 +15,12 @@ try {
 			"itemName" => $itemName,
 			"itemUpdatedAt" => $itemUpdatedAt
 		];
-		$sql = "UPDATE typename SET typename=:itemName , updatedAt=:itemUpdatedAt  WHERE typeId=:itemId";
+		$sql = "UPDATE typename SET typename=:itemName , updatedAt=:itemUpdatedAt  WHERE typeNo=:itemId";
 		$stmt = $conn->prepare($sql);
 		$stmt->execute($params);
 		$rowEffect = $stmt->rowCount();
 
-		// $DB->updateDataChange("typenames", $itemId, "UPDATE", "typeId", $itemId);
+		// $DB->updateDataChange("typenames", $itemId, "UPDATE", "typeNo", $itemId);
 
 		if ($rowEffect) {
 			$response = [

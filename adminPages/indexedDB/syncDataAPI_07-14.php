@@ -107,7 +107,7 @@
             }, {
                 storeName: "usercars",
                 storeNameThai: "ข้อมูลทะเบียนรถ",
-                keyPath: "carId"
+                keyPath: "usercarId"
             }, {
                 storeName: "customers",
                 storeNameThai: "ข้อมูลลูกค้า",
@@ -119,17 +119,17 @@
             }, {
                 storeName: "groupnames",
                 storeNameThai: "ข้อมูลยี่ห้อ/รุ่นรถยนต์",
-                keyPath: "groupId"
+                keyPath: "groupNo"
                 // keyPath: "groupname"
             }, {
                 storeName: "typenames",
                 storeNameThai: "ข้อมูลประเภทสินค้า",
-                keyPath: "typeId"
+                keyPath: "typeNo"
                 // keyPath: "typename"
             }, {
                 storeName: "colornames",
                 storeNameThai: "ข้อมูลสีรถยนต์",
-                keyPath: "colorId"
+                keyPath: "colorNo"
                 // keyPath: "typename"
             }];
         metaStore = "meta";

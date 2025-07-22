@@ -32,12 +32,12 @@ try {
 			"itemUpdatedAt" => $itemUpdatedAt,
 		];
 
-		$sql = "UPDATE usercar SET carId=:itemId, groupname=:itemGroupName, colorname=:itemColor, mile=:itemMile, year=:itemYear, vehicleId=:itemVehicleId, name=:itemName, address=:itemAddress, telephone=:itemTelephone, updatedAt=:itemUpdatedAt  WHERE carId=:itemId_org";
+		$sql = "UPDATE usercar SET usercarId=:itemId, groupname=:itemGroupName, colorname=:itemColor, mile=:itemMile, year=:itemYear, vehicleId=:itemVehicleId, name=:itemName, address=:itemAddress, telephone=:itemTelephone, updatedAt=:itemUpdatedAt  WHERE usercarId=:itemId_org";
 		$stmt = $conn->prepare($sql);
 		$stmt->execute($params);
 		$rowEffect = $stmt->rowCount();
 
-		// $DB->updateDataChange("usercars",$itemId_org,"UPDATE","carId",$itemId);
+		// $DB->updateDataChange("usercars",$itemId_org,"UPDATE","usercarId",$itemId);
 
 		if ($rowEffect) {
 			$response = [

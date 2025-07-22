@@ -296,10 +296,10 @@ require_once("../../service/configData.php");
     <!-- SCRIPTS -->
     <?php include_once('../../includes/pagesScript.php') ?>
     <?php include_once('../../includes/myScript.php') ?>
-    <script src="../indexedDB/indexedDB.js"></script>
-    <script src="../js/renderPagination.js"></script>
-    <script src="../js/sortColumnBy.js"></script>
-    <script src="../js/validateInput.js"></script>
+    <script src="../indexedDB/indexedDB.js?<?php echo time(); ?>"></script>
+    <script src="../js/renderPagination.js?<?php echo time(); ?>"></script>
+    <script src="../js/sortColumnBy.js?<?php echo time(); ?>"></script>
+    <script src="../js/validateInput.js?<?php echo time(); ?>"></script>
 
     <script type="text/javascript">
         let customers = [];
@@ -311,14 +311,31 @@ require_once("../../service/configData.php");
         let deleteId = null;
 
         //ตั้งค่าสำหรับการตรวจสอบข้อมูลการ Input
-        let arrayValidateInput = [{
+        // let arrayValidateInput = [{
+        //     id: "itemId",
+        //     name: "รหัสลูกค้า"
+        // }, {
+        //     id: "itemName",
+        //     name: "ชื่อลูกค้า"
+        // }];
+        // let validateInputForm = new ValidateInput("itemModal", arrayValidateInput);
+
+        //ตั้งค่าสำหรับการตรวจสอบข้อมูลการ Input
+        let validateInputForm = null;
+        let arrayValidateInput = []
+
+        function createValidate() {
+            arrayValidateInput = [{
             id: "itemId",
-            name: "รหัสลูกค้า"
+            name: "รหัสลูกค้า",
+            type: "value"
         }, {
             id: "itemName",
-            name: "ชื่อลูกค้า"
+            name: "ชื่อลูกค้า",
+            type: "value"
         }];
-        let validateInputForm = new ValidateInput("itemModal", arrayValidateInput);
+            validateInputForm = new ValidateInput("itemModal", arrayValidateInput);
+        }
 
         //สำหรับการจัดเรียงข้อมูล
         const STORE = "customers";
@@ -494,16 +511,15 @@ require_once("../../service/configData.php");
             } else {
                 customers.push(item);
             }
-            createFilterDataAndRender();
+            createFilterDataAndRender(currentPage);
         }
 
         function confirmDelete(deleteId) {
             customers = customers.filter(m => m.customerId != deleteId);
-            filtered = filtered.filter(m => m.customerId != deleteId);
-            renderTable();
+            createFilterDataAndRender(currentPage);
         }
 
-        function createFilterDataAndRender(page=1) {
+        function createFilterDataAndRender(page = 1) {
             currentPage = page;
             const searchText = document.getElementById('searchInput').value.trim().toLowerCase();
             filtered = customers;
@@ -557,7 +573,7 @@ require_once("../../service/configData.php");
             try {
                 loaderScreen("show");
                 await syncOnLoad();
-                customers = await loadDataFromDB("customers");
+                customers = await loadDataFromDB("customers","customerId");
                 createFilterDataAndRender();
                 loaderScreen("hide");
             } catch (error) {
@@ -579,20 +595,34 @@ require_once("../../service/configData.php");
             $('#searchInput').on('input', function() {
                 createFilterDataAndRender();
             });
-            // setInterval(syncDataRealtime,10000); // 10 วินาที
+
+            createValidate();
+
+            setInterval(syncDataRealtime,timeSync); // 10 วินาที
             // setInterval(function() {
             //     updateSyncData({dataSource:colorNames,dataName:"colornames"}); 
             // },5000); // 10 วินาที
         });
 
         async function syncDataRealtime() {
-            let dataSource = await updateSyncData({dataName:"customers"});
-            if(dataSource) {
-                customers = dataSource;
-                createFilterDataAndRender();
+            let tableNames = await updateSyncData();
+            if (tableNames) {
+                if (tableNames.find((item) => item == "customers")) {
+                    let dataSource = await loadDataFromDB("customers");
+                    customers = sortColumnData(dataSource);
+                    createFilterDataAndRender(currentPage);
+                }
+                // if (tableNames.find((item) => item == "groupnames")) {
+                //     groupNames = await loadAndSetData("groupnames");
+                // }
+                // if (tableNames.find((item) => item == "typenames")) {
+                //     typeNames = await loadAndSetData("typenames");
+                // }
+                // if (tableNames.find((item) => item == "suppliers")) {
+                //     suppliers = await loadAndSetData("suppliers");
+                // }
             }
         }
-
     </script>
 </body>
 

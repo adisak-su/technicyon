@@ -236,10 +236,10 @@ require_once("../../service/configData.php");
     <!-- SCRIPTS -->
     <?php include_once('../../includes/pagesScript.php') ?>
     <?php include_once('../../includes/myScript.php') ?>
-    <script src="../indexedDB/indexedDB.js"></script>
-    <script src="../js/renderPagination.js"></script>
-    <script src="../js/sortColumnBy.js"></script>
-    <script src="../js/validateInput.js"></script>
+    <script src="../indexedDB/indexedDB.js?<?php echo time(); ?>"></script>
+    <script src="../js/renderPagination.js?<?php echo time(); ?>"></script>
+    <script src="../js/sortColumnBy.js?<?php echo time(); ?>"></script>
+    <script src="../js/validateInput.js?<?php echo time(); ?>"></script>
 
     <script type="text/javascript">
         let products = [];
@@ -254,14 +254,31 @@ require_once("../../service/configData.php");
         let deleteId = null;
 
         //ตั้งค่าสำหรับการตรวจสอบข้อมูลการ Input
-        let arrayValidateInput = [{
+        // let arrayValidateInput = [{
+        //     id: "itemId",
+        //     name: "รหัส"
+        // }, {
+        //     id: "itemName",
+        //     name: "ชื่อยี่ห้อ/รุ่นรถยนต์"
+        // }];
+        // let validateInputForm = new ValidateInput("itemModal", arrayValidateInput);
+
+        //ตั้งค่าสำหรับการตรวจสอบข้อมูลการ Input
+        let validateInputForm = null;
+        let arrayValidateInput = []
+
+        function createValidate() {
+            arrayValidateInput = [{
             id: "itemId",
-            name: "รหัส"
+            name: "รหัส",
+            type: "value"
         }, {
             id: "itemName",
-            name: "ชื่อยี่ห้อ/รุ่นรถยนต์"
+            name: "ชื่อยี่ห้อ/รุ่นรถยนต์",
+            type: "value"
         }];
-        let validateInputForm = new ValidateInput("itemModal", arrayValidateInput);
+            validateInputForm = new ValidateInput("itemModal", arrayValidateInput);
+        }
 
         //สำหรับการจัดเรียงข้อมูล
         const STORE = "groupnames";
@@ -289,7 +306,7 @@ require_once("../../service/configData.php");
 
         function openEditModal(id) {
             editId = null;
-            const m = groupNames.find(x => x.groupId == id);
+            const m = groupNames.find(x => x.groupNo == id);
 
             if (m) {
                 editId = id;
@@ -322,7 +339,7 @@ require_once("../../service/configData.php");
             }
 
             const item = {
-                "groupId": 0,
+                "groupNo": 0,
                 "groupname": itemName,
                 updatedAt
             };
@@ -334,7 +351,7 @@ require_once("../../service/configData.php");
             }
 
             if (editId) {
-                item.groupId = parseInt(editId);
+                item.groupNo = parseInt(editId);
                 dataSend.itemId = itemId;
                 $.ajax({
                     type: "POST",
@@ -363,7 +380,7 @@ require_once("../../service/configData.php");
                     if (resp.status) {
                         toastr.success(resp.message);
                         const insertedId = resp.insertedId;
-                        item.groupId = insertedId;
+                        item.groupNo = insertedId;
                         confirmSave(item)
                     } else {
                         sweetAlertError('เกิดข้อผิดพลาด : ' + resp.message, 3000);
@@ -379,7 +396,7 @@ require_once("../../service/configData.php");
         }
 
         async function prepareDelete(item) {
-            let deleteId = item.groupId;
+            let deleteId = item.groupNo;
             let deleteName = item.groupname;
             message = `${deleteName}<BR>คุณแน่ใจหรือไม่...ที่จะลบรายการนี้?`;
             confirm = await sweetConfirmDelete(message, "ใช่! ลบเลย");
@@ -411,20 +428,19 @@ require_once("../../service/configData.php");
 
         function confirmSave(item) {
             if (editId) {
-                const index = groupNames.findIndex(m => m.groupId == editId);
+                const index = groupNames.findIndex(m => m.groupNo == editId);
                 if (index !== -1) {
                     groupNames[index] = item;
                 }
             } else {
                 groupNames.push(item);
             }
-            createFilterDataAndRender();
+            createFilterDataAndRender(currentPage);
         }
 
         function confirmDelete(deleteId) {
-            groupNames = groupNames.filter(m => m.groupId != deleteId);
-            filtered = filtered.filter(m => m.groupId != deleteId);
-            renderTable();
+            groupNames = groupNames.filter(m => m.groupNo != deleteId);
+            createFilterDataAndRender(currentPage);
         }
 
         function createFilterDataAndRender(page=1) {
@@ -457,7 +473,7 @@ require_once("../../service/configData.php");
                         <td></td>
                         <td>
                             <div class="d-flex justify-content-around">
-                                <button class="btn btn-sm btn-warning boxx text-white" onclick="openEditModal(${m.groupId})">แก้ไข</button>
+                                <button class="btn btn-sm btn-warning boxx text-white" onclick="openEditModal(${m.groupNo})">แก้ไข</button>
                                 <button class="btn btn-sm btn-danger boxx" onclick='prepareDelete(${JSON.stringify(m)})'>ลบ</button>
                             </div>
                         </td>
@@ -477,7 +493,7 @@ require_once("../../service/configData.php");
             try {
                 loaderScreen("show");
                 await syncOnLoad();
-                groupNames = await loadDataFromDB("groupnames");
+                groupNames = await loadDataFromDB("groupnames","groupname");
                 createFilterDataAndRender();
                 loaderScreen("hide");
             } catch (error) {
@@ -499,7 +515,10 @@ require_once("../../service/configData.php");
             $('#searchInput').on('input', function() {
                 createFilterDataAndRender();
             });
-            setInterval(syncDataRealtime,10000); // 10 วินาที
+
+            createValidate();
+
+            setInterval(syncDataRealtime,timeSync); // 10 วินาที
             // setInterval(function() {
             //     updateSyncData({dataSource:colorNames,dataName:"colornames"}); 
             // },5000); // 10 วินาที
@@ -510,7 +529,7 @@ require_once("../../service/configData.php");
             if (tableNames) {
                 if (tableNames.find((item) => item == "groupnames")) {
                     let dataSource = await loadDataFromDB("groupnames");
-                    groupNames = dataSource;
+                    groupNames = sortColumnData(dataSource);
                     createFilterDataAndRender(currentPage);
                 }
                 // if (tableNames.find((item) => item == "groupnames")) {
@@ -529,7 +548,7 @@ require_once("../../service/configData.php");
             let dataSource = await updateSyncData({dataName:"groupnames"});
             if(dataSource) {
                 groupNames = dataSource;
-                createFilterDataAndRender();
+                createFilterDataAndRender(currentPage);
             }
         }
     </script>

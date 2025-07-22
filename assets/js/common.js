@@ -151,6 +151,25 @@ function confirmLogout() {
     });
 }
 
+function confirmDeleteIndexeddb() {
+    event.preventDefault();
+    Swal.fire({
+        html: "คุณแน่ใจหรือไม่...ที่จะลบข้อมูลที่เก็บในเครื่อง?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#8a8a8a",
+        confirmButtonText: "ใช่! ลบเลย",
+        cancelButtonText: "ยกเลิก",
+        reverseButtons: true,
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // window.location.href = "../logout.php";
+            // window.location.href = "../../logout.php";
+        }
+    });
+}
+
 function sweetAlertError(message, timer = 1500, icon = "error") {
     Swal.fire({
         html: message,
@@ -287,7 +306,7 @@ function sweetConfirmSave(message, messageBtnConfirm = "ใช่! บันท�
         Swal.fire({
             html: message,
             icon: "info", // warning,error,success,info
-            content: "input",
+            // content: "input",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#8a8a8a",
@@ -305,7 +324,7 @@ function sweetConfirmSaveMessage(message, messageBtnConfirm = "ใช่! บั
         Swal.fire({
             html: message,
             icon: "info", // warning,error,success,info
-            content: "input",
+            // content: "input",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#8a8a8a",

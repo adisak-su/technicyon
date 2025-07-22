@@ -237,9 +237,9 @@ require_once("../../service/configData.php");
     <?php include_once('../../includes/pagesScript.php') ?>
     <?php include_once('../../includes/myScript.php') ?>
     <script src="../indexedDB/indexedDB.js?<?php echo time(); ?>"></script>
-    <script src="../js/renderPagination.js"></script>
-    <script src="../js/sortColumnBy.js"></script>
-    <script src="../js/validateInput.js"></script>
+    <script src="../js/renderPagination.js?<?php echo time(); ?>"></script>
+    <script src="../js/sortColumnBy.js?<?php echo time(); ?>"></script>
+    <script src="../js/validateInput.js?<?php echo time(); ?>"></script>
 
     <script type="text/javascript">
         let products = [];
@@ -254,14 +254,21 @@ require_once("../../service/configData.php");
         let deleteId = null;
 
         //ตั้งค่าสำหรับการตรวจสอบข้อมูลการ Input
-        let arrayValidateInput = [{
-            id: "itemId",
-            name: "รหัส"
-        }, {
-            id: "itemName",
-            name: "ชื่อสีรถยนต์"
-        }];
-        let validateInputForm = new ValidateInput("itemModal", arrayValidateInput);
+        let validateInputForm = null;
+        let arrayValidateInput = []
+
+        function createValidate() {
+            arrayValidateInput = [{
+                id: "itemId",
+                name: "รหัส",
+                type: "value"
+            }, {
+                id: "itemName",
+                name: "ชื่อสีรถยนต์",
+                type: "value"
+            }];
+            validateInputForm = new ValidateInput("itemModal", arrayValidateInput);
+        }
 
         //สำหรับการจัดเรียงข้อมูล
         const STORE = "colornames";
@@ -289,7 +296,7 @@ require_once("../../service/configData.php");
 
         function openEditModal(id) {
             editId = null;
-            const m = colorNames.find(x => x.colorId == id);
+            const m = colorNames.find(x => x.colorNo == id);
 
             if (m) {
                 editId = id;
@@ -322,7 +329,7 @@ require_once("../../service/configData.php");
             }
 
             const item = {
-                "colorId": 0,
+                "colorNo": 0,
                 "colorname": itemName,
                 updatedAt
             };
@@ -334,7 +341,7 @@ require_once("../../service/configData.php");
             }
 
             if (editId) {
-                item.colorId = parseInt(editId);
+                item.colorNo = parseInt(editId);
                 dataSend.itemId = itemId;
                 $.ajax({
                     type: "POST",
@@ -363,7 +370,7 @@ require_once("../../service/configData.php");
                     if (resp.status) {
                         toastr.success(resp.message);
                         const insertedId = resp.insertedId;
-                        item.colorId = insertedId;
+                        item.colorNo = insertedId;
                         confirmSave(item)
                     } else {
                         sweetAlertError('เกิดข้อผิดพลาด : ' + resp.message, 3000);
@@ -379,7 +386,7 @@ require_once("../../service/configData.php");
         }
 
         async function prepareDelete(item) {
-            let deleteId = item.colorId;
+            let deleteId = item.colorNo;
             let deleteName = item.colorname;
             message = `${deleteName}<BR>คุณแน่ใจหรือไม่...ที่จะลบรายการนี้?`;
             confirm = await sweetConfirmDelete(message, "ใช่! ลบเลย");
@@ -411,27 +418,27 @@ require_once("../../service/configData.php");
 
         function confirmSave(item) {
             if (editId) {
-                const index = colorNames.findIndex(m => m.colorId == editId);
+                const index = colorNames.findIndex(m => m.colorNo == editId);
                 if (index !== -1) {
                     colorNames[index] = item;
                 }
             } else {
                 colorNames.push(item);
             }
-            createFilterDataAndRender();
+            // colorNames.sortASC("colorname");
+            createFilterDataAndRender(currentPage);
         }
 
         function confirmDelete(deleteId) {
-            colorNames = colorNames.filter(m => m.colorId != deleteId);
-            filtered = filtered.filter(m => m.colorId != deleteId);
-            renderTable();
+            colorNames = colorNames.filter(m => m.colorNo != deleteId);
+            createFilterDataAndRender(currentPage);
         }
 
         function createFilterDataAndRender(page = 1) {
             currentPage = page;
             const searchText = document.getElementById('searchInput').value.trim().toLowerCase();
+            colorNames = sortColumnData(colorNames);
             filtered = colorNames;
-
             if (searchText) {
                 filtered = filtered.filter(m =>
                     m.colorname.toLowerCase().includes(searchText)
@@ -457,7 +464,7 @@ require_once("../../service/configData.php");
                         <td></td>
                         <td>
                             <div class="d-flex justify-content-around">
-                                <button class="btn btn-sm btn-warning boxx text-white" onclick="openEditModal(${m.colorId})">แก้ไข</button>
+                                <button class="btn btn-sm btn-warning boxx text-white" onclick="openEditModal(${m.colorNo})">แก้ไข</button>
                                 <button class="btn btn-sm btn-danger boxx" onclick='prepareDelete(${JSON.stringify(m)})'>ลบ</button>
                             </div>
                         </td>
@@ -477,12 +484,12 @@ require_once("../../service/configData.php");
             try {
                 loaderScreen("show");
                 await syncOnLoad();
-                colorNames = await loadDataFromDB("colornames");
+                colorNames = await loadDataFromDB("colornames", "colorname");
                 createFilterDataAndRender();
-                loaderScreen("hide");
             } catch (error) {
-                loaderScreen("hide");
                 sweetAlertError("เกิดข้อผิดพลาด : " + error.message, 0);
+            } finally {
+                loaderScreen("hide");
             }
 
             $(function() {
@@ -499,7 +506,11 @@ require_once("../../service/configData.php");
             $('#searchInput').on('input', function() {
                 createFilterDataAndRender();
             });
-            setInterval(syncDataRealtime,10000); // 10 วินาที
+
+            createValidate();
+
+            setInterval(syncDataRealtime, timeSync); // 10 วินาที
+            
             // setInterval(function() {
             //     updateSyncData({dataSource:colorNames,dataName:"colornames"}); 
             // },5000); // 10 วินาที
@@ -510,7 +521,7 @@ require_once("../../service/configData.php");
             if (tableNames) {
                 if (tableNames.find((item) => item == "colornames")) {
                     let dataSource = await loadDataFromDB("colornames");
-                    colorNames = dataSource;
+                    colorNames = sortColumnData(dataSource);
                     createFilterDataAndRender(currentPage);
                 }
                 // if (tableNames.find((item) => item == "groupnames")) {

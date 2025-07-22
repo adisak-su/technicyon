@@ -130,7 +130,7 @@ require_once("../../service/configData.php");
                                             <thead class="table-primary">
                                                 <tr>
                                                     <th style="min-width: 40px;">#</th>
-                                                    <th style="min-width: 50px;" onclick="sortColumnBy('carId',this);">
+                                                    <th style="min-width: 50px;" onclick="sortColumnBy('usercarId',this);">
                                                         <div class="d-flex justify-content-around">
                                                             <div>ทะเบียน</div>
                                                             <div id="icon"></div>
@@ -422,7 +422,7 @@ require_once("../../service/configData.php");
 
         //สำหรับการจัดเรียงข้อมูล
         let sortColumn = [{
-            colName: "carId",
+            colName: "usercarId",
             state: "ASC"
         }, {
             colName: "groupname",
@@ -462,7 +462,7 @@ require_once("../../service/configData.php");
 
         function openEditModal(id) {
             editId = null;
-            const m = usercars.find(x => x.carId == id);
+            const m = usercars.find(x => x.usercarId == id);
 
             if (m) {
                 editId = id;
@@ -509,7 +509,7 @@ require_once("../../service/configData.php");
             const updatedAt = getDateTimeNow();
 
             const item = {
-                "carId": itemId,
+                "usercarId": itemId,
                 "groupname": itemGroupName,
                 "colorname": itemColor,
                 "mile": itemMile,
@@ -536,7 +536,7 @@ require_once("../../service/configData.php");
             }
 
             if (editId) {
-                // item.carId = itemId;
+                // item.usercarId = itemId;
                 $.ajax({
                     type: "POST",
                     url: "services/updateItem.php",
@@ -578,7 +578,7 @@ require_once("../../service/configData.php");
         }
 
         async function prepareDelete(item) {
-            let deleteId = item.carId;
+            let deleteId = item.usercarId;
             let deleteName = item.name;
             message = `${deleteName}<BR>คุณแน่ใจหรือไม่...ที่จะลบรายการนี้?`;
             confirm = await sweetConfirmDelete(message, "ใช่! ลบเลย");
@@ -608,20 +608,19 @@ require_once("../../service/configData.php");
 
         function confirmSave(item) {
             if (editId) {
-                const index = usercars.findIndex(m => m.carId == editId);
+                const index = usercars.findIndex(m => m.usercarId == editId);
                 if (index !== -1) {
                     usercars[index] = item;
                 }
             } else {
                 usercars.push(item);
             }
-            createFilterDataAndRender();
+            createFilterDataAndRender(currentPage);
         }
 
         function confirmDelete(deleteId) {
-            usercars = usercars.filter(m => m.carId != deleteId);
-            filtered = filtered.filter(m => m.carId != deleteId);
-            renderTable();
+            usercars = usercars.filter(m => m.usercarId != deleteId);
+            createFilterDataAndRender(currentPage);
         }
 
         function createFilterDataAndRender(page=1) {
@@ -631,7 +630,7 @@ require_once("../../service/configData.php");
 
             if (searchText) {
                 filtered = filtered.filter(m =>
-                    m.carId.toLowerCase().includes(searchText) ||
+                    m.usercarId.toLowerCase().includes(searchText) ||
                     m.name.toLowerCase().includes(searchText)
                 );
             }
@@ -650,7 +649,7 @@ require_once("../../service/configData.php");
                 tbody.insertAdjacentHTML('beforeend', `
                     <tr>
                         <td>${start + i + 1}</td>
-                        <td>${m.carId}</td>
+                        <td>${m.usercarId}</td>
                         <td>${m.groupname}</td>
                         <td>${m.colorname}</td>
                         <td>${m.mile}</td>
@@ -661,7 +660,7 @@ require_once("../../service/configData.php");
                         <td>${m.telephone}</td>
                         <td>
                             <div class="d-flex justify-content-around">
-                                <button class="btn btn-sm btn-warning boxx text-white" onclick="openEditModal('${m.carId}')">แก้ไข</button>
+                                <button class="btn btn-sm btn-warning boxx text-white" onclick="openEditModal('${m.usercarId}')">แก้ไข</button>
                                 <button class="btn btn-sm btn-danger boxx" onclick='prepareDelete(${JSON.stringify(m)})'>ลบ</button>
                             </div>
                         </td>
@@ -705,7 +704,7 @@ require_once("../../service/configData.php");
             $('#searchInput').on('input', function() {
                 createFilterDataAndRender();
             });
-            setInterval(syncDataRealtime, 10000); // 10 วินาที
+            setInterval(syncDataRealtime,timeSync); // 10 วินาที
             // setInterval(function() {
             //     updateSyncData({dataSource:colorNames,dataName:"colornames"}); 
             // },5000); // 10 วินาที
@@ -719,7 +718,7 @@ require_once("../../service/configData.php");
                 });
                 if (dataSource) {
                     usercars = dataSource;
-                    createFilterDataAndRender();
+                    createFilterDataAndRender(currentPage);
                 }
             } catch (error) {
                 sweetAlertError("เกิดข้อผิดพลาด : " + error.message, 0);

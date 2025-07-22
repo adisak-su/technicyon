@@ -99,9 +99,9 @@ function isActive2($data1, $data2)
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-item">
-                    <a href="../dashboard/index.php" class="nav-link <?php echo isActive(['dashboard']) ?>">
-                        <i class="nav-icon fas fa-tachometer-alt"></i>
-                        <p>หน้าหลัก</p>
+                    <a href="../settings/index.php" class="nav-link <?php echo isActive(['settings']) ?>">
+                        <i class="nav-icon fa fa-cog"></i>
+                        <p>ตั้งค่า</p>
                     </a>
                 </li>
                 <li class="nav-item">
@@ -170,6 +170,12 @@ function isActive2($data1, $data2)
                             <a href="../colors/index.php" class="nav-link <?php echo isActive2('colors', 'index.php') ?>">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>สีรถยนต์</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="../technicals/index.php" class="nav-link <?php echo isActive2('technicals', 'index.php') ?>">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>ช่างซ่อม</p>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -396,6 +402,18 @@ function isActive2($data1, $data2)
                     </a>
                 </li>
                 -->
+                    <li class="nav-item">
+                        <a href="" id="logout" class="nav-link" onclick="confirmDeleteIndexeddb();">
+                            <i class="nav-icon fas fa-sign-out-alt"></i>
+                            <p>ลบข้อมูลที่เก็บในเครื่อง</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="" id="logout" class="nav-link" onclick="confirmSetTimeSyncData();">
+                            <i class="nav-icon fas fa-sign-out-alt"></i>
+                            <p>ตั้งเวลาในการ Sync ข้อมูล</p>
+                        </a>
+                    </li>
                     <li class="nav-item">
                         <a href="" id="logout" class="nav-link" onclick="confirmLogout();">
                             <i class="nav-icon fas fa-sign-out-alt"></i>

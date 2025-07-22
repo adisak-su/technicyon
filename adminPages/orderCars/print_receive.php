@@ -21,7 +21,7 @@ $params = array(
 );
 
 $sql = "SELECT * FROM usercar_head WHERE orderId=:orderId";
-$sql = "SELECT *,name AS customerName,address AS customerAddress,telephone AS customerTelephone FROM (SELECT * FROM usercar_head WHERE orderId=:orderId) AS tmpOrder INNER JOIN usercar ON (tmpOrder.carId = usercar.carId)";
+$sql = "SELECT *,name AS customerName,address AS customerAddress,telephone AS customerTelephone FROM (SELECT * FROM usercar_head WHERE orderId=:orderId) AS tmpOrder INNER JOIN usercar ON (tmpOrder.usercarId = usercar.usercarId)";
 $stmt = $conn->prepare($sql);
 $stmt->execute($params);
 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);

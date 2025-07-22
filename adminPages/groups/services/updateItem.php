@@ -17,12 +17,12 @@ try {
 			"itemName" => $itemName,
 			"itemUpdatedAt" => $itemUpdatedAt
 		];
-		$sql = "UPDATE groupname SET groupname=:itemName , updatedAt=:itemUpdatedAt  WHERE groupId=:itemId";
+		$sql = "UPDATE groupname SET groupname=:itemName , updatedAt=:itemUpdatedAt  WHERE groupNo=:itemId";
 		$stmt = $conn->prepare($sql);
 		$stmt->execute($params);
 		$rowEffect = $stmt->rowCount();
 
-		// $DB->updateDataChange("groupnames", $itemId, "UPDATE", "groupId", $itemId);
+		// $DB->updateDataChange("groupnames", $itemId, "UPDATE", "groupNo", $itemId);
 		// updateUsercar($itemName_org, $itemName, "groupname", $conn, $DB);
 
 		if ($rowEffect) {
@@ -72,10 +72,10 @@ function updateUsercar($itemValueOld, $itemValueNew, $key, $conn, $DB) {
 			"itemValueOld" => $itemValueOld
 		];
 
-		$sql = "SELECT carId FROM usercar WHERE $key = :itemValueOld";
+		$sql = "SELECT usercarId FROM usercar WHERE $key = :itemValueOld";
 		$stmt = $conn->prepare($sql);
 		$stmt->execute($params);
-		$resultCarIds = $stmt->fetchAll(PDO::FETCH_ASSOC);
+		$resultusercarIds = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 		$params = [
 			"itemValueOld" => $itemValueOld,
@@ -87,8 +87,8 @@ function updateUsercar($itemValueOld, $itemValueNew, $key, $conn, $DB) {
 		$stmt = $conn->prepare($sql);
 		$stmt->execute($params);
 
-		foreach ($resultCarIds as $item) {
-			$DB->updateDataChange("usercars", $item["carId"], "UPDATE", "carId", $item["carId"]);
+		foreach ($resultusercarIds as $item) {
+			$DB->updateDataChange("usercars", $item["usercarId"], "UPDATE", "usercarId", $item["usercarId"]);
 		}
 	} catch (Exception $ex) {
 		throw new Exception($ex);

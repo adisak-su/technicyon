@@ -29,11 +29,11 @@ try {
 			"itemTelephone" => $itemTelephone,
 			"itemUpdatedAt" => $itemUpdatedAt,
 		];
-		$sql = "INSERT INTO usercar (carId,groupname,colorname,mile,year,vehicleId,name,address,telephone,updatedAt) VALUE(:itemId,:itemGroupName,:itemColor,:itemMile,:itemYear,:itemVehicleId,:itemName,:itemAddress,:itemTelephone,:itemUpdatedAt)";
+		$sql = "INSERT INTO usercar (usercarId,groupname,colorname,mile,year,vehicleId,name,address,telephone,updatedAt) VALUE(:itemId,:itemGroupName,:itemColor,:itemMile,:itemYear,:itemVehicleId,:itemName,:itemAddress,:itemTelephone,:itemUpdatedAt)";
 		$stmt = $conn->prepare($sql);
 		$stmt->execute($params);
 
-		// $DB->updateDataChange("usercars", $itemId, "CREATE", "carId");
+		// $DB->updateDataChange("usercars", $itemId, "CREATE", "usercarId");
 		$response = [
 			'status' => true,
 			'message' => 'เพิ่มข้อมูลเรียบร้อย'

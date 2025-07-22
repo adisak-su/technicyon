@@ -521,7 +521,7 @@ require_once("../../service/configData.php");
 
             let orderId = "";
             let orderDate = $("#orderDate").val();
-            let carId = $("#customerInput").val();
+            let usercarId = $("#customerInput").val();
             orderDate = orderDate.substr(6, 4) + "-" + orderDate.substr(3, 2) + "-" + orderDate.substr(0, 2);
 
             orderDate = orderDateFlatpickr.getFormatted();
@@ -529,7 +529,7 @@ require_once("../../service/configData.php");
             if (editMode) {
                 orderId = editOrder.orderId;
                 orderDate = editOrder.mydate;
-                carId = editOrder.carId;
+                usercarId = editOrder.usercarId;
             }
 
             // let orderDate = $("#orderDate").val();
@@ -539,7 +539,7 @@ require_once("../../service/configData.php");
                 orderId: orderId,
                 // orderDate: orderDate,
                 orderDate: orderDateFlatpickr.getFormatted(),
-                carId: $("#customerInput").val(),
+                usercarId: $("#customerInput").val(),
                 customerName: $("#customerName").val(),
                 customerAddress: $("#customerAddress").val(),
                 customerTelephone: $("#customerTelephone").val(),
@@ -683,7 +683,7 @@ require_once("../../service/configData.php");
             } else {
                 orders.push({
                     orderId: order.orderId,
-                    carId: order.carId,
+                    usercarId: order.usercarId,
                     mydate: order.orderDate,
                     nettotal: order.total
                 });
@@ -984,14 +984,14 @@ require_once("../../service/configData.php");
             if ((filterType == "")) return;
 
             let tmpProducts = orders;
-            tmpProducts = tmpProducts.filter(option => option.carId == filterType);
+            tmpProducts = tmpProducts.filter(option => option.usercarId == filterType);
 
             // tmpProducts = tmpProducts.sort((a, b) => {
             //     return a.name.localeCompare(b.name);
             // });
             let body = "";
             tmpProducts.forEach(option => {
-                let onClick = `onclick="setOrderOnSelected('${option.orderId}','${option.carId}','${option.mydate}');"`;
+                let onClick = `onclick="setOrderOnSelected('${option.orderId}','${option.usercarId}','${option.mydate}');"`;
                 let tr = `
                               <tr ${onClick}>
                                   <td>${option.orderId}</td>
@@ -1032,11 +1032,11 @@ require_once("../../service/configData.php");
             setTimeout(setDataProductID, 500, productIdSelected);
         }
 
-        async function setOrderOnSelected(orderId, carId, orderDate) {
+        async function setOrderOnSelected(orderId, usercarId, orderDate) {
             editMode = true;
             $('#viewOrderModal').modal('hide');
             $("#orderInput").val(orderId);
-            $("#customerInput").val(carId);
+            $("#customerInput").val(usercarId);
 
             let date = new Date(orderDate).toLocaleDateString("en-GB");
             //alert(orderDate)
@@ -1056,7 +1056,7 @@ require_once("../../service/configData.php");
             orderDateFlatpickr.setDateFromString(orderDate);
 
 
-            let customerName = usercars.find((item) => item.carId == carId);
+            let customerName = usercars.find((item) => item.usercarId == usercarId);
             if (customerName) {
                 $("#customerName").val(customerName.name);
                 $("#customerMile").val(customerName?.mile ?? "0");
@@ -1176,11 +1176,11 @@ require_once("../../service/configData.php");
                     inputId: "customerInput",
                     suggestionsId: "customerSuggestions",
                     dataList: dataStore,
-                    codeId: "carId",
-                    arrayShowValue: ["carId", "name"],
-                    arrayFindValue: ["carId", "name"],
+                    codeId: "usercarId",
+                    arrayShowValue: ["usercarId", "name"],
+                    arrayFindValue: ["usercarId", "name"],
                     callbackFunction: setValueCustomerSale,
-                    sortField: "carId",
+                    sortField: "usercarId",
                     sizeFind: 3,
                 });
 
@@ -1188,16 +1188,16 @@ require_once("../../service/configData.php");
                     inputId: "filterCustomerModal",
                     suggestionsId: "filterCustomerModalSuggestions",
                     dataList: dataStore,
-                    codeId: "carId",
-                    arrayShowValue: ["carId", "name"],
-                    arrayFindValue: ["carId", "name"],
+                    codeId: "usercarId",
+                    arrayShowValue: ["usercarId", "name"],
+                    arrayFindValue: ["usercarId", "name"],
                     callbackFunction: dataFilterOrderModal,
-                    sortField: "carId",
+                    sortField: "usercarId",
                     sizeFind: 3,
                 });
                 // return dataStore;
                 // setupAutocompleteOnFocus(
-                //     "customerInput", "customerSuggestions", usercars, "carId", ["carId", "name"], ["carId", "name"], setValueCustomerSale);
+                //     "customerInput", "customerSuggestions", usercars, "usercarId", ["usercarId", "name"], ["usercarId", "name"], setValueCustomerSale);
             }
             return dataStore;
         }

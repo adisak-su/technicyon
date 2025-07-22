@@ -1,0 +1,77 @@
+[01-May-2023 16:03:06 Asia/Bangkok] PHP Warning:  Undefined array key "username" in /home3/pp283mcn/public_html/adminajax/admin/pages/manager/form-edit.php on line 93
+[01-May-2023 16:05:18 Asia/Bangkok] PHP Warning:  Undefined array key "username" in /home3/pp283mcn/public_html/adminajax/admin/pages/manager/form-edit.php on line 93
+[01-May-2023 16:06:09 Asia/Bangkok] PHP Warning:  Undefined array key "username" in /home3/pp283mcn/public_html/adminajax/admin/pages/manager/form-edit.php on line 93
+[01-May-2023 16:06:36 Asia/Bangkok] PHP Warning:  Undefined array key "username" in /home3/pp283mcn/public_html/adminajax/admin/pages/manager/form-edit.php on line 93
+[01-May-2023 16:08:17 Asia/Bangkok] PHP Warning:  Undefined array key "username" in /home3/pp283mcn/public_html/adminajax/admin/pages/manager/form-edit.php on line 93
+[01-May-2023 16:10:41 Asia/Bangkok] PHP Warning:  Undefined array key "username" in /home3/pp283mcn/public_html/adminajax/admin/pages/manager/form-edit.php on line 93
+[01-May-2023 16:11:19 Asia/Bangkok] PHP Warning:  Undefined array key "username" in /home3/pp283mcn/public_html/adminajax/admin/pages/manager/form-edit.php on line 93
+[01-May-2023 16:12:23 Asia/Bangkok] PHP Warning:  Undefined variable $data in /home3/pp283mcn/public_html/adminajax/admin/pages/manager/form-edit.php on line 81
+[01-May-2023 16:12:23 Asia/Bangkok] PHP Warning:  Trying to access array offset on value of type null in /home3/pp283mcn/public_html/adminajax/admin/pages/manager/form-edit.php on line 81
+[01-May-2023 16:12:23 Asia/Bangkok] PHP Warning:  Undefined variable $data in /home3/pp283mcn/public_html/adminajax/admin/pages/manager/form-edit.php on line 85
+[01-May-2023 16:12:23 Asia/Bangkok] PHP Warning:  Trying to access array offset on value of type null in /home3/pp283mcn/public_html/adminajax/admin/pages/manager/form-edit.php on line 85
+[01-May-2023 16:12:23 Asia/Bangkok] PHP Warning:  Undefined variable $data in /home3/pp283mcn/public_html/adminajax/admin/pages/manager/form-edit.php on line 89
+[01-May-2023 16:12:23 Asia/Bangkok] PHP Warning:  Trying to access array offset on value of type null in /home3/pp283mcn/public_html/adminajax/admin/pages/manager/form-edit.php on line 89
+[01-May-2023 16:12:23 Asia/Bangkok] PHP Warning:  Undefined variable $data in /home3/pp283mcn/public_html/adminajax/admin/pages/manager/form-edit.php on line 93
+[01-May-2023 16:12:23 Asia/Bangkok] PHP Warning:  Trying to access array offset on value of type null in /home3/pp283mcn/public_html/adminajax/admin/pages/manager/form-edit.php on line 93
+[01-May-2023 16:12:23 Asia/Bangkok] PHP Warning:  Undefined variable $data in /home3/pp283mcn/public_html/adminajax/admin/pages/manager/form-edit.php on line 97
+[01-May-2023 16:12:23 Asia/Bangkok] PHP Warning:  Trying to access array offset on value of type null in /home3/pp283mcn/public_html/adminajax/admin/pages/manager/form-edit.php on line 97
+[01-May-2023 17:19:41 Asia/Bangkok] PHP Warning:  Undefined array key "username" in /home3/pp283mcn/public_html/adminajax/admin/pages/manager/form-edit.php on line 93
+[02-May-2023 07:02:46 Asia/Bangkok] PHP Warning:  Undefined array key "username" in /home3/pp283mcn/public_html/adminajax/admin/pages/manager/form-edit.php on line 93
+[02-May-2023 18:12:44 Asia/Bangkok] PHP Warning:  Undefined array key "username" in /home3/pp283mcn/public_html/adminajax/admin/pages/manager/form-edit.php on line 93
+[02-May-2023 18:13:15 Asia/Bangkok] PHP Warning:  Undefined array key "username" in /home3/pp283mcn/public_html/adminajax/admin/pages/manager/form-edit.php on line 93
+[03-May-2023 06:46:46 Asia/Bangkok] PHP Warning:  Undefined array key "username" in /home3/pp283mcn/public_html/adminajax/admin/pages/manager/form-edit.php on line 93
+[03-May-2023 06:46:48 Asia/Bangkok] PHP Warning:  Undefined array key "username" in /home3/pp283mcn/public_html/adminajax/admin/pages/manager/form-edit.php on line 93
+[03-May-2023 06:46:49 Asia/Bangkok] PHP Warning:  Undefined array key "username" in /home3/pp283mcn/public_html/adminajax/admin/pages/manager/form-edit.php on line 93
+[03-May-2023 06:47:01 Asia/Bangkok] PHP Warning:  Undefined array key "username" in /home3/pp283mcn/public_html/adminajax/admin/pages/manager/form-edit.php on line 93
+[04-May-2023 13:51:35 UTC] PHP Warning:  include_once(../../includes/pagesDatatableStylesheet.php): Failed to open stream: No such file or directory in /home3/pp283mcn/shopping.pp2831.com/adminPages/manager/index.php on line 22
+[04-May-2023 13:51:35 UTC] PHP Warning:  include_once(): Failed opening '../../includes/pagesDatatableStylesheet.php' for inclusion (include_path='.:/opt/cpanel/ea-php81/root/usr/share/pear') in /home3/pp283mcn/shopping.pp2831.com/adminPages/manager/index.php on line 22
+[04-May-2023 13:51:35 UTC] PHP Warning:  Undefined array key "image" in /home3/pp283mcn/shopping.pp2831.com/adminPages/includes/sidebar.php on line 34
+[04-May-2023 13:51:35 UTC] PHP Warning:  Undefined array key "adminName" in /home3/pp283mcn/shopping.pp2831.com/adminPages/includes/sidebar.php on line 37
+[04-May-2023 13:51:35 UTC] PHP Warning:  include_once(../../includes/loading.php): Failed to open stream: No such file or directory in /home3/pp283mcn/shopping.pp2831.com/adminPages/manager/index.php on line 67
+[04-May-2023 13:51:35 UTC] PHP Warning:  include_once(): Failed opening '../../includes/loading.php' for inclusion (include_path='.:/opt/cpanel/ea-php81/root/usr/share/pear') in /home3/pp283mcn/shopping.pp2831.com/adminPages/manager/index.php on line 67
+[04-May-2023 14:01:26 UTC] PHP Warning:  include_once(../../includes/pagesDatatableStylesheet.php): Failed to open stream: No such file or directory in /home3/pp283mcn/shopping.pp2831.com/adminPages/manager/index.php on line 22
+[04-May-2023 14:01:26 UTC] PHP Warning:  include_once(): Failed opening '../../includes/pagesDatatableStylesheet.php' for inclusion (include_path='.:/opt/cpanel/ea-php81/root/usr/share/pear') in /home3/pp283mcn/shopping.pp2831.com/adminPages/manager/index.php on line 22
+[07-May-2023 01:20:29 UTC] PHP Warning:  Undefined array key "image" in /home3/pp283mcn/shopping.pp2831.com/adminPages/includes/sidebar.php on line 34
+[07-May-2023 01:20:29 UTC] PHP Warning:  Undefined array key "adminName" in /home3/pp283mcn/shopping.pp2831.com/adminPages/includes/sidebar.php on line 37
+[07-May-2023 03:17:41 UTC] PHP Warning:  Undefined array key "image" in /home3/pp283mcn/shopping.pp2831.com/adminPages/includes/sidebar.php on line 34
+[07-May-2023 03:17:41 UTC] PHP Warning:  Undefined array key "adminName" in /home3/pp283mcn/shopping.pp2831.com/adminPages/includes/sidebar.php on line 37
+[07-May-2023 10:29:42 UTC] PHP Warning:  Undefined array key "image" in /home3/pp283mcn/shopping.pp2831.com/adminPages/includes/sidebar.php on line 34
+[07-May-2023 10:29:42 UTC] PHP Warning:  Undefined array key "adminName" in /home3/pp283mcn/shopping.pp2831.com/adminPages/includes/sidebar.php on line 37
+[07-May-2023 13:46:13 UTC] PHP Warning:  Undefined array key "image" in /home3/pp283mcn/shopping.pp2831.com/adminPages/includes/sidebar.php on line 34
+[07-May-2023 13:46:13 UTC] PHP Warning:  Undefined array key "adminName" in /home3/pp283mcn/shopping.pp2831.com/adminPages/includes/sidebar.php on line 37
+[07-May-2023 22:51:18 UTC] PHP Warning:  Undefined array key "image" in /home3/pp283mcn/shopping.pp2831.com/adminPages/includes/sidebar.php on line 34
+[07-May-2023 22:51:18 UTC] PHP Warning:  Undefined array key "adminName" in /home3/pp283mcn/shopping.pp2831.com/adminPages/includes/sidebar.php on line 37
+[10-May-2023 01:28:13 UTC] PHP Warning:  Undefined array key "image" in /home3/pp283mcn/shopping.pp2831.com/adminPages/includes/sidebar.php on line 34
+[10-May-2023 01:28:13 UTC] PHP Warning:  Undefined array key "adminName" in /home3/pp283mcn/shopping.pp2831.com/adminPages/includes/sidebar.php on line 37
+[15-May-2023 01:06:47 UTC] PHP Warning:  Undefined array key "image" in /home3/pp283mcn/shopping.pp2831.com/adminPages/includes/sidebar.php on line 34
+[15-May-2023 01:06:47 UTC] PHP Warning:  Undefined array key "adminName" in /home3/pp283mcn/shopping.pp2831.com/adminPages/includes/sidebar.php on line 37
+[21-May-2023 20:22:53 Asia/Bangkok] PHP Warning:  Undefined array key "image" in /home3/pp283mcn/shopping.pp2831.com/adminPages/includes/sidebar.php on line 34
+[21-May-2023 20:22:53 Asia/Bangkok] PHP Warning:  Undefined array key "adminName" in /home3/pp283mcn/shopping.pp2831.com/adminPages/includes/sidebar.php on line 37
+[22-May-2023 06:05:14 Asia/Bangkok] PHP Warning:  Undefined array key "image" in /home3/pp283mcn/shopping.pp2831.com/adminPages/includes/sidebar.php on line 34
+[22-May-2023 06:05:14 Asia/Bangkok] PHP Warning:  Undefined array key "adminName" in /home3/pp283mcn/shopping.pp2831.com/adminPages/includes/sidebar.php on line 37
+[22-May-2023 06:05:14 Asia/Bangkok] PHP Warning:  Undefined variable $data in /home3/pp283mcn/shopping.pp2831.com/adminPages/manager/form-edit.php on line 69
+[22-May-2023 06:05:14 Asia/Bangkok] PHP Warning:  Trying to access array offset on value of type null in /home3/pp283mcn/shopping.pp2831.com/adminPages/manager/form-edit.php on line 69
+[22-May-2023 06:05:14 Asia/Bangkok] PHP Warning:  Undefined variable $data in /home3/pp283mcn/shopping.pp2831.com/adminPages/manager/form-edit.php on line 72
+[22-May-2023 06:05:14 Asia/Bangkok] PHP Warning:  Trying to access array offset on value of type null in /home3/pp283mcn/shopping.pp2831.com/adminPages/manager/form-edit.php on line 72
+[22-May-2023 06:05:14 Asia/Bangkok] PHP Warning:  Undefined variable $data in /home3/pp283mcn/shopping.pp2831.com/adminPages/manager/form-edit.php on line 76
+[22-May-2023 06:05:14 Asia/Bangkok] PHP Warning:  Trying to access array offset on value of type null in /home3/pp283mcn/shopping.pp2831.com/adminPages/manager/form-edit.php on line 76
+[22-May-2023 06:05:14 Asia/Bangkok] PHP Warning:  Undefined variable $data in /home3/pp283mcn/shopping.pp2831.com/adminPages/manager/form-edit.php on line 80
+[22-May-2023 06:05:14 Asia/Bangkok] PHP Warning:  Trying to access array offset on value of type null in /home3/pp283mcn/shopping.pp2831.com/adminPages/manager/form-edit.php on line 80
+[22-May-2023 06:05:14 Asia/Bangkok] PHP Warning:  Undefined variable $data in /home3/pp283mcn/shopping.pp2831.com/adminPages/manager/form-edit.php on line 84
+[22-May-2023 06:05:14 Asia/Bangkok] PHP Warning:  Trying to access array offset on value of type null in /home3/pp283mcn/shopping.pp2831.com/adminPages/manager/form-edit.php on line 84
+[22-May-2023 06:05:14 Asia/Bangkok] PHP Warning:  Undefined variable $data in /home3/pp283mcn/shopping.pp2831.com/adminPages/manager/form-edit.php on line 109
+[22-May-2023 06:05:14 Asia/Bangkok] PHP Warning:  Trying to access array offset on value of type null in /home3/pp283mcn/shopping.pp2831.com/adminPages/manager/form-edit.php on line 109
+[23-May-2023 07:56:01 Asia/Bangkok] PHP Warning:  Undefined array key "image" in /home3/pp283mcn/shopping.pp2831.com/adminPages/includes/sidebar.php on line 34
+[23-May-2023 07:56:01 Asia/Bangkok] PHP Warning:  Undefined array key "adminName" in /home3/pp283mcn/shopping.pp2831.com/adminPages/includes/sidebar.php on line 37
+[23-May-2023 07:56:01 Asia/Bangkok] PHP Warning:  Undefined variable $data in /home3/pp283mcn/shopping.pp2831.com/adminPages/manager/form-edit.php on line 69
+[23-May-2023 07:56:01 Asia/Bangkok] PHP Warning:  Trying to access array offset on value of type null in /home3/pp283mcn/shopping.pp2831.com/adminPages/manager/form-edit.php on line 69
+[23-May-2023 07:56:01 Asia/Bangkok] PHP Warning:  Undefined variable $data in /home3/pp283mcn/shopping.pp2831.com/adminPages/manager/form-edit.php on line 72
+[23-May-2023 07:56:01 Asia/Bangkok] PHP Warning:  Trying to access array offset on value of type null in /home3/pp283mcn/shopping.pp2831.com/adminPages/manager/form-edit.php on line 72
+[23-May-2023 07:56:01 Asia/Bangkok] PHP Warning:  Undefined variable $data in /home3/pp283mcn/shopping.pp2831.com/adminPages/manager/form-edit.php on line 76
+[23-May-2023 07:56:01 Asia/Bangkok] PHP Warning:  Trying to access array offset on value of type null in /home3/pp283mcn/shopping.pp2831.com/adminPages/manager/form-edit.php on line 76
+[23-May-2023 07:56:01 Asia/Bangkok] PHP Warning:  Undefined variable $data in /home3/pp283mcn/shopping.pp2831.com/adminPages/manager/form-edit.php on line 80
+[23-May-2023 07:56:01 Asia/Bangkok] PHP Warning:  Trying to access array offset on value of type null in /home3/pp283mcn/shopping.pp2831.com/adminPages/manager/form-edit.php on line 80
+[23-May-2023 07:56:01 Asia/Bangkok] PHP Warning:  Undefined variable $data in /home3/pp283mcn/shopping.pp2831.com/adminPages/manager/form-edit.php on line 84
+[23-May-2023 07:56:01 Asia/Bangkok] PHP Warning:  Trying to access array offset on value of type null in /home3/pp283mcn/shopping.pp2831.com/adminPages/manager/form-edit.php on line 84
+[23-May-2023 07:56:01 Asia/Bangkok] PHP Warning:  Undefined variable $data in /home3/pp283mcn/shopping.pp2831.com/adminPages/manager/form-edit.php on line 109
+[23-May-2023 07:56:01 Asia/Bangkok] PHP Warning:  Trying to access array offset on value of type null in /home3/pp283mcn/shopping.pp2831.com/adminPages/manager/form-edit.php on line 109

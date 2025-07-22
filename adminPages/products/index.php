@@ -345,22 +345,6 @@ require_once("../../assets/php/common.php");
                                 <!-- supplier , gruoup , type -->
                                 <div class="row">
                                     <div class="col-12 col-md-4 form-group position-relative mb-3">
-                                        <label for="itemSupplierName" class="form-label">ชื่อร้านค้า</label>
-                                        <div class="form-group autocomplete-container mb-4">
-                                            <div class="input-icon-wrapper">
-                                                <i class="fa fa-keyboard input-icon" aria-hidden="true"></i>
-                                                <input
-                                                    type="text"
-                                                    class="form-control"
-                                                    id="itemSupplierName"
-                                                    value=""
-                                                    maxlength="50"
-                                                    placeholder="" autocomplete="off" />
-                                                <div id="supplierNameSuggestions" class="suggestions"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-md-4 form-group position-relative mb-3">
                                         <label for="itemGroupName" class="form-label">ยี่ห้อ/รุ่นรถ</label>
                                         <div class="form-group autocomplete-container mb-4">
                                             <div class="input-icon-wrapper">
@@ -390,10 +374,23 @@ require_once("../../assets/php/common.php");
                                                     maxlength="50"
                                                     placeholder=""
                                                     autocomplete="off" />
-                                                <!--
-                                                onchange="setProductName();"
-                                                 <input type="text" id="supplierName" class="inputStyle inputStyleIcon cursorHand" placeholder="ชื่อร้านค้า..." autocomplete="off"> -->
                                                 <div id="typeNameSuggestions" class="suggestions"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-4 form-group position-relative mb-3">
+                                        <label for="itemSupplierName" class="form-label">ชื่อร้านค้า</label>
+                                        <div class="form-group autocomplete-container mb-4">
+                                            <div class="input-icon-wrapper">
+                                                <i class="fa fa-keyboard input-icon" aria-hidden="true"></i>
+                                                <input
+                                                    type="text"
+                                                    class="form-control"
+                                                    id="itemSupplierName"
+                                                    value=""
+                                                    maxlength="50"
+                                                    placeholder="" autocomplete="off" />
+                                                <div id="supplierNameSuggestions" class="suggestions"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -543,135 +540,135 @@ require_once("../../assets/php/common.php");
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- Modal คำนวนราคา -->
-        <div class="modal modal-child" id="computePriceModal" role="dialog" aria-labelledby="computePriceModalLabel" aria-hidden="true" data-backdrop-limit="1" tabindex="-1" data-modal-parent="#itemModal">
-            <div class="modal-dialog modal-dialog-centered" style="width:auto;max-width:800px;">
-                <div class="modal-content">
-                    <div class="modal-header bg-success">
-                        <h5 class="modal-title">คำนวนราคาสินค้า</h5>
-                        <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+    <!-- Modal คำนวนราคา -->
+    <div class="modal modal-child" id="computePriceModal" role="dialog" aria-labelledby="computePriceModalLabel" aria-hidden="true" data-backdrop-limit="1" tabindex="-1" data-modal-parent="#itemModal">
+        <div class="modal-dialog modal-dialog-centered" style="width:auto;max-width:800px;">
+            <div class="modal-content">
+                <div class="modal-header bg-success">
+                    <h5 class="modal-title">คำนวนราคาสินค้า</h5>
+                    <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button> -->
-                    </div>
-                    <div class="modal-body">
-                        <div class="container-fluid">
-                            <div class="glass-card mb-2">
-                                <!-- ราคาสินค้า -->
-                                <div class="row align-items-end">
-                                    <div class="col-12">
-                                        <label>ตั้งค่าคิดกำไรสินค้า (%)</label>
-                                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="glass-card mb-2">
+                            <!-- ราคาสินค้า -->
+                            <div class="row align-items-end">
+                                <div class="col-12">
+                                    <label>ตั้งค่าคิดกำไรสินค้า (%)</label>
+                                </div>
 
-                                    <div class="col-6 col-md-3 form-group position-relative mb-3">
-                                        <label for="initPriceFront" class="form-label">หน้าร้าน</label>
-                                        <div class="input-icon-wrapper">
-                                            <i class="fa fa-keyboard input-icon" aria-hidden="true"></i>
-                                            <input
-                                                type="text"
-                                                class="form-control text-right"
-                                                id="initPriceFront"
-                                                value="20"
-                                                placeholder="" autocomplete="off" />
-                                        </div>
+                                <div class="col-6 col-md-3 form-group position-relative mb-3">
+                                    <label for="initPriceFront" class="form-label">หน้าร้าน</label>
+                                    <div class="input-icon-wrapper">
+                                        <i class="fa fa-keyboard input-icon" aria-hidden="true"></i>
+                                        <input
+                                            type="text"
+                                            class="form-control text-right"
+                                            id="initPriceFront"
+                                            value="20"
+                                            placeholder="" autocomplete="off" />
                                     </div>
-                                    <div class="col-6 col-md-3 form-group position-relative mb-3">
-                                        <label for="initPriceBack" class="form-label">หลังร้าน</label>
-                                        <div class="input-icon-wrapper">
-                                            <i class="fa fa-keyboard input-icon" aria-hidden="true"></i>
-                                            <input
-                                                type="text"
-                                                class="form-control text-right"
-                                                id="initPriceBack"
-                                                value="30"
-                                                placeholder="" autocomplete="off" />
-                                        </div>
+                                </div>
+                                <div class="col-6 col-md-3 form-group position-relative mb-3">
+                                    <label for="initPriceBack" class="form-label">หลังร้าน</label>
+                                    <div class="input-icon-wrapper">
+                                        <i class="fa fa-keyboard input-icon" aria-hidden="true"></i>
+                                        <input
+                                            type="text"
+                                            class="form-control text-right"
+                                            id="initPriceBack"
+                                            value="30"
+                                            placeholder="" autocomplete="off" />
                                     </div>
-                                    <div class="col-6 col-md-3 form-group position-relative mb-3">
-                                        <label for="initPriceShop" class="form-label">ขายส่ง</label>
-                                        <div class="input-icon-wrapper">
-                                            <i class="fa fa-keyboard input-icon" aria-hidden="true"></i>
-                                            <input
-                                                type="text"
-                                                class="form-control text-right"
-                                                id="initPriceShop"
-                                                value="15"
-                                                placeholder="" autocomplete="off" />
-                                        </div>
+                                </div>
+                                <div class="col-6 col-md-3 form-group position-relative mb-3">
+                                    <label for="initPriceShop" class="form-label">ขายส่ง</label>
+                                    <div class="input-icon-wrapper">
+                                        <i class="fa fa-keyboard input-icon" aria-hidden="true"></i>
+                                        <input
+                                            type="text"
+                                            class="form-control text-right"
+                                            id="initPriceShop"
+                                            value="15"
+                                            placeholder="" autocomplete="off" />
                                     </div>
-                                    <div class="col-6 col-md-3 form-group position-relative mb-3">
-                                        <button type="button" class="btn btn-primary boxx" onclick="saveInitPrice();">บันทึก</button>
-                                    </div>
+                                </div>
+                                <div class="col-6 col-md-3 form-group position-relative mb-3">
+                                    <button type="button" class="btn btn-primary boxx" onclick="saveInitPrice();">บันทึก</button>
+                                </div>
 
-                                    <div class="col-6 form-group position-relative mb-3">
-                                        <label for="priceInput" class="form-label">ราคาต้นทุน</label>
-                                        <div class="input-icon-wrapper">
-                                            <i class="fa fa-keyboard input-icon" aria-hidden="true"></i>
-                                            <input
-                                                type="text"
-                                                class="form-control text-right"
-                                                id="priceInput"
-                                                value="0"
-                                                placeholder="" autocomplete="off" />
-                                        </div>
+                                <div class="col-6 form-group position-relative mb-3">
+                                    <label for="priceInput" class="form-label">ราคาต้นทุน</label>
+                                    <div class="input-icon-wrapper">
+                                        <i class="fa fa-keyboard input-icon" aria-hidden="true"></i>
+                                        <input
+                                            type="text"
+                                            class="form-control text-right"
+                                            id="priceInput"
+                                            value="0"
+                                            placeholder="" autocomplete="off" />
                                     </div>
-                                    <div class="col-6 form-group position-relative mb-3">
-                                        <button type="button" class="btn btn-secondary boxx" onclick="computePriceForProduct();">คำนวน</button>
-                                    </div>
+                                </div>
+                                <div class="col-6 form-group position-relative mb-3">
+                                    <button type="button" class="btn btn-secondary boxx" onclick="computePriceForProduct();">คำนวน</button>
+                                </div>
 
-                                    <div class="col-6 col-md-3 form-group position-relative mb-3">
-                                        <label for="computePriceFront" class="form-label">หน้าร้าน</label>
-                                        <div class="input-icon-wrapper">
-                                            <i class="fa fa-keyboard input-icon" aria-hidden="true"></i>
-                                            <input
-                                                type="text"
-                                                class="form-control text-right"
-                                                id="computePriceFront"
-                                                value="0"
-                                                placeholder="" autocomplete="off" />
-                                        </div>
+                                <div class="col-6 col-md-3 form-group position-relative mb-3">
+                                    <label for="computePriceFront" class="form-label">หน้าร้าน</label>
+                                    <div class="input-icon-wrapper">
+                                        <i class="fa fa-keyboard input-icon" aria-hidden="true"></i>
+                                        <input
+                                            type="text"
+                                            class="form-control text-right"
+                                            id="computePriceFront"
+                                            value="0"
+                                            placeholder="" autocomplete="off" />
                                     </div>
-                                    <div class="col-6 col-md-3 form-group position-relative mb-3">
-                                        <label for="computePriceBack" class="form-label">หลังร้าน</label>
-                                        <div class="input-icon-wrapper">
-                                            <i class="fa fa-keyboard input-icon" aria-hidden="true"></i>
-                                            <input
-                                                type="text"
-                                                class="form-control text-right"
-                                                id="computePriceBack"
-                                                value="0"
-                                                placeholder="" autocomplete="off" />
-                                        </div>
+                                </div>
+                                <div class="col-6 col-md-3 form-group position-relative mb-3">
+                                    <label for="computePriceBack" class="form-label">หลังร้าน</label>
+                                    <div class="input-icon-wrapper">
+                                        <i class="fa fa-keyboard input-icon" aria-hidden="true"></i>
+                                        <input
+                                            type="text"
+                                            class="form-control text-right"
+                                            id="computePriceBack"
+                                            value="0"
+                                            placeholder="" autocomplete="off" />
                                     </div>
-                                    <div class="col-6 col-md-3 form-group position-relative mb-3">
-                                        <label for="computePriceShop" class="form-label">ขายส่ง</label>
-                                        <div class="input-icon-wrapper">
-                                            <i class="fa fa-keyboard input-icon" aria-hidden="true"></i>
-                                            <input
-                                                type="text"
-                                                class="form-control text-right"
-                                                id="computePriceShop"
-                                                value="0"
-                                                placeholder="" autocomplete="off" />
-                                        </div>
+                                </div>
+                                <div class="col-6 col-md-3 form-group position-relative mb-3">
+                                    <label for="computePriceShop" class="form-label">ขายส่ง</label>
+                                    <div class="input-icon-wrapper">
+                                        <i class="fa fa-keyboard input-icon" aria-hidden="true"></i>
+                                        <input
+                                            type="text"
+                                            class="form-control text-right"
+                                            id="computePriceShop"
+                                            value="0"
+                                            placeholder="" autocomplete="off" />
                                     </div>
-                                    <div class="col-6 col-md-3 form-group position-relative mb-3">
-                                        <label for="computePriceInv" class="form-label">ต้นทุน</label>
-                                        <div class="input-icon-wrapper">
-                                            <i class="fa fa-keyboard input-icon" aria-hidden="true"></i>
-                                            <input
-                                                type="text"
-                                                class="form-control text-right"
-                                                id="computePriceInv"
-                                                value=""
-                                                placeholder="" autocomplete="off" />
-                                        </div>
+                                </div>
+                                <div class="col-6 col-md-3 form-group position-relative mb-3">
+                                    <label for="computePriceInv" class="form-label">ต้นทุน</label>
+                                    <div class="input-icon-wrapper">
+                                        <i class="fa fa-keyboard input-icon" aria-hidden="true"></i>
+                                        <input
+                                            type="text"
+                                            class="form-control text-right"
+                                            id="computePriceInv"
+                                            value=""
+                                            placeholder="" autocomplete="off" />
                                     </div>
+                                </div>
 
-                                    <div class="col-12 form-group position-relative mt-3 d-flex justify-content-end">
-                                        <button type="button" class="btn btn-secondary boxx m-2" onclick="modalHide('computePriceModal');">ยกเลิก</button>
-                                        <button type="button" class="btn btn-success boxx m-2" onclick="setPriceForProduct();">นำค่าไปใช้งาน</button>
-                                    </div>
+                                <div class="col-12 form-group position-relative mt-3 d-flex justify-content-end">
+                                    <button type="button" class="btn btn-secondary boxx m-2" onclick="modalHide('computePriceModal');">ยกเลิก</button>
+                                    <button type="button" class="btn btn-success boxx m-2" onclick="setPriceForProduct();">นำค่าไปใช้งาน</button>
                                 </div>
                             </div>
                         </div>
@@ -679,430 +676,467 @@ require_once("../../assets/php/common.php");
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- SCRIPTS -->
-        <?php include_once('../../includes/pagesScript.php') ?>
-        <?php include_once('../../includes/myScript.php') ?>
+    <!-- SCRIPTS -->
+    <?php include_once('../../includes/pagesScript.php') ?>
+    <?php include_once('../../includes/myScript.php') ?>
 
-        <script src="../indexedDB/indexedDB.js?<?php echo time(); ?>"></script>
-        <script src="../js/renderPagination.js"></script>
-        <script src="../js/sortColumnBy.js"></script>
-        <script src="../js/validateInput.js"></script>
-        <script src="../js/autocomplete.js?<?php echo time(); ?>"></script>
-        <script src="computePriceInv.js?<?php echo time(); ?>"></script>
-        <script type="text/javascript">
-            let products = [];
-            let groupNames = [];
-            let typeNames = [];
-            let suppliers = [];
-            let filtered = [];
+    <script src="../indexedDB/indexedDB.js?<?php echo time(); ?>"></script>
+    <script src="../js/renderPagination.js?<?php echo time(); ?>"></script>
+    <script src="../js/sortColumnBy.js?<?php echo time(); ?>"></script>
+    <script src="../js/validateInput.js?<?php echo time(); ?>"></script>
 
-            let currentPage = 1;
-            const perPage = 10;
-            let editId = null;
-            let deleteId = null;
+    <script src="../js/autocomplete.js?<?php echo time(); ?>"></script>
+    <script src="computePriceInv.js?<?php echo time(); ?>"></script>
+    <script type="text/javascript">
+        let products = [];
+        let groupNames = [];
+        let typeNames = [];
+        let suppliers = [];
+        let filtered = [];
 
-            //ตั้งค่าสำหรับการตรวจสอบข้อมูลการ Input
-            let arrayValidateInput = [{
+        let currentPage = 1;
+        const perPage = 10;
+        let editId = null;
+        let deleteId = null;
+
+        //ตั้งค่าสำหรับการตรวจสอบข้อมูลการ Input
+        // let arrayValidateInput = [{
+        //         id: "itemId",
+        //         name: "รหัสสินค้า"
+        //     },
+        //     {
+        //         id: "itemName",
+        //         name: "ชื่อสินค้า"
+        //     }
+        // ];
+        // let validateInputForm = new ValidateInput("itemModal", arrayValidateInput);
+
+        //ตั้งค่าสำหรับการตรวจสอบข้อมูลการ Input
+        let validateInputForm = null;
+        let arrayValidateInput = []
+
+        function createValidate() {
+            arrayValidateInput = [{
                     id: "itemId",
-                    name: "รหัสสินค้า"
+                    name: "รหัสสินค้า",
+                    type: "value"
                 },
                 {
                     id: "itemName",
-                    name: "ชื่อสินค้า"
+                    name: "ชื่อสินค้า",
+                    type: "value"
+                },
+                {
+                    id: "itemGroupName",
+                    name: "ยี่ห้อ/รุ่นรถยนต์",
+                    type: "list",
+                    dataSource: groupNames,
+                    key: "groupname",
+                    require: true,
+                },
+                {
+                    id: "itemTypeName",
+                    name: "ประเภทสินค้า",
+                    type: "list",
+                    dataSource: typeNames,
+                    key: "typename",
+                    require: false,
+                },
+                {
+                    id: "itemSupplierName",
+                    name: "ชื่อร้านค้า",
+                    type: "list",
+                    dataSource: suppliers,
+                    key: "name",
+                    require: false,
                 }
             ];
-            let validateInputForm = new ValidateInput("itemModal", arrayValidateInput);
-            const STORE = "products";
+            validateInputForm = new ValidateInput("itemModal", arrayValidateInput);
+        }
 
-            //สำหรับการจัดเรียงข้อมูล
-            let sortColumn = [{
-                    colName: "productId",
-                    state: "ASC"
-                },
-                {
-                    colName: "name",
-                    state: "ASC"
-                },
-                {
-                    colName: "groupname",
-                    state: "ASC"
-                },
-                {
-                    colName: "typename",
-                    state: "ASC"
-                },
-            ];
+        const STORE = "products";
 
-            // $('#sorted').bootstrapToggle();
-            // $('#sorted').off('change');
+        //สำหรับการจัดเรียงข้อมูล
+        let sortColumn = [{
+                colName: "productId",
+                state: "ASC"
+            },
+            {
+                colName: "name",
+                state: "ASC"
+            },
+            {
+                colName: "groupname",
+                state: "ASC"
+            },
+            {
+                colName: "typename",
+                state: "ASC"
+            },
+        ];
 
-            // $("#sorted").change(function() {
-            //     sortData();
-            // });
+        // $('#sorted').bootstrapToggle();
+        // $('#sorted').off('change');
 
-            // function sortData() {
-            //     let sorted = $("#sorted")[0].checked ? "productId" : "name";
-            //     // filtered = filtered.sort((a, b) => {
-            //     //     return a[sorted] > b[sorted];
-            //     // });
+        // $("#sorted").change(function() {
+        //     sortData();
+        // });
 
-            //     // filtered.sort((a, b) => a.name.localeCompare(b.name));
-            //     filtered.sort((a, b) => a[sorted].localeCompare(b[sorted]));
-            //     currentPage = 1;
-            //     renderTable();
+        // function sortData() {
+        //     let sorted = $("#sorted")[0].checked ? "productId" : "name";
+        //     // filtered = filtered.sort((a, b) => {
+        //     //     return a[sorted] > b[sorted];
+        //     // });
 
-            //     // if (filtered.length) {
-            //     //     let sorted = $("#sorted")[0].checked ? "productId" : "name";
-            //     //     //alert(sorted)
-            //     //     filtered = filtered.sort((a, b) => {
-            //     //         return a[sorted] > b[sorted];
-            //     //     });
-            //     //     currentPage = 1;
-            //     //     //createFilterDataAndRender();
-            //     //     renderTable();
-            //     // }
-            // }
+        //     // filtered.sort((a, b) => a.name.localeCompare(b.name));
+        //     filtered.sort((a, b) => a[sorted].localeCompare(b[sorted]));
+        //     currentPage = 1;
+        //     renderTable();
 
-            const searchData = (item) => {
-                currentPage = 1;
-                createFilterDataAndRender();
+        //     // if (filtered.length) {
+        //     //     let sorted = $("#sorted")[0].checked ? "productId" : "name";
+        //     //     //alert(sorted)
+        //     //     filtered = filtered.sort((a, b) => {
+        //     //         return a[sorted] > b[sorted];
+        //     //     });
+        //     //     currentPage = 1;
+        //     //     //createFilterDataAndRender();
+        //     //     renderTable();
+        //     // }
+        // }
 
-                // if (item) {
-                //     currentPage = 1;
-                //     createFilterDataAndRender();
-                //     //renderTable();
-                // } else {
-                //     //alert("null");
-                // }
+        const searchData = (item) => {
+            currentPage = 1;
+            createFilterDataAndRender();
+        }
+
+        const setProductName = () => {
+            if ($("#itemModal #itemGroupName").val() && $("#itemModal #itemTypeName").val()) {
+                $("#itemModal #itemName").val($("#itemModal #itemTypeName").val() + " " + $("#itemModal #itemGroupName").val());
+            } else if ($("#itemModal #itemGroupName").val()) {
+                $("#itemModal #itemName").val($("#itemModal #itemGroupName").val());
+            } else if ($("#itemModal #itemTypeName").val()) {
+                $("#itemModal #itemName").val($("#itemModal #itemTypeName").val());
+            } else {
+                //$("#itemModal #productName").val($("#itemModal #typeName").val());
+            }
+            //$("#itemModal #productName").val($("#itemModal #groupName").val() + $("#itemModal #typeName").val())
+        };
+
+        function modalHide(modal) {
+            $('#' + modal).modal('hide');
+        }
+
+        function computePriceForProduct() {
+
+            let modal = document.getElementById("computePriceModal");
+            let ele = modal.querySelector("#priceInput");
+
+            let value = ele.value ? Number(ele.value) : 0;
+            let stringValue = value.toString().split('');
+
+            let initPriceFront = Number(modal.querySelector("#initPriceFront").value);
+            let initPriceBack = Number(modal.querySelector("#initPriceBack").value);
+            let initPriceShop = Number(modal.querySelector("#initPriceShop").value);
+
+            let computePrice = parseInt(value + value * initPriceFront / 100 + 0.5);
+            modal.querySelector("#computePriceFront").value = computePrice;
+
+            computePrice = parseInt(value + value * initPriceBack / 100 + 0.5);
+            modal.querySelector("#computePriceBack").value = computePrice;
+
+            computePrice = parseInt(value + value * initPriceShop / 100 + 0.5);
+            modal.querySelector("#computePriceShop").value = computePrice;
+
+            let computePriceInv = [];
+            if (value !== 0) {
+                computePriceInv = stringValue.map(convertInvFromValue);
             }
 
-            const setProductName = () => {
-                if ($("#itemModal #itemGroupName").val() && $("#itemModal #itemTypeName").val()) {
-                    $("#itemModal #itemName").val($("#itemModal #itemTypeName").val() + " " + $("#itemModal #itemGroupName").val());
-                } else if ($("#itemModal #itemGroupName").val()) {
-                    $("#itemModal #itemName").val($("#itemModal #itemGroupName").val());
-                } else if ($("#itemModal #itemTypeName").val()) {
-                    $("#itemModal #itemName").val($("#itemModal #itemTypeName").val());
-                } else {
-                    //$("#itemModal #productName").val($("#itemModal #typeName").val());
-                }
-                //$("#itemModal #productName").val($("#itemModal #groupName").val() + $("#itemModal #typeName").val())
-            };
+            modal.querySelector("#computePriceInv").value = computePriceInv.join("");
+        }
 
-            function modalHide(modal) {
-                $('#' + modal).modal('hide');
-            }
+        function setPriceForProduct() {
+            let modalProduct = document.getElementById("itemModal");
+            let modalPrice = document.getElementById("computePriceModal");
+            let ele = modalPrice.querySelector("#computePriceFront");
 
-            function computePriceForProduct() {
-
-                let modal = document.getElementById("computePriceModal");
-                let ele = modal.querySelector("#priceInput");
-
-                let value = ele.value ? Number(ele.value) : 0;
-                let stringValue = value.toString().split('');
-
-                let initPriceFront = Number(modal.querySelector("#initPriceFront").value);
-                let initPriceBack = Number(modal.querySelector("#initPriceBack").value);
-                let initPriceShop = Number(modal.querySelector("#initPriceShop").value);
-
-                let computePrice = parseInt(value + value * initPriceFront / 100 + 0.5);
-                modal.querySelector("#computePriceFront").value = computePrice;
-
-                computePrice = parseInt(value + value * initPriceBack / 100 + 0.5);
-                modal.querySelector("#computePriceBack").value = computePrice;
-
-                computePrice = parseInt(value + value * initPriceShop / 100 + 0.5);
-                modal.querySelector("#computePriceShop").value = computePrice;
-
-                let computePriceInv = [];
-                if (value !== 0) {
-                    computePriceInv = stringValue.map(convertInvFromValue);
-                }
-
-                modal.querySelector("#computePriceInv").value = computePriceInv.join("");
-            }
-
-            function setPriceForProduct() {
-                let modalProduct = document.getElementById("itemModal");
-                let modalPrice = document.getElementById("computePriceModal");
-                let ele = modalPrice.querySelector("#computePriceFront");
-
-                let value = ele.value ? Number(ele.value) : 0;
-                modalProduct.querySelector("#itemPriceFront").value = value;
-                ele = modalPrice.querySelector("#computePriceBack");
-                value = ele.value ? Number(ele.value) : 0;
-                modalProduct.querySelector("#itemPriceBack").value = value;
-                ele = modalPrice.querySelector("#computePriceShop");
-                value = ele.value ? Number(ele.value) : 0;
-                modalProduct.querySelector("#itemPriceShop").value = value;
-                ele = modalPrice.querySelector("#computePriceInv");
-                value = ele.value ? ele.value : "";
-                modalProduct.querySelector("#itemPriceInv").value = value;
+            let value = ele.value ? Number(ele.value) : 0;
+            modalProduct.querySelector("#itemPriceFront").value = value;
+            ele = modalPrice.querySelector("#computePriceBack");
+            value = ele.value ? Number(ele.value) : 0;
+            modalProduct.querySelector("#itemPriceBack").value = value;
+            ele = modalPrice.querySelector("#computePriceShop");
+            value = ele.value ? Number(ele.value) : 0;
+            modalProduct.querySelector("#itemPriceShop").value = value;
+            ele = modalPrice.querySelector("#computePriceInv");
+            value = ele.value ? ele.value : "";
+            modalProduct.querySelector("#itemPriceInv").value = value;
 
 
-                //modalPrice.modal("hide");
-                $('#computePriceModal').modal('hide');
+            //modalPrice.modal("hide");
+            $('#computePriceModal').modal('hide');
 
-            }
+        }
 
-            function openAddModal() {
-                editId = null;
-                document.getElementById('itemForm').reset();
-                $('#itemForm #productModalLabel').text('เพิ่มสินค้า');
-                $('#itemForm .modal-header').addClass("bg-primary");
-                $('#itemForm .modal-header').removeClass("bg-warning");
+        function openAddModal() {
+            editId = null;
+            document.getElementById('itemForm').reset();
+            $('#itemForm #productModalLabel').text('เพิ่มสินค้า');
+            $('#itemForm .modal-header').addClass("bg-primary");
+            $('#itemForm .modal-header').removeClass("bg-warning");
 
+            $('#itemModal').modal("show");
+            // new bootstrap.Modal(document.getElementById('productModal')).show();
+        }
+
+        function openEditModal(id) {
+            const m = products.find(x => x.productId === id);
+            if (m) {
+                editId = id;
+                const thisfrm = document.getElementById('itemForm');
+                thisfrm.elements.namedItem("itemId_org").value = id;
+                thisfrm.elements.namedItem("itemId").value = id;
+                thisfrm.elements.namedItem("itemName").value = m.name;
+                thisfrm.elements.namedItem("itemGroupName").value = m.groupname;
+                thisfrm.elements.namedItem("itemTypeName").value = m.typename;
+                thisfrm.elements.namedItem("itemSupplierName").value = m.suppliername;
+                thisfrm.elements.namedItem("itemStoreMax").value = m.storeMax;
+                thisfrm.elements.namedItem("itemStoreMin").value = m.storeMin;
+                thisfrm.elements.namedItem("itemStoreFront").value = m.storeFront;
+                thisfrm.elements.namedItem("itemStoreBack").value = m.storeBack;
+                thisfrm.elements.namedItem("itemStoreTotal").value = m.storeFront + m.storeBack;
+                thisfrm.elements.namedItem("itemPriceInv").value = m.priceInv;
+                thisfrm.elements.namedItem("itemPriceFront").value = m.priceFront;
+                thisfrm.elements.namedItem("itemPriceBack").value = m.priceBack;
+                thisfrm.elements.namedItem("itemPriceShop").value = m.priceShop;
+                thisfrm.elements.namedItem("itemLocation").value = m.location;
+
+                $('#itemModal #productModalLabel').text('แก้ไขสินค้า');
+                $('#itemModal .modal-header').addClass("bg-warning");
+                $('#itemModal .modal-header').removeClass("bg-primary");
                 $('#itemModal').modal("show");
                 // new bootstrap.Modal(document.getElementById('productModal')).show();
             }
+        }
 
-            function openEditModal(id) {
-                const m = products.find(x => x.productId === id);
-                if (m) {
-                    editId = id;
-                    const thisfrm = document.getElementById('itemForm');
-                    thisfrm.elements.namedItem("itemId_org").value = id;
-                    thisfrm.elements.namedItem("itemId").value = id;
-                    thisfrm.elements.namedItem("itemName").value = m.name;
-                    thisfrm.elements.namedItem("itemGroupName").value = m.groupname;
-                    thisfrm.elements.namedItem("itemTypeName").value = m.typename;
-                    thisfrm.elements.namedItem("itemSupplierName").value = m.suppliername;
-                    thisfrm.elements.namedItem("itemStoreMax").value = m.storeMax;
-                    thisfrm.elements.namedItem("itemStoreMin").value = m.storeMin;
-                    thisfrm.elements.namedItem("itemStoreFront").value = m.storeFront;
-                    thisfrm.elements.namedItem("itemStoreBack").value = m.storeBack;
-                    thisfrm.elements.namedItem("itemStoreTotal").value = m.storeFront + m.storeBack;
-                    thisfrm.elements.namedItem("itemPriceInv").value = m.priceInv;
-                    thisfrm.elements.namedItem("itemPriceFront").value = m.priceFront;
-                    thisfrm.elements.namedItem("itemPriceBack").value = m.priceBack;
-                    thisfrm.elements.namedItem("itemPriceShop").value = m.priceShop;
-                    thisfrm.elements.namedItem("itemLocation").value = m.location;
+        Date.prototype.addHours = function(h) {
+            this.setHours(this.getHours() + h);
+            return this;
+        }
 
-                    $('#itemModal #productModalLabel').text('แก้ไขสินค้า');
-                    $('#itemModal .modal-header').addClass("bg-warning");
-                    $('#itemModal .modal-header').removeClass("bg-primary");
-                    $('#itemModal').modal("show");
-                    // new bootstrap.Modal(document.getElementById('productModal')).show();
-                }
+        function saveItem() {
+            const thisfrm = document.getElementById('itemForm');
+            const itemId_org = thisfrm.elements.namedItem('itemId_org').value.trim();
+            const itemId = thisfrm.elements.namedItem('itemId').value.trim();
+            const itemName = thisfrm.elements.namedItem('itemName').value.trim();
+            const itemGroupName = thisfrm.elements.namedItem('itemGroupName').value.trim();
+            const itemTypeName = thisfrm.elements.namedItem('itemTypeName').value.trim();
+            const itemSupplierName = thisfrm.elements.namedItem('itemSupplierName').value.trim();
+            const itemStoreMax = thisfrm.elements.namedItem('itemStoreMax').value.trim();
+            const itemStoreMin = thisfrm.elements.namedItem('itemStoreMin').value.trim();
+            const itemStoreFront = thisfrm.elements.namedItem('itemStoreFront').value.trim();
+            const itemStoreBack = thisfrm.elements.namedItem('itemStoreBack').value.trim();
+            const itemPriceInv = thisfrm.elements.namedItem('itemPriceInv').value.trim();
+            const itemPriceFront = thisfrm.elements.namedItem('itemPriceFront').value.trim();
+            const itemPriceBack = thisfrm.elements.namedItem('itemPriceBack').value.trim();
+            const itemPriceShop = thisfrm.elements.namedItem('itemPriceShop').value.trim();
+            const itemLocation = thisfrm.elements.namedItem('itemLocation').value.trim();
+            const updatedAt = getDateTimeNow();
+            // const updatedAt = new Date().addHours(7).toISOString().replace("T", " ").substr(0, 19);
+
+            // let nowSyncTime = new Date().addHours(7).toISOString().replace("T", " ").substr(0, 19);
+
+            // if (!productId || !name) {
+            //     alert('กรุณากรอกข้อมูลให้ครบถ้วน');
+            //     return;
+            // }
+
+            let statusValidate = validateInputForm.validate();
+
+            if (!statusValidate.status) {
+                let invalidStr = statusValidate.invalidString;
+                sweetAlertError('กรุณากรอกข้อมูลให้ครบถ้วน' + invalidStr, 5000);
+                return;
             }
 
-            Date.prototype.addHours = function(h) {
-                this.setHours(this.getHours() + h);
-                return this;
+            const item = {
+                "productId": itemId,
+                "name": itemName,
+                "groupname": itemGroupName,
+                "typename": itemTypeName,
+                "suppliername": itemSupplierName,
+                "storeMax": itemStoreMax,
+                "storeMin": itemStoreMin,
+                "storeFront": itemStoreFront,
+                "storeBack": itemStoreBack,
+                "priceInv": itemPriceInv,
+                "priceFront": itemPriceFront,
+                "priceBack": itemPriceBack,
+                "priceShop": itemPriceShop,
+                "location": itemLocation,
+                "updatedAt": updatedAt,
+            };
+
+            let dataSend = {
+                "itemId_org": itemId_org,
+                "itemId": itemId,
+                "itemName": itemName,
+                "itemGroupName": itemGroupName,
+                "itemTypeName": itemTypeName,
+                "itemSupplierName": itemSupplierName,
+                "itemStoreMax": itemStoreMax,
+                "itemStoreMin": itemStoreMin,
+                "itemStoreFront": itemStoreFront,
+                "itemStoreBack": itemStoreBack,
+                "itemPriceInv": itemPriceInv,
+                "itemPriceFront": itemPriceFront,
+                "itemPriceBack": itemPriceBack,
+                "itemPriceShop": itemPriceShop,
+                "itemLocation": itemLocation,
+                "itemUpdatedAt": updatedAt,
             }
 
-            function saveItem() {
-                const thisfrm = document.getElementById('itemForm');
-                const itemId_org = thisfrm.elements.namedItem('itemId_org').value.trim();
-                const itemId = thisfrm.elements.namedItem('itemId').value.trim();
-                const itemName = thisfrm.elements.namedItem('itemName').value.trim();
-                const itemGroupName = thisfrm.elements.namedItem('itemGroupName').value.trim();
-                const itemTypeName = thisfrm.elements.namedItem('itemTypeName').value.trim();
-                const itemSupplierName = thisfrm.elements.namedItem('itemSupplierName').value.trim();
-                const itemStoreMax = thisfrm.elements.namedItem('itemStoreMax').value.trim();
-                const itemStoreMin = thisfrm.elements.namedItem('itemStoreMin').value.trim();
-                const itemStoreFront = thisfrm.elements.namedItem('itemStoreFront').value.trim();
-                const itemStoreBack = thisfrm.elements.namedItem('itemStoreBack').value.trim();
-                const itemPriceInv = thisfrm.elements.namedItem('itemPriceInv').value.trim();
-                const itemPriceFront = thisfrm.elements.namedItem('itemPriceFront').value.trim();
-                const itemPriceBack = thisfrm.elements.namedItem('itemPriceBack').value.trim();
-                const itemPriceShop = thisfrm.elements.namedItem('itemPriceShop').value.trim();
-                const itemLocation = thisfrm.elements.namedItem('itemLocation').value.trim();
-                const updatedAt = getDateTimeNow();
-                // const updatedAt = new Date().addHours(7).toISOString().replace("T", " ").substr(0, 19);
-
-                // let nowSyncTime = new Date().addHours(7).toISOString().replace("T", " ").substr(0, 19);
-
-                // if (!productId || !name) {
-                //     alert('กรุณากรอกข้อมูลให้ครบถ้วน');
-                //     return;
-                // }
-
-                let statusValidate = validateInputForm.validate();
-
-                if (!statusValidate.status) {
-                    let invalidStr = statusValidate.invalidString;
-                    sweetAlertError('กรุณากรอกข้อมูลให้ครบถ้วน' + invalidStr, 5000);
-                    return;
-                }
-
-                const item = {
-                    "productId": itemId,
-                    "name": itemName,
-                    "groupname": itemGroupName,
-                    "typename": itemTypeName,
-                    "suppliername": itemSupplierName,
-                    "storeMax": itemStoreMax,
-                    "storeMin": itemStoreMin,
-                    "storeFront": itemStoreFront,
-                    "storeBack": itemStoreBack,
-                    "priceInv": itemPriceInv,
-                    "priceFront": itemPriceFront,
-                    "priceBack": itemPriceBack,
-                    "priceShop": itemPriceShop,
-                    "location": itemLocation,
-                    "updatedAt": updatedAt,
-                };
-
-                let dataSend = {
-                    "itemId_org": itemId_org,
-                    "itemId": itemId,
-                    "itemName": itemName,
-                    "itemGroupName": itemGroupName,
-                    "itemTypeName": itemTypeName,
-                    "itemSupplierName": itemSupplierName,
-                    "itemStoreMax": itemStoreMax,
-                    "itemStoreMin": itemStoreMin,
-                    "itemStoreFront": itemStoreFront,
-                    "itemStoreBack": itemStoreBack,
-                    "itemPriceInv": itemPriceInv,
-                    "itemPriceFront": itemPriceFront,
-                    "itemPriceBack": itemPriceBack,
-                    "itemPriceShop": itemPriceShop,
-                    "itemLocation": itemLocation,
-                    "itemUpdatedAt": updatedAt,
-                }
-
-                if (editId) {
-                    // item.carId = itemId;
-                    $.ajax({
-                        type: "POST",
-                        url: "services/updateItem.php",
-                        data: dataSend
-                    }).done(function(resp) {
-                        if (resp.status) {
-                            $('#itemModal').modal("hide");
-                            toastr.success(resp.message);
-                            confirmSave(item);
-                        } else {
-                            sweetAlertError('เกิดข้อผิดพลาด : ' + resp.message, 3000);
-                        }
-                    }).fail(function(err) {
-                        let message = err?.responseJSON?.message ?? err.responseText;
-                        sweetAlertError('เกิดข้อผิดพลาด : ' + message, 0);
-                    }).always(function() {
-                        loaderScreen("hide");
-                    });
-                } else {
-                    $.ajax({
-                        type: "POST",
-                        url: "services/insertItem.php",
-                        data: dataSend
-                    }).done(function(resp) {
-                        if (resp.status) {
-                            $('#itemModal').modal("hide");
-                            toastr.success(resp.message);
-                            confirmSave(item)
-                        } else {
-                            sweetAlertError('เกิดข้อผิดพลาด : ' + resp.message, 3000);
-                        }
-                    }).fail(function(err) {
-                        let message = err?.responseJSON?.message ?? err.responseText;
-                        sweetAlertError('เกิดข้อผิดพลาด : ' + message, 0);
-                    }).always(function() {
-                        loaderScreen("hide");
-                    });
-                }
-            }
-
-            async function prepareDelete(item) {
-                let deleteId = item.productId;
-                let deleteName = item.name;
-                message = `${deleteName}<BR>คุณแน่ใจหรือไม่...ที่จะลบรายการนี้?`;
-                confirm = await sweetConfirmDelete(message, "ใช่! ลบเลย");
-                if (confirm) {
-                    loaderScreen("show");
-                    $.ajax({
-                        type: "POST",
-                        url: "services/deleteItem.php",
-                        data: {
-                            itemId: deleteId
-                        }
-                    }).done(function(resp) {
-                        if (resp.status) {
-                            toastr.success(resp.message);
-                            confirmDelete(deleteId);
-                        } else {
-                            sweetAlertError('เกิดข้อผิดพลาด : ' + resp.message);
-                        }
-                    }).fail(function(err) {
-                        let message = err?.responseJSON?.message ?? err.responseText;
-                        sweetAlertError('เกิดข้อผิดพลาด : ' + message, 0);
-                    }).always(function() {
-                        loaderScreen("hide");
-                    })
-                }
-            }
-
-            function confirmSave(item) {
-                if (editId) {
-                    const index = products.findIndex(m => m.productId == editId);
-                    if (index !== -1) {
-                        products[index] = item;
+            if (editId) {
+                // item.usercarId = itemId;
+                $.ajax({
+                    type: "POST",
+                    url: "services/updateItem.php",
+                    data: dataSend
+                }).done(function(resp) {
+                    if (resp.status) {
+                        $('#itemModal').modal("hide");
+                        toastr.success(resp.message);
+                        confirmSave(item);
+                    } else {
+                        sweetAlertError('เกิดข้อผิดพลาด : ' + resp.message, 3000);
                     }
-                } else {
-                    products.push(item);
+                }).fail(function(err) {
+                    let message = err?.responseJSON?.message ?? err.responseText;
+                    sweetAlertError('เกิดข้อผิดพลาด : ' + message, 0);
+                }).always(function() {
+                    loaderScreen("hide");
+                });
+            } else {
+                $.ajax({
+                    type: "POST",
+                    url: "services/insertItem.php",
+                    data: dataSend
+                }).done(function(resp) {
+                    if (resp.status) {
+                        $('#itemModal').modal("hide");
+                        toastr.success(resp.message);
+                        confirmSave(item)
+                    } else {
+                        sweetAlertError('เกิดข้อผิดพลาด : ' + resp.message, 3000);
+                    }
+                }).fail(function(err) {
+                    let message = err?.responseJSON?.message ?? err.responseText;
+                    sweetAlertError('เกิดข้อผิดพลาด : ' + message, 0);
+                }).always(function() {
+                    loaderScreen("hide");
+                });
+            }
+        }
+
+        async function prepareDelete(item) {
+            let deleteId = item.productId;
+            let deleteName = item.name;
+            message = `${deleteName}<BR>คุณแน่ใจหรือไม่...ที่จะลบรายการนี้?`;
+            confirm = await sweetConfirmDelete(message, "ใช่! ลบเลย");
+            if (confirm) {
+                loaderScreen("show");
+                $.ajax({
+                    type: "POST",
+                    url: "services/deleteItem.php",
+                    data: {
+                        itemId: deleteId
+                    }
+                }).done(function(resp) {
+                    if (resp.status) {
+                        toastr.success(resp.message);
+                        confirmDelete(deleteId);
+                    } else {
+                        sweetAlertError('เกิดข้อผิดพลาด : ' + resp.message);
+                    }
+                }).fail(function(err) {
+                    let message = err?.responseJSON?.message ?? err.responseText;
+                    sweetAlertError('เกิดข้อผิดพลาด : ' + message, 0);
+                }).always(function() {
+                    loaderScreen("hide");
+                })
+            }
+        }
+
+        function confirmSave(item) {
+            if (editId) {
+                const index = products.findIndex(m => m.productId == editId);
+                if (index !== -1) {
+                    products[index] = item;
                 }
-                createFilterDataAndRender();
+            } else {
+                products.push(item);
+            }
+            createFilterDataAndRender(currentPage);
+        }
+
+        function confirmDelete(deleteId) {
+            products = products.filter(m => m.productId !== deleteId);
+            createFilterDataAndRender(currentPage);
+        }
+
+        const changeFilter = (item) => {
+            if (item) {
+                searchData();
+                //$("#filterType").change(1);
+            }
+        }
+
+
+        function createFilterDataAndRender(page = 1) {
+            currentPage = page;
+            const searchText = document.getElementById('searchInput').value.trim().toLowerCase();
+            const searchType = document.getElementById('filterType').value.trim().toLowerCase();
+            const searchGroup = document.getElementById('filterGroup').value.trim().toLowerCase();
+
+            filtered = products;
+            if (searchText) {
+                filtered = filtered.filter(m =>
+                    m.productId.toLowerCase().includes(searchText) ||
+                    m.name.toLowerCase().includes(searchText)
+                );
             }
 
-            function confirmDelete(deleteId) {
-                products = products.filter(m => m.productId !== deleteId);
-                filtered = filtered.filter(m => m.productId != deleteId);
-                renderTable();
+            if (searchType) {
+                filtered = filtered.filter(m =>
+                    m.typename.toLowerCase().includes(searchType)
+                );
             }
 
-            const changeFilter = (item) => {
-                if (item) {
-                    searchData();
-                    //$("#filterType").change(1);
-                }
+            if (searchGroup) {
+                filtered = filtered.filter(m =>
+                    m.groupname.toLowerCase().includes(searchGroup)
+                );
             }
 
+            // sortData();
 
-            function createFilterDataAndRender() {
-                currentPage = 1;
-                const searchText = document.getElementById('searchInput').value.trim().toLowerCase();
-                const searchType = document.getElementById('filterType').value.trim().toLowerCase();
-                const searchGroup = document.getElementById('filterGroup').value.trim().toLowerCase();
-
-                filtered = products;
-                if (searchText) {
-                    filtered = filtered.filter(m =>
-                        m.productId.toLowerCase().includes(searchText) ||
-                        m.name.toLowerCase().includes(searchText)
-                    );
-                }
-
-                if (searchType) {
-                    filtered = filtered.filter(m =>
-                        m.typename.toLowerCase().includes(searchType)
-                    );
-                }
-
-                if (searchGroup) {
-                    filtered = filtered.filter(m =>
-                        m.groupname.toLowerCase().includes(searchGroup)
-                    );
-                }
-
-                // sortData();
-
-                renderTable();
-            }
+            renderTable();
+        }
 
 
-            function renderTable() {
-                const tbody = document.getElementById('itemTable');
-                const totalPages = Math.ceil(filtered.length / perPage);
-                const start = (currentPage - 1) * perPage;
-                const pageItems = filtered.slice(start, start + perPage);
+        function renderTable() {
+            const tbody = document.getElementById('itemTable');
+            const totalPages = Math.ceil(filtered.length / perPage);
+            const start = (currentPage - 1) * perPage;
+            const pageItems = filtered.slice(start, start + perPage);
 
-                tbody.innerHTML = '';
-                for (let i = 0; i < pageItems.length; i++) {
-                    const m = pageItems[i];
-                    tbody.insertAdjacentHTML('beforeend', `
+            tbody.innerHTML = '';
+            for (let i = 0; i < pageItems.length; i++) {
+                const m = pageItems[i];
+                tbody.insertAdjacentHTML('beforeend', `
                     <tr>
                         <td>${start + i + 1}</td>
                         <td>${m.productId}</td>
@@ -1118,233 +1152,236 @@ require_once("../../assets/php/common.php");
                         </td>
                     </tr>
                 `);
-                    // <button class="btn btn-sm btn-danger boxx" onclick="prepareDelete('${m.productId}','${m.name}')">ลบ</button>
-                }
-
-                renderPagination(currentPage, totalPages);
+                // <button class="btn btn-sm btn-danger boxx" onclick="prepareDelete('${m.productId}','${m.name}')">ลบ</button>
             }
 
-            function _renderPagination(current, total) {
-                const pagination = document.getElementById('pagination');
-                pagination.innerHTML = '';
+            renderPagination(currentPage, totalPages);
+        }
 
-                const addPage = (page, label = page, active = false, disabled = false) => {
-                    const li = document.createElement('li');
-                    li.className = `page-item${active ? ' active' : ''}${disabled ? ' disabled' : ''}`;
-                    const a = document.createElement('a');
-                    a.className = 'page-link';
-                    a.href = '#';
-                    a.textContent = label;
-                    a.onclick = (e) => {
-                        e.preventDefault();
-                        if (!disabled && page) {
-                            currentPage = page;
-                            renderTable();
-                        }
-                    };
-                    li.appendChild(a);
-                    pagination.appendChild(li);
-                };
+        function _renderPagination(current, total) {
+            const pagination = document.getElementById('pagination');
+            pagination.innerHTML = '';
 
-                addPage(current - 1, '«', false, current === 1);
-                for (let i = 1; i <= total; i++) {
-                    if (i === 1 || i === total || Math.abs(i - current) <= 2) {
-                        addPage(i, i, current === i);
-                    } else if (i === 2) {
-                        //addPage(null, '...');
-                        addPage(parseInt(current / 2), '...');
-                    } else if (i === total - 1) {
-                        //addPage(null, '...');
-                        addPage(total - parseInt((total - current) / 2), '...');
+            const addPage = (page, label = page, active = false, disabled = false) => {
+                const li = document.createElement('li');
+                li.className = `page-item${active ? ' active' : ''}${disabled ? ' disabled' : ''}`;
+                const a = document.createElement('a');
+                a.className = 'page-link';
+                a.href = '#';
+                a.textContent = label;
+                a.onclick = (e) => {
+                    e.preventDefault();
+                    if (!disabled && page) {
+                        currentPage = page;
+                        renderTable();
                     }
-                    /*else if (i === 2 || i === total - 1) {
-                         addPage(null, '...');
-                       }*/
-                }
-                addPage(current + 1, '»', false, current === total);
-            }
+                };
+                li.appendChild(a);
+                pagination.appendChild(li);
+            };
 
-            function resetFilter() {
-                document.getElementById('searchInput').value = '';
-                document.getElementById('filterType').value = '';
-                document.getElementById('filterGroup').value = '';
+            addPage(current - 1, '«', false, current === 1);
+            for (let i = 1; i <= total; i++) {
+                if (i === 1 || i === total || Math.abs(i - current) <= 2) {
+                    addPage(i, i, current === i);
+                } else if (i === 2) {
+                    //addPage(null, '...');
+                    addPage(parseInt(current / 2), '...');
+                } else if (i === total - 1) {
+                    //addPage(null, '...');
+                    addPage(total - parseInt((total - current) / 2), '...');
+                }
+                /*else if (i === 2 || i === total - 1) {
+                     addPage(null, '...');
+                   }*/
+            }
+            addPage(current + 1, '»', false, current === total);
+        }
+
+        function resetFilter() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('filterType').value = '';
+            document.getElementById('filterGroup').value = '';
+            createFilterDataAndRender();
+        }
+
+        $(document).ready(async function() {
+            try {
+                loaderScreen("show");
+                // await openDB();
+                await syncOnLoad();
+                products = await loadDataFromDB("products", "productId");
                 createFilterDataAndRender();
+                groupNames = await loadAndSetData("groupnames");
+                typeNames = await loadAndSetData("typenames");
+                suppliers = await loadAndSetData("suppliers");
+            } catch (error) {
+                sweetAlertError("เกิดข้อผิดพลาด : " + error.message, 0);
+            } finally {
+                loaderScreen("hide");
             }
 
-            $(document).ready(async function() {
-                try {
-                    loaderScreen("show");
-                    // await openDB();
-                    await syncOnLoad();
-                    products = await loadDataFromDB("products");
-                    createFilterDataAndRender();
-                    groupNames = await loadAndSetData("groupnames");
-                    typeNames = await loadAndSetData("typenames");
-                    suppliers = await loadAndSetData("suppliers");
-                } catch (error) {
-                    sweetAlertError("เกิดข้อผิดพลาด : " + error.message, 0);
-                } finally {
-                    loaderScreen("hide");
-                }
-
-                $(function() {
-                    var focusedElement;
-                    $(document).on('focus', 'input', function() {
-                        if (focusedElement == this) return; //already focused, return so user can now place cursor at specific point in input.
-                        focusedElement = this;
-                        setTimeout(function() {
-                            focusedElement.select();
-                        }, 100); //select all text in any field on focus for easy re-entry. Delay sightly to allow focus to "stick" before selecting.
-                    });
+            $(function() {
+                var focusedElement;
+                $(document).on('focus', 'input', function() {
+                    if (focusedElement == this) return; //already focused, return so user can now place cursor at specific point in input.
+                    focusedElement = this;
+                    setTimeout(function() {
+                        focusedElement.select();
+                    }, 100); //select all text in any field on focus for easy re-entry. Delay sightly to allow focus to "stick" before selecting.
                 });
-
-                $('#searchInput').on('input', function() {
-                    createFilterDataAndRender();
-                });
-
-                // $("*").dblclick(function(e) {
-                //     e.preventDefault();
-                //     event.stopPropagation();
-                // });
-
-                setInterval(syncDataRealtime, 10000); // 10 วินาที
-                // setInterval(function() {
-                //     updateSyncData({dataSource:colorNames,dataName:"colornames"}); 
-                // },5000); // 10 วินาที
             });
 
-            async function syncDataRealtime() {
-                let tableNames = await updateSyncData();
-                if (tableNames) {
-                    if (tableNames.find((item) => item == "products")) {
-                        let dataSource = await loadDataFromDB("products");
-                        products = dataSource;
-                        createFilterDataAndRender(currentPage);
-                    }
-                    if (tableNames.find((item) => item == "groupnames")) {
-                        groupNames = await loadAndSetData("groupnames");
-                    }
-                    if (tableNames.find((item) => item == "typenames")) {
-                        typeNames = await loadAndSetData("typenames");
-                    }
-                    if (tableNames.find((item) => item == "suppliers")) {
-                        suppliers = await loadAndSetData("suppliers");
-                    }
+            $('#searchInput').on('input', function() {
+                createFilterDataAndRender();
+            });
 
-                }
-            }
-
-            async function _syncDataRealtime() {
-                let dataSource = await updateSyncData({
-                    dataName: "products"
-                });
-                if (dataSource) {
-
-                    products = dataSource;
-                    createFilterDataAndRender();
-                }
-            }
-
-            // document.addEventListener("dbclick", function(event) {
-            //     event.preventDefault();
+            // $("*").dblclick(function(e) {
+            //     e.preventDefault();
             //     event.stopPropagation();
             // });
 
-            async function loadAndSetData(storeName) {
-                let dataStore = await loadDataFromDB(storeName);
-                if (storeName == "products") {
-                    // products = dataStore;
-                    setupAutocompleteProducts(
-                        "productInput", "productSuggestions", products, "productId", ["productId", "name"], ["productId", "name"], [{
-                            elementId: "productCode",
-                            elementValue: "productName"
-                        }, {
-                            elementId: "productName",
-                            elementValue: "name"
-                        }, {
-                            elementId: "productPrice",
-                            elementValue: "price1"
-                        }]
-                    );
-                    return dataStore;
-                    // createFilterDataAndRender();
-                    //renderTable();
-                } else if (storeName == "groupnames") {
-                    // groupNames = dataStore;
-                    /*
-                    setupAutocomplete(
-                        "groupName", "groupNameSuggestions", groupNames, "groupname", ["groupname"], ["groupname"], null, setProductName);
-                        */
-                    setupAutocompleteOnFocus({
-                        inputId: "filterGroup",
-                        suggestionsId: "filterGroupSuggestions",
-                        dataList: dataStore,
-                        codeId: "groupname",
-                        arrayShowValue: ["groupname"],
-                        arrayFindValue: ["groupname"],
-                        // callbackFunction: changeFilter,
-                        sortField: "groupname"
-                    });
-                    setupAutocompleteOnFocus({
-                        inputId: "itemGroupName",
-                        suggestionsId: "groupNameSuggestions",
-                        dataList: dataStore,
-                        codeId: "groupname",
-                        arrayShowValue: ["groupname"],
-                        arrayFindValue: ["groupname"],
-                        callbackFunction: setProductName,
-                        sortField: "groupname"
-                    });
-                    return dataStore;
-                } else if (storeName == "typenames") {
-                    setupAutocompleteOnFocus({
-                        inputId: "filterType",
-                        suggestionsId: "filterTypeSuggestions",
-                        dataList: dataStore,
-                        codeId: "typename",
-                        arrayShowValue: ["typename"],
-                        arrayFindValue: ["typename"],
-                        // callbackFunction: changeFilter,
-                        sortField: "typename"
-                    });
-                    setupAutocompleteOnFocus({
-                        inputId: "itemTypeName",
-                        suggestionsId: "typeNameSuggestions",
-                        dataList: dataStore,
-                        codeId: "typename",
-                        arrayShowValue: ["typename"],
-                        arrayFindValue: ["typename"],
-                        callbackFunction: setProductName,
-                        sortField: "typename"
-                    });
-                    return dataStore;
-                } else if (storeName == "suppliers") {
-                    suppliers = dataStore;
-                    setupAutocompleteOnFocus({
-                        inputId: "itemSupplierName",
-                        suggestionsId: "supplierNameSuggestions",
-                        dataList: suppliers,
-                        codeId: "name",
-                        arrayShowValue: ["name"],
-                        arrayFindValue: ["name"],
-                        //callbackFunction: dataFilterProductModal,
-                        sortField: "name"
-                    });
-                } else if (storeName == "colors") {
-                    setupAutocompleteOnFocus({
-                        inputId: "itemColorName",
-                        suggestionsId: "colorNameSuggestions",
-                        dataList: dataStore,
-                        codeId: "colorname",
-                        arrayShowValue: ["colorname"],
-                        arrayFindValue: ["colorname"],
-                        //callbackFunction: dataFilterProductModal,
-                        sortField: "colorname"
-                    });
-                    return dataStore;
+            createValidate();
+
+            setInterval(syncDataRealtime, timeSync); // 10 วินาที
+
+            // setInterval(function() {
+            //     updateSyncData({dataSource:colorNames,dataName:"colornames"}); 
+            // },5000); // 10 วินาที
+        });
+
+        async function syncDataRealtime() {
+            let tableNames = await updateSyncData();
+            if (tableNames) {
+                if (tableNames.find((item) => item == "products")) {
+                    let dataSource = await loadDataFromDB("products");
+                    products = sortColumnData(dataSource);
+                    createFilterDataAndRender(currentPage);
                 }
+                if (tableNames.find((item) => item == "groupnames")) {
+                    groupNames = await loadAndSetData("groupnames");
+                }
+                if (tableNames.find((item) => item == "typenames")) {
+                    typeNames = await loadAndSetData("typenames");
+                }
+                if (tableNames.find((item) => item == "suppliers")) {
+                    suppliers = await loadAndSetData("suppliers");
+                }
+                createValidate();
             }
-        </script>
+        }
+
+        async function _syncDataRealtime() {
+            let dataSource = await updateSyncData({
+                dataName: "products"
+            });
+            if (dataSource) {
+
+                products = dataSource;
+                createFilterDataAndRender(currentPage);
+            }
+        }
+
+        // document.addEventListener("dbclick", function(event) {
+        //     event.preventDefault();
+        //     event.stopPropagation();
+        // });
+
+        async function loadAndSetData(storeName) {
+            let dataStore = await loadDataFromDB(storeName);
+            if (storeName == "products") {
+                // products = dataStore;
+                setupAutocompleteProducts(
+                    "productInput", "productSuggestions", products, "productId", ["productId", "name"], ["productId", "name"], [{
+                        elementId: "productCode",
+                        elementValue: "productName"
+                    }, {
+                        elementId: "productName",
+                        elementValue: "name"
+                    }, {
+                        elementId: "productPrice",
+                        elementValue: "price1"
+                    }]
+                );
+                // return dataStore;
+                // createFilterDataAndRender();
+                //renderTable();
+            } else if (storeName == "groupnames") {
+                // groupNames = dataStore;
+                /*
+                setupAutocomplete(
+                    "groupName", "groupNameSuggestions", groupNames, "groupname", ["groupname"], ["groupname"], null, setProductName);
+                    */
+                setupAutocompleteOnFocus({
+                    inputId: "filterGroup",
+                    suggestionsId: "filterGroupSuggestions",
+                    dataList: dataStore,
+                    codeId: "groupname",
+                    arrayShowValue: ["groupname"],
+                    arrayFindValue: ["groupname"],
+                    // callbackFunction: changeFilter,
+                    sortField: "groupname"
+                });
+                setupAutocompleteOnFocus({
+                    inputId: "itemGroupName",
+                    suggestionsId: "groupNameSuggestions",
+                    dataList: dataStore,
+                    codeId: "groupname",
+                    arrayShowValue: ["groupname"],
+                    arrayFindValue: ["groupname"],
+                    callbackFunction: setProductName,
+                    sortField: "groupname"
+                });
+                // return dataStore;
+            } else if (storeName == "typenames") {
+                setupAutocompleteOnFocus({
+                    inputId: "filterType",
+                    suggestionsId: "filterTypeSuggestions",
+                    dataList: dataStore,
+                    codeId: "typename",
+                    arrayShowValue: ["typename"],
+                    arrayFindValue: ["typename"],
+                    // callbackFunction: changeFilter,
+                    sortField: "typename"
+                });
+                setupAutocompleteOnFocus({
+                    inputId: "itemTypeName",
+                    suggestionsId: "typeNameSuggestions",
+                    dataList: dataStore,
+                    codeId: "typename",
+                    arrayShowValue: ["typename"],
+                    arrayFindValue: ["typename"],
+                    callbackFunction: setProductName,
+                    sortField: "typename"
+                });
+                // return dataStore;
+            } else if (storeName == "suppliers") {
+                setupAutocompleteOnFocus({
+                    inputId: "itemSupplierName",
+                    suggestionsId: "supplierNameSuggestions",
+                    dataList: dataStore,
+                    codeId: "name",
+                    arrayShowValue: ["name"],
+                    arrayFindValue: ["name"],
+                    //callbackFunction: dataFilterProductModal,
+                    sortField: "name"
+                });
+            } else if (storeName == "colors") {
+                setupAutocompleteOnFocus({
+                    inputId: "itemColorName",
+                    suggestionsId: "colorNameSuggestions",
+                    dataList: dataStore,
+                    codeId: "colorname",
+                    arrayShowValue: ["colorname"],
+                    arrayFindValue: ["colorname"],
+                    //callbackFunction: dataFilterProductModal,
+                    sortField: "colorname"
+                });
+                // return dataStore;
+            }
+            return dataStore;
+        }
+    </script>
 </body>
 
 </html>

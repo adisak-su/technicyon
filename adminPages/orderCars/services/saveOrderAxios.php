@@ -53,9 +53,9 @@ try {
 			$params = array(
 				'orderId' => $orderId,
 				'mydate' => $orderDateTime,
-				'carId' => $data->carId,
+				'usercarId' => $data->usercarId,
 				// 'status' => $data->status,
-				//'typeSale' => $data->typeSale,
+				'typeSale' => $data->typeSale,
 				'total' => $data->partsTotal,
 				'nettotal' => $nettotal,
 				'vatvalue' => $vatvalue,
@@ -64,7 +64,7 @@ try {
 				'details' => json_encode($data->orderItems)
 			);
 
-			$sql = "INSERT INTO usercar_head (orderId,mydate,carId,total,vatvalue,nettotal,discount,mystring,details) VALUES(:orderId,:mydate,:carId,:total,:vatvalue,:nettotal,:discount,:mystring,:details)";
+			$sql = "INSERT INTO usercar_head (orderId,mydate,usercarId,total,vatvalue,nettotal,discount,mystring,details,typesale) VALUES(:orderId,:mydate,:usercarId,:total,:vatvalue,:nettotal,:discount,:mystring,:details,:typeSale)";
 			$stmt = $conn->prepare($sql);
 			$stmt->execute($params);
 

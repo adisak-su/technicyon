@@ -130,7 +130,7 @@ require_once("../../service/configData.php");
                                             <thead class="table-primary">
                                                 <tr>
                                                     <th style="min-width: 40px;">#</th>
-                                                    <th style="min-width: 50px;" onclick="sortColumnBy('carId',this);">
+                                                    <th style="min-width: 50px;" onclick="sortColumnBy('usercarId',this);">
                                                         <div class="d-flex justify-content-around">
                                                             <div>ทะเบียน</div>
                                                             <div id="icon"></div>
@@ -397,7 +397,7 @@ require_once("../../service/configData.php");
     <!-- <script src="../serviceDB/startInitData.js?<?php echo time(); ?>"></script> -->
 
     <script src="../js/renderPagination.js"></script>
-    <script src="../js/sortColumnBy.js"></script>
+    <script src="../js/sortColumnBy.js?<?php echo time(); ?>"></script>
     <script src="../js/validateInput.js?<?php echo time(); ?>"></script>
     <script src="../js/autocomplete.js?<?php echo time(); ?>"></script>
     <script type="text/javascript">
@@ -419,7 +419,7 @@ require_once("../../service/configData.php");
 
         //สำหรับการจัดเรียงข้อมูล
         let sortColumn = [{
-            colName: "carId",
+            colName: "usercarId",
             state: "ASC"
         }, {
             colName: "groupname",
@@ -489,7 +489,7 @@ require_once("../../service/configData.php");
 
         function openEditModal(id) {
             editId = null;
-            const m = usercars.find(x => x.carId == id);
+            const m = usercars.find(x => x.usercarId == id);
 
             if (m) {
                 editId = id;
@@ -534,19 +534,18 @@ require_once("../../service/configData.php");
             const thisfrm = document.getElementById('itemForm');
             const itemId_org = editId || thisfrm.elements.namedItem('itemId_org').value.trim();
             const itemId = thisfrm.elements.namedItem('itemId').value.trim();
-            // const itemGroupName = thisfrm.elements.namedItem('itemGroupName').value.trim() !== "" ? thisfrm.elements.namedItem('itemGroupName').value.trim() : "-";
             const itemGroupName = thisfrm.elements.namedItem('itemGroupName').value.trim();
-            const itemColor = thisfrm.elements.namedItem('itemColor').value.trim() !== "" ? thisfrm.elements.namedItem('itemColor').value.trim() : "-";
-            const itemMile = thisfrm.elements.namedItem('itemMile').value.trim() !== "" ? thisfrm.elements.namedItem('itemMile').value.trim() : "-";
-            const itemYear = thisfrm.elements.namedItem('itemYear').value.trim() !== "" ? thisfrm.elements.namedItem('itemYear').value.trim() : "-";
-            const itemVehicleId = thisfrm.elements.namedItem('itemVehicleId').value.trim() !== "" ? thisfrm.elements.namedItem('itemVehicleId').value.trim() : "-";
-            const itemName = thisfrm.elements.namedItem('itemName').value.trim() !== "" ? thisfrm.elements.namedItem('itemName').value.trim() : "-";
-            const itemAddress = thisfrm.elements.namedItem('itemAddress').value.trim() !== "" ? thisfrm.elements.namedItem('itemAddress').value.trim() : "-";
-            const itemTelephone = thisfrm.elements.namedItem('itemTelephone').value.trim() !== "" ? thisfrm.elements.namedItem('itemTelephone').value.trim() : "-";
+            const itemColor = thisfrm.elements.namedItem('itemColor').value.trim();
+            const itemMile = thisfrm.elements.namedItem('itemMile').value.trim();
+            const itemYear = thisfrm.elements.namedItem('itemYear').value.trim();
+            const itemVehicleId = thisfrm.elements.namedItem('itemVehicleId').value.trim();
+            const itemName = thisfrm.elements.namedItem('itemName').value.trim();
+            const itemAddress = thisfrm.elements.namedItem('itemAddress').value.trim();
+            const itemTelephone = thisfrm.elements.namedItem('itemTelephone').value.trim();
             const updatedAt = getDateTimeNow();
 
             const item = {
-                "carId": itemId,
+                "usercarId": itemId,
                 "groupname": itemGroupName,
                 "colorname": itemColor,
                 "mile": itemMile,
@@ -573,7 +572,7 @@ require_once("../../service/configData.php");
             }
 
             if (editId) {
-                // item.carId = itemId;
+                // item.usercarId = itemId;
                 $.ajax({
                     type: "POST",
                     url: "services/updateItem.php",
@@ -615,7 +614,7 @@ require_once("../../service/configData.php");
         }
 
         async function prepareDelete(item) {
-            let deleteId = item.carId;
+            let deleteId = item.usercarId;
             let deleteName = item.name;
             message = `${deleteName}<BR>คุณแน่ใจหรือไม่...ที่จะลบรายการนี้?`;
             confirm = await sweetConfirmDelete(message, "ใช่! ลบเลย");
@@ -645,20 +644,19 @@ require_once("../../service/configData.php");
 
         function confirmSave(item) {
             if (editId) {
-                const index = usercars.findIndex(m => m.carId == editId);
+                const index = usercars.findIndex(m => m.usercarId == editId);
                 if (index !== -1) {
                     usercars[index] = item;
                 }
             } else {
                 usercars.push(item);
             }
-            createFilterDataAndRender();
+            createFilterDataAndRender(currentPage);
         }
 
         function confirmDelete(deleteId) {
-            usercars = usercars.filter(m => m.carId != deleteId);
-            filtered = filtered.filter(m => m.carId != deleteId);
-            renderTable();
+            usercars = usercars.filter(m => m.usercarId != deleteId);
+            createFilterDataAndRender(currentPage);
         }
 
         function createFilterDataAndRender(page = 1) {
@@ -668,7 +666,7 @@ require_once("../../service/configData.php");
 
             if (searchText) {
                 filtered = filtered.filter(m =>
-                    m.carId.toLowerCase().includes(searchText) ||
+                    m.usercarId.toLowerCase().includes(searchText) ||
                     m.name.toLowerCase().includes(searchText)
                 );
             }
@@ -687,7 +685,7 @@ require_once("../../service/configData.php");
                 tbody.insertAdjacentHTML('beforeend', `
                     <tr>
                         <td>${start + i + 1}</td>
-                        <td>${m.carId}</td>
+                        <td>${m.usercarId}</td>
                         <td>${m.groupname}</td>
                         <td>${m.colorname}</td>
                         <td>${m.mile}</td>
@@ -698,7 +696,7 @@ require_once("../../service/configData.php");
                         <td>${m.telephone}</td>
                         <td>
                             <div class="d-flex justify-content-around">
-                                <button class="btn btn-sm btn-warning boxx text-white" onclick="openEditModal('${m.carId}')">แก้ไข</button>
+                                <button class="btn btn-sm btn-warning boxx text-white" onclick="openEditModal('${m.usercarId}')">แก้ไข</button>
                                 <button class="btn btn-sm btn-danger boxx" onclick='prepareDelete(${JSON.stringify(m)})'>ลบ</button>
                             </div>
                         </td>
@@ -744,7 +742,7 @@ require_once("../../service/configData.php");
             try {
                 loaderScreen("show");
                 await syncOnLoad();
-                usercars = await loadDataFromDB("usercars");
+                usercars = await loadDataFromDB("usercars","usercarId");
                 createFilterDataAndRender();
                 groupNames = await loadAndSetData("groupnames");
                 colorNames = await loadAndSetData("colornames");
@@ -768,21 +766,21 @@ require_once("../../service/configData.php");
             $('#searchInput').on('input', function() {
                 createFilterDataAndRender();
             });
+
             createValidate();
 
-            lastDataSyncTime = getDateTimeNow();
+            // lastDataSyncTime = getDateTimeNow();
             // syncDataRealtimeDB(lastDataSyncTime);
 
-            setInterval(syncDataRealtime, 10000); // 10 วินาที
+            setInterval(syncDataRealtime,timeSync); // 10 วินาที
         });
-
 
         async function syncDataRealtime() {
             let tableNames = await updateSyncData();
             if (tableNames) {
                 if (tableNames.find((item) => item == "usercars")) {
                     let dataSource = await loadDataFromDB("usercars");
-                    usercars = dataSource;
+                    usercars = sortColumnData(dataSource);
                     createFilterDataAndRender(currentPage);
                 }
                 if (tableNames.find((item) => item == "groupnames")) {
@@ -791,7 +789,7 @@ require_once("../../service/configData.php");
                 if (tableNames.find((item) => item == "colornames")) {
                     colorNames = await loadAndSetData("colornames");
                 }
-
+                createValidate();
             }
         }
 
@@ -863,7 +861,6 @@ require_once("../../service/configData.php");
                         // callbackFunction: setProductName,
                         sortField: "groupname"
                     });
-                    return dataStore;
                 } else if (storeName == "colornames") {
                     setupAutocompleteOnFocus({
                         inputId: "itemColor",
@@ -875,8 +872,8 @@ require_once("../../service/configData.php");
                         //callbackFunction: dataFilterProductModal,
                         sortField: "colorname"
                     });
-                    return dataStore;
                 }
+                return dataStore;
 
             } catch (error) {
                 sweetAlertError("เกิดข้อผิดพลาด : " + error.message, 0);
