@@ -1,7 +1,3 @@
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400&display=swap" rel="stylesheet">
-
     <!-- <link rel="stylesheet" href="../../plugins/@sweetalert2/theme-bootstrap-4/bootstrap-4.css"> -->
     
     <link rel="stylesheet" href="../../plugins/sweetalert2/dist/sweetalert2.min.css">
@@ -16,4 +12,3 @@
     <link rel="stylesheet" href="../../assets/css/switch.css?<?php echo time(); ?>">
     <link rel="stylesheet" href="../../assets/css/loading.css?<?php echo time(); ?>">
     <link rel="stylesheet" href="../../assets/css/style.css?<?php echo time(); ?>">
-    <!-- <link rel="stylesheet" href="../../assets/css/myStyle.css?<?php echo time(); ?>"> -->

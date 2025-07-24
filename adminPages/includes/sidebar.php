@@ -135,7 +135,7 @@ function isActive2($data1, $data2)
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link <?php echo isActive(['products','types','groups','colors']) ?>">
+                    <a href="#" class="nav-link <?php echo isActive(['products','types','groups','colors','technicals']) ?>">
                         <i class="nav-icon fa fa-bars"></i>
                         <p>ข้อมูลพื้นฐาน
                             <i class="fas fa-angle-left right"></i>

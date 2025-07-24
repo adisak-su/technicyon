@@ -1292,7 +1292,7 @@ require_once("../../assets/php/common.php");
             if (storeName == "products") {
                 // products = dataStore;
                 setupAutocompleteProducts(
-                    "productInput", "productSuggestions", products, "productId", ["productId", "name"], ["productId", "name"], [{
+                    "productInput", "productSuggestions", dataStore, "productId", ["productId", "name"], ["productId", "name"], [{
                         elementId: "productCode",
                         elementValue: "productName"
                     }, {
@@ -1303,11 +1303,7 @@ require_once("../../assets/php/common.php");
                         elementValue: "price1"
                     }]
                 );
-                // return dataStore;
-                // createFilterDataAndRender();
-                //renderTable();
             } else if (storeName == "groupnames") {
-                // groupNames = dataStore;
                 /*
                 setupAutocomplete(
                     "groupName", "groupNameSuggestions", groupNames, "groupname", ["groupname"], ["groupname"], null, setProductName);
@@ -1332,7 +1328,6 @@ require_once("../../assets/php/common.php");
                     callbackFunction: setProductName,
                     sortField: "groupname"
                 });
-                // return dataStore;
             } else if (storeName == "typenames") {
                 setupAutocompleteOnFocus({
                     inputId: "filterType",
@@ -1377,7 +1372,6 @@ require_once("../../assets/php/common.php");
                     //callbackFunction: dataFilterProductModal,
                     sortField: "colorname"
                 });
-                // return dataStore;
             }
             return dataStore;
         }

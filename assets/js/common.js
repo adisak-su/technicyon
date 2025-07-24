@@ -93,6 +93,10 @@ function getLocalDateTime(val, full = true) {
     return str;
 }
 
+function getDateTimeNow() {
+    return new Date().addHours(7).toISOString().replace("T", " ").substr(0, 19);
+}
+
 function genTimeline(val) {
     divHtml = `<div class="groupStatus">`;
     if (val == "0") {

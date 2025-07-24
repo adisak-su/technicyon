@@ -119,7 +119,7 @@ require_once("../../service/configData.php");
                                             <thead class="table-primary">
                                                 <tr>
                                                     <th style="min-width: 40px;">#</th>
-                                                    <th style="min-width: 120px;" onclick="sortColumnBy('colorname',this);">
+                                                    <th style="min-width: 120px;" onclick="sortColumnBy('technicalname',this);">
                                                         <div class="d-flex justify-content-around">
                                                             <div>ช่างซ่อมรถยนต์</div>
                                                             <div id="icon"></div>
@@ -229,7 +229,12 @@ require_once("../../service/configData.php");
     <!-- SCRIPTS -->
     <?php include_once('../../includes/pagesScript.php') ?>
     <?php include_once('../../includes/myScript.php') ?>
+
+    <!-- Axios -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
     <script src="../indexedDB/indexedDB.js?<?php echo time(); ?>"></script>
+    <!-- <script src="../serviceDataServer/startInitData.js?<?php echo time(); ?>"></script> -->
     <script src="../js/renderPagination.js?<?php echo time(); ?>"></script>
     <script src="../js/sortColumnBy.js?<?php echo time(); ?>"></script>
     <script src="../js/validateInput.js?<?php echo time(); ?>"></script>
@@ -257,7 +262,7 @@ require_once("../../service/configData.php");
                 type: "value"
             }, {
                 id: "itemName",
-                name: "ชื่อสีรถยนต์",
+                name: "ชื่อช่าง",
                 type: "value"
             }];
             validateInputForm = new ValidateInput("itemModal", arrayValidateInput);
@@ -266,7 +271,7 @@ require_once("../../service/configData.php");
         //สำหรับการจัดเรียงข้อมูล
         const STORE = "technicalnames";
         let sortColumn = [{
-            colName: "colorname",
+            colName: "technicalname",
             state: "ASC"
         }, ];
 
@@ -295,8 +300,8 @@ require_once("../../service/configData.php");
                 editId = id;
                 const thisfrm = document.getElementById('itemForm');
                 thisfrm.elements.namedItem("itemId").value = id;
-                thisfrm.elements.namedItem("itemName_org").value = m.colorname;
-                thisfrm.elements.namedItem("itemName").value = m.colorname;
+                thisfrm.elements.namedItem("itemName_org").value = m.technicalname;
+                thisfrm.elements.namedItem("itemName").value = m.technicalname;
 
                 $('#itemModal #itemModalLabel').text('แก้ไขรายการ');
                 $('#itemModal .modal-header').addClass("bg-warning");
@@ -323,7 +328,7 @@ require_once("../../service/configData.php");
 
             const item = {
                 "technicalNo": 0,
-                "colorname": itemName,
+                "technicalname": itemName,
                 updatedAt
             };
             let dataSend = {
@@ -363,7 +368,7 @@ require_once("../../service/configData.php");
                     if (resp.status) {
                         toastr.success(resp.message);
                         const insertedId = resp.insertedId;
-                        item.technicalNo = insertedId;
+                        item.technicalNo = parseInt(insertedId);
                         confirmSave(item)
                     } else {
                         sweetAlertError('เกิดข้อผิดพลาด : ' + resp.message, 3000);
@@ -380,7 +385,7 @@ require_once("../../service/configData.php");
 
         async function prepareDelete(item) {
             let deleteId = item.technicalNo;
-            let deleteName = item.colorname;
+            let deleteName = item.technicalname;
             message = `${deleteName}<BR>คุณแน่ใจหรือไม่...ที่จะลบรายการนี้?`;
             confirm = await sweetConfirmDelete(message, "ใช่! ลบเลย");
             if (confirm) {
@@ -418,7 +423,7 @@ require_once("../../service/configData.php");
             } else {
                 technicalNames.push(item);
             }
-            // technicalNames.sortASC("colorname");
+            // technicalNames.sortASC("technicalname");
             createFilterDataAndRender(currentPage);
         }
 
@@ -434,7 +439,7 @@ require_once("../../service/configData.php");
             filtered = technicalNames;
             if (searchText) {
                 filtered = filtered.filter(m =>
-                    m.colorname.toLowerCase().includes(searchText)
+                    m.technicalname.toLowerCase().includes(searchText)
                 );
             }
 
@@ -453,7 +458,7 @@ require_once("../../service/configData.php");
                 tbody.insertAdjacentHTML('beforeend', `
                     <tr>
                         <td>${start + i + 1}</td>
-                        <td>${m.colorname}</td>
+                        <td>${m.technicalname}</td>
                         <td></td>
                         <td>
                             <div class="d-flex justify-content-around">
@@ -477,7 +482,9 @@ require_once("../../service/configData.php");
             try {
                 loaderScreen("show");
                 await syncOnLoad();
-                technicalNames = await loadDataFromDB("technicalnames", "colorname");
+                technicalNames = await loadDataFromDB("technicalnames", "technicalname");
+
+                // technicalNames = await loadDataFromServer("technicalname")
                 createFilterDataAndRender();
             } catch (error) {
                 sweetAlertError("เกิดข้อผิดพลาด : " + error.message, 0);
@@ -502,12 +509,101 @@ require_once("../../service/configData.php");
 
             createValidate();
 
-            setInterval(syncDataRealtime, timeSync); // 10 วินาที
-            
-            // setInterval(function() {
-            //     updateSyncData({dataSource:technicalNames,dataName:"technicalnames"}); 
-            // },5000); // 10 วินาที
+            setInterval(syncDataRealtime, timeSync);
+            // setInterval(syncDataRealtimeServer, timeSync);
+
+            // setInterval(syncDataRealtimeServer, timeSync);
+
+            // syncDataRealtimeServer();
         });
+
+        async function _syncDataRealtimeServer() {
+            let dataExpires = [];
+            try {
+                // dataExpires = await startCheckDataExpired(["technicalname"]);
+                dataExpires = await getDataTableExpired();
+            } catch (error) {
+                let message = error?.responseJSON?.message ?? error.responseText;
+                if (!message) {
+                    message = error;
+                }
+                sweetAlertError('เกิดข้อผิดพลาด : ' + message, 0);
+            } finally {
+                console.table(dataExpires);
+                if (dataExpires.length) {
+                    dataExpires.forEach((item) => {
+                        if (item.statusType === "updateExpire") {
+                            switch (item.tableName) {
+                                case "technicalname":
+                                    technicalNames = item.data;
+                                    technicalNames = sortColumnData(technicalNames);
+                                    createFilterDataAndRender(currentPage);
+                                    break;
+                            }
+                        } else if (item.statusType === "insertExpire") {
+                            switch (item.tableName) {
+                                case "technicalname":
+                                    item.data.forEach((item) => {
+                                        technicalNames.push(item);
+                                    });
+                                    technicalNames = sortColumnData(technicalNames);
+                                    createFilterDataAndRender(currentPage);
+                                    break;
+                            }
+                        }
+                    });
+                }
+            }
+        }
+        async function syncDataRealtimeServer() {
+            let dataExpires = [];
+            try {
+                dataExpires = await startCheckDataExpired(["technicalname"]);
+            } catch (error) {
+                let message = error?.responseJSON?.message ?? error.responseText;
+                if (!message) {
+                    message = error;
+                }
+                sweetAlertError('เกิดข้อผิดพลาด : ' + message, 0);
+            } finally {
+                if (dataExpires.length) {
+                    dataExpires.forEach((item) => {
+                        if (item.statusType === "updateExpire") {
+                            switch (item.tableName) {
+                                case "technicalname":
+                                    technicalNames = item.data;
+                                    technicalNames = sortColumnData(technicalNames);
+                                    createFilterDataAndRender(currentPage);
+                                    break;
+                            }
+                        } else if (item.statusType === "insertExpire") {
+                            switch (item.tableName) {
+                                case "technicalname":
+                                    item.data.forEach((item) => {
+                                        let indexFound = arrayFindIndex(technicalNames,item,"technicalNo");
+                                        if( indexFound >= 0) {
+                                            technicalNames[indexFound] = item;
+                                        }
+                                        else {
+                                            technicalNames.push(item);
+                                        }
+                                        // technicalNames.push(item);
+                                    });
+                                    // technicalNames = Array.from(new Set(technicalNames));
+                                    technicalNames = sortColumnData(technicalNames);
+                                    createFilterDataAndRender(currentPage);
+                                    break;
+                            }
+                        }
+                    });
+                }
+            }
+        }
+
+        function arrayFindIndex(dataSource,item,key) {
+            let result = dataSource.findIndex(element => element[key] == item[key]);
+            return result;
+        }
 
         async function syncDataRealtime() {
             let tableNames = await updateSyncData();

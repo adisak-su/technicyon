@@ -18,10 +18,6 @@ require_once("service/configData.php");
     <!-- Favicons -->
     <?php include_once('includes/favicons.php'); ?>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400&display=swap" rel="stylesheet">
-
     <link rel="stylesheet" href="assets/css/adminlte.min.css">
     <link rel="stylesheet" href="plugins/toastr/toastr.min.css">
     <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
@@ -54,6 +50,14 @@ require_once("service/configData.php");
                         </div>
                         <div class="card-body">
                             <form id="formData">
+                                <div class="form-group">
+                                    <label for="username"><i class="fas fa-user"></i> รูปแบบการใช้งาน</label>
+                                    <select name="typeDatabase" id="typeDatabase" class="form-control">
+                                        <option value="1">Database from Server</option>
+                                        <option value="2">Local Database</option>
+                                    </select>
+                                </div>
+
                                 <div class="form-group">
                                     <label for="username"><i class="fas fa-user"></i> ชื่อผู้ใช้งาน</label>
                                     <input type="text" id="username" name="username" class="form-control" placeholder="username" value="admin">

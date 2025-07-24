@@ -9,28 +9,36 @@ try {
 	$response = [];
 	$result = [];
 	if ('POST' === $_SERVER['REQUEST_METHOD']) {
-		$lastSyncTime = $_POST["lastSyncTime"];
-		$statusType = $_POST["statusType"];
-		
+		$data = $_POST;
+
+		if (empty($data)) {
+			$raw = file_get_contents("php://input");
+			$json = json_decode($raw, true);
+			if (json_last_error() === JSON_ERROR_NONE) {
+				$data = $json;
+			}
+		}
+
+		$lastSyncTime = $data["lastSyncTime"];
+		$statusType = $data["statusType"];
+
 		if ($statusType == "insertExpire") {
 			$params = array(
 				'lastSync' => $lastSyncTime,
 			);
-			$sql = "SELECT * FROM colorname WHERE updatedAt >= :lastSync ORDER BY colorname";
+			$sql = "SELECT * FROM groupname WHERE updatedAt >= :lastSync ORDER BY groupname";
 			$stmt = $conn->prepare($sql);
 			$stmt->execute($params);
 			$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 		} else {
-			$sql = "SELECT * FROM colorname ORDER BY colorname";
+			$sql = "SELECT * FROM groupname ORDER BY groupname";
 			$stmt = $conn->prepare($sql);
 			$stmt->execute();
 			$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 		}
-
-		$response = $result;
 		$response = [
 			'status' => true,
-			'datas' => $result
+			'message' => $result
 		];
 		if (function_exists('gzencode')) {
 			$compressed = gzencode(json_encode($response), 9); // ระดับการบีบอัดสูงสุด
@@ -41,8 +49,7 @@ try {
 			echo $compressed;
 			exit;
 		}
-	}
-	else {
+	} else {
 		http_response_code(201);
 		$response = [
 			'status' => false,

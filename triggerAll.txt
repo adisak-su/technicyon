@@ -45,6 +45,7 @@ DROP TRIGGER IF EXISTS `After Delete Product`;
 DELIMITER $$
 CREATE TRIGGER `After Insert Color` AFTER INSERT ON `colorname`
  FOR EACH ROW BEGIN
+    SET time_zone = "+07:00";
     SET @colorNo = NEW.colorNo;
     SET @colorname = NEW.colorname;
     SET @updatedAt = NEW.updatedAt;
@@ -61,6 +62,7 @@ DELIMITER ;
 DELIMITER $$
 CREATE TRIGGER `After Update Color` AFTER UPDATE ON `colorname`
  FOR EACH ROW BEGIN
+    SET time_zone = "+07:00";
     SET @colorNo_old = OLD.colorNo;
     SET @colorNo = NEW.colorNo;
     SET @colorname = NEW.colorname;
@@ -80,6 +82,7 @@ DELIMITER ;
 DELIMITER $$
 CREATE TRIGGER `After Delete Color` AFTER DELETE ON `colorname`
  FOR EACH ROW BEGIN
+    SET time_zone = "+07:00";
     INSERT INTO data_changes(table_name, record_id, action, changed_at)
     VALUES ('colornames', OLD.colorNo, "DELETE", NOW());
     
@@ -96,6 +99,7 @@ DELIMITER ;
 DELIMITER $$
 CREATE TRIGGER `After Insert Customer` AFTER INSERT ON `customer`
  FOR EACH ROW BEGIN
+    SET time_zone = "+07:00";
     # customerNo customerId name address telephone discount type updatedAt
     SET @customerNo = NEW.customerNo;
     SET @customerId = NEW.customerId;
@@ -119,6 +123,7 @@ DELIMITER ;
 DELIMITER $$
 CREATE TRIGGER `After Update Customer` AFTER UPDATE ON `customer`
  FOR EACH ROW BEGIN
+    SET time_zone = "+07:00";
     # customerNo customerId name address telephone discount type updatedAt
     SET @customerNo = NEW.customerNo;
     SET @customerId = NEW.customerId;
@@ -142,6 +147,7 @@ DELIMITER ;
 DELIMITER $$
 CREATE TRIGGER `After Delete Customer` AFTER DELETE ON `customer`
  FOR EACH ROW BEGIN
+    SET time_zone = "+07:00";
     # customerNo customerId name address telephone discount type updatedAt
     # SET @customerNo = OLD.customerNo;
 
@@ -159,6 +165,7 @@ DELIMITER ;
 DELIMITER $$
 CREATE TRIGGER `After Insert Group` AFTER INSERT ON `groupname`
  FOR EACH ROW BEGIN
+    SET time_zone = "+07:00";
 	SET @groupNo = NEW.groupNo;
     SET @groupname = NEW.groupname;
     SET @updatedAt = NEW.updatedAt;
@@ -175,6 +182,7 @@ DELIMITER ;
 DELIMITER $$
 CREATE TRIGGER `After Update Group` AFTER UPDATE ON `groupname`
  FOR EACH ROW BEGIN
+    SET time_zone = "+07:00";
     SET @groupNo_old = OLD.groupNo;
     SET @groupNo = NEW.groupNo;
     SET @groupname = NEW.groupname;
@@ -194,6 +202,7 @@ DELIMITER ;
 DELIMITER $$
 CREATE TRIGGER `After Delete Group` AFTER DELETE ON `groupname`
  FOR EACH ROW BEGIN
+    SET time_zone = "+07:00";
     INSERT INTO data_changes(table_name, record_id, action, changed_at)
     VALUES ('groupnames', OLD.groupNo, "DELETE", NOW());
     
@@ -211,6 +220,7 @@ DELIMITER ;
 DELIMITER $$
 CREATE TRIGGER `After insert Product` AFTER INSERT ON `product`
  FOR EACH ROW BEGIN
+    SET time_zone = "+07:00";
     SET @productNo = NEW.productNo;
     SET @productId = NEW.productId;
     SET @name = NEW.name;
@@ -242,6 +252,7 @@ DELIMITER ;
 DELIMITER $$
 CREATE TRIGGER `After Update Product` AFTER UPDATE ON `product`
  FOR EACH ROW BEGIN
+    SET time_zone = "+07:00";
     SET @productNo = OLD.productNo;
     SET @productId = NEW.productId;
     SET @name = NEW.name;
@@ -273,6 +284,7 @@ DELIMITER ;
 DELIMITER $$
 CREATE TRIGGER `After Delete Product` AFTER DELETE ON `product`
  FOR EACH ROW BEGIN
+    SET time_zone = "+07:00";
     SET @productNo = OLD.productNo;
 
 	INSERT INTO data_changes(table_name, record_id, action, changed_at)
@@ -289,6 +301,7 @@ DELIMITER ;
 DELIMITER $$
 CREATE TRIGGER `After Insert Supplier` AFTER INSERT ON `supplier`
  FOR EACH ROW BEGIN
+    SET time_zone = "+07:00";
     # supplierNo supplierId name address telephone updatedAt
     SET @supplierNo = NEW.supplierNo;
     SET @supplierId = NEW.supplierId;
@@ -310,6 +323,7 @@ DELIMITER ;
 DELIMITER $$
 CREATE TRIGGER `After Update Supplier` AFTER UPDATE ON `supplier`
  FOR EACH ROW BEGIN
+    SET time_zone = "+07:00";
     # supplierNo supplierId name address telephone updatedAt
     SET @supplierNo = NEW.supplierNo;
     SET @supplierId = NEW.supplierId;
@@ -331,6 +345,7 @@ DELIMITER ;
 DELIMITER $$
 CREATE TRIGGER `After Delete Supplier` AFTER DELETE ON `supplier`
  FOR EACH ROW BEGIN
+    SET time_zone = "+07:00";
     # supplierNo supplierId name address telephone updatedAt
     # SET @supplierNo = OLD.supplierNo;
 
@@ -348,6 +363,8 @@ DELIMITER ;
 DELIMITER $$
 CREATE TRIGGER `After Insert Technical` AFTER INSERT ON `technicalname`
  FOR EACH ROW BEGIN
+    SET time_zone = "+07:00";
+    SET time_zone = "+07:00";
     SET @technicalNo = NEW.technicalNo;
     SET @technicalname = NEW.technicalname;
     SET @updatedAt = NEW.updatedAt;
@@ -364,6 +381,7 @@ DELIMITER ;
 DELIMITER $$
 CREATE TRIGGER `After Update Technical` AFTER UPDATE ON `technicalname`
  FOR EACH ROW BEGIN
+    SET time_zone = "+07:00";
     SET @technicalNo_old = OLD.technicalNo;
     SET @technicalNo = NEW.technicalNo;
     SET @technicalname = NEW.technicalname;
@@ -383,6 +401,7 @@ DELIMITER ;
 DELIMITER $$
 CREATE TRIGGER `After Delete Technical` AFTER DELETE ON `technicalname`
  FOR EACH ROW BEGIN
+    SET time_zone = "+07:00";
     # INSERT INTO data_changes(table_name, record_id, action, changed_at)
     # VALUES ('technicalnames', OLD.technicalNo, "DELETE", NOW());
     
@@ -399,6 +418,7 @@ DELIMITER ;
 DELIMITER $$
 CREATE TRIGGER `After Insert Typename` AFTER INSERT ON `typename`
  FOR EACH ROW BEGIN
+    SET time_zone = "+07:00";
     SET @typeNo = NEW.typeNo;
     SET @typename = NEW.typename;
     SET @updatedAt = NEW.updatedAt;
@@ -415,6 +435,7 @@ DELIMITER ;
 DELIMITER $$
 CREATE TRIGGER `After Update Typename` AFTER UPDATE ON `typename`
  FOR EACH ROW BEGIN
+    SET time_zone = "+07:00";
     SET @typeNo_old = OLD.typeNo;
     SET @typeNo = NEW.typeNo;
     SET @typename = NEW.typename;
@@ -434,6 +455,7 @@ DELIMITER ;
 DELIMITER $$
 CREATE TRIGGER `After Delete Typename` AFTER DELETE ON `typename`
  FOR EACH ROW BEGIN
+    SET time_zone = "+07:00";
     INSERT INTO data_changes(table_name, record_id, action, changed_at)
     VALUES ('typenames', OLD.typeNo, "DELETE", NOW());
     
@@ -450,6 +472,7 @@ DELIMITER ;
 DELIMITER $$
 CREATE TRIGGER `After Insert Usercar` AFTER INSERT ON `usercar`
  FOR EACH ROW BEGIN
+    SET time_zone = "+07:00";
     # `usercarINo`, `usercarId`, `groupname`, `colorname`, `name`, `address`, `telephone`, `mile`, `birthday`, `year`, `vehicleId`, `updatedAt`
     SET @usercarNo = NEW.usercarNo;
     SET @usercarId = NEW.usercarId;
@@ -478,6 +501,7 @@ DELIMITER ;
 DELIMITER $$
 CREATE TRIGGER `After Update Usercar` AFTER UPDATE ON `usercar`
  FOR EACH ROW BEGIN
+    SET time_zone = "+07:00";
     # `usercarINo`, `usercarId`, `groupname`, `colorname`, `name`, `address`, `telephone`, `mile`, `birthday`, `year`, `vehicleId`, `updatedAt`
     SET @usercarNo = OLD.usercarNo;
     SET @usercarId = NEW.usercarId;
@@ -506,6 +530,7 @@ DELIMITER ;
 DELIMITER $$
 CREATE TRIGGER `After Delete Usercar` AFTER DELETE ON `usercar`
  FOR EACH ROW BEGIN
+    SET time_zone = "+07:00";
     # `usercarINo`, `usercarId`, `groupname`, `colorname`, `name`, `address`, `telephone`, `mile`, `birthday`, `year`, `vehicleId`, `updatedAt`
     SET @usercarNo = OLD.usercarNo;
 

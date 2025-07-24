@@ -16,5 +16,11 @@ $payload = authenticate("login.php");
 if(!isset($payload['adminID'])) {
     header('Location: login.php');
 } else {
-    header('Location: adminPages/indexedDB/syncDataAPI.php');
+    // header('Location: adminPages/indexedDB/syncDataAPI.php');
+    if($payload['typeDatabase'] == "adminPages") {
+        header('Location: ' . $payload['typeDatabase'] . '/indexedDB/syncDataAPI.php');
+    }
+    else {
+        header('Location: ' . $payload['typeDatabase'] . '/settings');
+    }
 }

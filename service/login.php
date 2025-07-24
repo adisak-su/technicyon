@@ -31,6 +31,7 @@ try {
 		}
 		$username = $_REQUEST['username'];
 		$password = $_REQUEST['password'];
+		$typeDatabase = $_REQUEST['typeDatabase'];
 
 		$params = array(
 			'username' => $username,
@@ -60,6 +61,13 @@ try {
 			$_SESSION['image'] = $item['image'];
 			$_SESSION['lastSync'] = $lastSync;
 			$_SESSION['expires'] = time() + JWT_EXPIRE;
+
+			if($typeDatabase == 1) {
+				$_SESSION['typeDatabase'] = "adminPagesServer";
+			}
+			else {
+				$_SESSION['typeDatabase'] = "adminPages";
+			}
 			
 			$sql = "UPDATE $tb_admins SET updated_at=:datetime WHERE username = :username AND password = :password";
 			$stmt = $conn->prepare($sql);
@@ -71,6 +79,7 @@ try {
 				'adminName' => $item['firstName'],
 				'permission' => $item['permission'],
 				'image' => $item['image'],
+				'typeDatabase' => $_SESSION['typeDatabase'],
 				'lastSync' => $_SESSION['lastSync'],
 				'expires' => $_SESSION['expires'],
 			]);

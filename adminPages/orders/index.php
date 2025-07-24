@@ -932,7 +932,7 @@ require_once("../../service/configData.php");
             setReadOnly();
 
             $("#orderItemsBody").html("");
-            setFocusInput("#customerInput");
+            // setFocusInput("#customerInput");
         }
 
         function dataFilterProductNameModal() {

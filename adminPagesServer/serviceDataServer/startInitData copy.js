@@ -1,52 +1,11 @@
 let localTableStatus = [];
 // let localTableStatus = getStorage("tableStatus");
 
-async function loadDataFromServer(dataSource = []) {
-    
-}
-
-async function startCheckDataExpired(dataSource = [], lastDataSyncTime) {
+async function startCheckDataExpired() {
     let result = await getTableStatus();
-    if (result) {
-        setStorage("tableStatus", result);
-        return await checkExpired(dataSource, result, lastDataSyncTime);
-    }
-    return [];
 }
 
-async function checkExpired(dataSource, tableStatus, lastDataSyncTime) {
-    let tableExpires = [];
-    dataSource.forEach((item) => {
-        if (tableStatus) {
-            // console.log(localTableStatus);
-            // let insertTime = findInsertTime(tableStatus, item.tableName, lastDataSyncTime);
-            // let updateTime = findUpdateTime(tableStatus, item.tableName, lastDataSyncTime);
-            // let expiredStatus = findUpdateTime(tableStatus, item.tableName, lastDataSyncTime);
-            let expiredStatus = tableStatus.findIndex(
-                (element) => element.tableName === item && (element.insertTime <= lastDataSyncTime || element.updateTime <= lastDataSyncTime) 
-            );
-            if(expiredStatus) {
-                tableExpires.push(element);
-            }
-            // alert(insertTime + " : " + element.insertTime)
-            // if (insertTime || updateTime) {
-            //     if (
-            //         insertTime != element.insertTime ||
-            //         updateTime != element.updateTime
-            //     ) {
-            //         return true;
-            //     }
-            // }
-        //     return false;
-        // } else {
-        //     return true;
-        }
-        
-    });
-    return tableExpires
-}
-
-function _checkExpired(element) {
+function checkExpired(element) {
     if (localTableStatus) {
         // console.log(localTableStatus);
         let insertTime = findInsertTime(localTableStatus, element.tableName);
@@ -64,24 +23,24 @@ function _checkExpired(element) {
     }
 }
 
-function findInsertTime(tableStatus, tableName, lastDataSyncTime) {
+function findInsertTime(tableStatus, tableName) {
     let index = tableStatus.findIndex(
         (element) => element.tableName === tableName
     );
     if (index != -1) {
         return tableStatus[index].insertTime;
     }
-    return null;
+    return "";
 }
 
-function findUpdateTime(tableStatus, tableName, lastDataSyncTime) {
+function findUpdateTime(tableStatus, tableName) {
     let index = tableStatus.findIndex(
         (element) => element.tableName === tableName
     );
     if (index != -1) {
         return tableStatus[index].updateTime;
     }
-    return null;
+    return "";
 }
 
 async function getTableStatus() {
@@ -95,17 +54,43 @@ async function getTableStatus() {
                 let tableNameExpire = [];
                 let urls = [];
                 result = resp.message;
+                
 
                 if (result) {
                     setStorage("tableStatus", result);
-                    resolve(result);
-                } else {
-                    resolve(null);
+                    result.forEach((element, index) => {
+                        tableName = element.tableName;
+                        //alert(tableName);
+                        let expired = checkExpired(element);
+                        if (expired) {
+                            // tableNameExpire.push(tableName);
+                            // urls.push(
+                            //     "service/readTable.php?status=1&tableName=" + tableName
+                            // );
+                            if (tableName === "autowords") {
+                                tableNameExpire.push(tableName);
+                                urls.push(
+                                    "service/getAutoWord.php"
+                                );
+                            }
+                            else if (!(tableName == "sales" || tableName == "test_sales")) {
+                                tableNameExpire.push(tableName);
+                                urls.push(
+                                    "service/readTable.php?status=1&tableName=" +
+                                        tableName
+                                );
+                            }
+                        }
+                    });
+                    
+                // } else {
+                //     resolve(true);
                 }
+                resolve(true);
             })
             .fail(function (error) {
                 alert("Error get : " + JSON.stringify(error));
-                reject(null);
+                reject(false);
             });
     });
 }
@@ -151,20 +136,20 @@ async function _getTableStatus() {
                     if (tableNameExpire) {
                         const fetchNames = async () => {
                             try {
-                                // var arrayFetch = urls.map(function (url) {
-                                //     return fetch(url);
-                                // });
-                                // const requests = await Promise.all(arrayFetch);
+                                var arrayFetch = urls.map(function (url) {
+                                    return fetch(url);
+                                });
+                                const requests = await Promise.all(arrayFetch);
 
-                                // const results = await Promise.all(
-                                //     requests.map((r) => r.json())
-                                // );
-                                // tableNameExpire.forEach((tableName, index) => {
-                                //     setStorage(
-                                //         tableName,
-                                //         JSON.parse(results[index].message)
-                                //     );
-                                // });
+                                const results = await Promise.all(
+                                    requests.map((r) => r.json())
+                                );
+                                tableNameExpire.forEach((tableName, index) => {
+                                    setStorage(
+                                        tableName,
+                                        JSON.parse(results[index].message)
+                                    );
+                                });
                                 return true;
                             } catch {
                                 return false;

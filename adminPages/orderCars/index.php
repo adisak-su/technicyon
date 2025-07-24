@@ -146,24 +146,32 @@ require_once("../../service/configData.php");
                                         </div>
                                     </div>
                                     <div class="row align-items-end">
-                                        <div class="col-12 col-md-6 col-lg-4 col-xl-3 form-group position-relative">
+                                        <div class="col-12 col-md-6 col-lg-4 col-xl-2 form-group position-relative">
                                             <label for="customerMile">เลขไมล์</label>
                                             <div class="input-icon-wrapper">
                                                 <i class="fa fa-keyboard input-icon" aria-hidden="true"></i>
                                                 <input type="text" id="customerMile" class="form-control" value="" placeholder="" autocomplete="off">
                                             </div>
                                         </div>
-                                        <div class="col-12 col-md-6 col-lg-4 col-xl-3 form-group position-relative">
+                                        <div class="col-12 col-md-6 col-lg-4 col-xl-2 form-group position-relative">
                                             <label for="customerYear">ปี</label>
                                             <div class="input-wrapper">
                                                 <input type="text" readonly id="customerYear" class="form-control" style="background-color: #fff;" value="" placeholder="" autocomplete="off">
                                             </div>
                                         </div>
-                                        <div class="col-12 col-md-12 col-lg-4 col-xl-6 form-group position-relative">
+                                        <div class="col-12 col-md-12 col-lg-4 col-xl-4 form-group position-relative">
                                             <label for="customerVehicleId">หมายเลขเครื่อง</label>
                                             <div class="input-wrapper">
                                                 <input type="text" readonly id="customerVehicleId" class="form-control" style="background-color: #fff;" value="" placeholder="" autocomplete="off">
                                             </div>
+                                        </div>
+                                        <div class="col-12 col-md-12 col-lg-4 col-xl-4 form-group position-relative">
+                                            <label for="customerTechnical" class="form-label">ช่างซ่อม</label>
+                                            <div class="input-icon-wrapper">
+                                                <i class="fa fa-keyboard input-icon" aria-hidden="true"></i>
+                                                <input type="text" id="customerTechnical" class="form-control" value="" placeholder="" value="" autocomplete="off" />
+                                            </div>
+                                            <div id="technicalSuggestions" class="suggestions"></div>
                                         </div>
                                     </div>
 
@@ -367,7 +375,8 @@ require_once("../../service/configData.php");
     <!-- SCRIPTS -->
     <?php include_once('../../includes/pagesScript.php') ?>
     <?php include_once('../../includes/myScript.php') ?>
-    <script src="../indexedDB/indexedDB.js?<?php echo time(); ?>"></script>
+    <!-- <script src="../indexedDB/indexedDB.js?<?php echo time(); ?>"></script> -->
+    <script src="../serviceDataServer/startInitData.js?<?php echo time(); ?>"></script>
     <script src="../js/validateInput.js?<?php echo time(); ?>"></script>
     <script src="../js/autocomplete.js?<?php echo time(); ?>"></script>
 
@@ -387,6 +396,7 @@ require_once("../../service/configData.php");
         let usercars = [];
         let typeNames = [];
         let groupNames = [];
+        let technicalNames = [];
         let MAXRowPerPage = <?php echo $MAXRowPerPage_Front; ?>;
         let countRow = 0;
         let editMode = false;
@@ -433,14 +443,14 @@ require_once("../../service/configData.php");
                     name: "วันที่",
                     type: "value"
                 },
-                // {
-                //     id: "itemGroupName",
-                //     name: "ยี่ห้อ/รุ่นรถยนต์",
-                //     type: "list",
-                //     dataSource: groupNames,
-                //     key: "groupname",
-                //     require: true,
-                // },
+                {
+                    id: "customerTechnical",
+                    name: "รายชื่อช่างซ่อม",
+                    type: "list",
+                    dataSource: technicalNames,
+                    key: "technicalname",
+                    require: true,
+                },
                 // {
                 //     id: "itemColor",
                 //     name: "สีรถยนต์",
@@ -565,6 +575,7 @@ require_once("../../service/configData.php");
                 customerName: $("#customerName").val(),
                 customerAddress: $("#customerAddress").val(),
                 customerTelephone: $("#customerTelephone").val(),
+                technicalName: $("#customerTechnical").val(),
                 status: 0,
                 vat: vat,
                 typeSale: typeSale,
@@ -798,7 +809,7 @@ require_once("../../service/configData.php");
         function checkEnterUsercarId(event, value) {
             if (event.key === "Enter") {
                 let item = usercars.find(item => item.usercarId == value);
-                if(!item) {
+                if (!item) {
                     toastr.error("ไม่พบรายการทะเบียนรถ : " + value);
                 }
                 setValueCustomerSale(item);
@@ -833,8 +844,7 @@ require_once("../../service/configData.php");
                     setValueProductSale(item);
                     // setFocusInput("#productPrice");
                     document.getElementById("productSuggestions").innerHTML = "";
-                }
-                else {
+                } else {
                     toastr.error("ไม่พบรายการสินค้า : " + id);
                 }
             }
@@ -913,6 +923,7 @@ require_once("../../service/configData.php");
             $("#customerMile").val("");
             $("#customerYear").val("");
             $("#customerVehicleId").val("");
+            $("#customerTechnical").val("");
 
             if ($("#vatSale")[0].checked) {
                 $("#vatSale")[0].checked = false;
@@ -950,6 +961,7 @@ require_once("../../service/configData.php");
 
             $("#customerInput").removeClass("is-invalid");
             $("#customerName").removeClass("is-invalid");
+            $("#customerTechnical").removeClass("is-invalid");
 
             resetValueProductSale();
             setReadOnly();
@@ -1114,6 +1126,9 @@ require_once("../../service/configData.php");
             if (editOrder.status) {
                 editOrder = editOrder.data;
                 let orderItems = editOrder.details;
+
+                $("#customerTechnical").val(editOrder.technicalname);
+                
                 if (orderItems) {
                     orderItems = JSON.parse(orderItems);
                 }
@@ -1128,7 +1143,7 @@ require_once("../../service/configData.php");
                         $("#vatSale")[0].click();
                     }
                 }
-                
+
                 if (Number(editOrder.typesale) == 0) {
                     if ($("#typeSale")[0].checked) {
                         $("#typeSale")[0].checked = false;
@@ -1141,25 +1156,14 @@ require_once("../../service/configData.php");
                     }
                 }
 
-                addProductItemFromJSON(orderItems)
+                addProductItemFromJSON(orderItems);
+
+                validateInputForm.validate();
             } else {
                 sweetAlertError('เกิดข้อผิดพลาดในการอ่านข้อมูล !!!' + editOrder.error, 0);
                 editOrder = null;
             }
         }
-
-        $(function() {
-            var focusedElement;
-            $(document).on('focus', 'input', function() {
-                if (focusedElement == this) return;
-                if (this.readOnly) return;
-                if ("customerInput" == this.id) return;
-                focusedElement = this;
-                setTimeout(function() {
-                    focusedElement.select();
-                }, 100);
-            });
-        });
 
         $(document).ready(async function() {
             try {
