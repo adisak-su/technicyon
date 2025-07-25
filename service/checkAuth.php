@@ -30,7 +30,7 @@ try {
     if ($payload['typeDatabase'] == "adminPages") {
         echo json_encode(['success' => true, 'redirect' => 'adminPages/indexedDB/syncDataAPI.php']);
     } else {
-        echo json_encode(['success' => true, 'redirect' => 'adminPagesServer/setting/index.php']);
+        echo json_encode(['success' => true, 'redirect' => 'adminPagesServer/settings/index.php']);
     }
     exit;
 } catch (Exception $ex) {

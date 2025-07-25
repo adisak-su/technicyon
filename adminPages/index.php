@@ -7,6 +7,6 @@ $payload = authenticate("../login.php");
 if (!isset($payload['adminID'])) {
     header('Location: ../login.php');
 } else {
-    // header('Location: adminPages/indexedDB/syncDataAPI.php');
-    header('Location: orders');
+    header('Location: indexedDB/syncDataAPI.php');
+    // header('Location: orders');
 }

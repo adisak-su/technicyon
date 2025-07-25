@@ -82,6 +82,7 @@ class Database
 			$this->conn = new PDO("mysql:host=" . $this->host . ";dbname=" . $this->dbname, $this->username, $this->password);
 
 			$this->conn->exec("set names utf8");
+			// $this->conn->exec("set names utf8mb4");
 
 			$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		} catch (PDOException $exception) {

@@ -1174,6 +1174,8 @@ require_once("../../service/configData.php");
                 usercars = await loadAndSetData("usercars");
                 groupNames = await loadAndSetData("groupnames");
                 typeNames = await loadAndSetData("typenames");
+                technicalNames = await loadAndSetData("technicalnames");
+
                 setupProductItemEventHandlers();
                 resetValueSale();
             } catch (error) {
@@ -1213,6 +1215,9 @@ require_once("../../service/configData.php");
                 }
                 if (tableNames.find((item) => item == "typenames")) {
                     typeNames = await loadAndSetData("typenames");
+                }
+                if (tableNames.find((item) => item == "technicalnames")) {
+                    technicalNames = await loadAndSetData("technicalnames");
                 }
                 createValidate();
             }
@@ -1284,6 +1289,18 @@ require_once("../../service/configData.php");
                         callbackFunction: dataFilterOrderModal,
                         sortField: "usercarId",
                         sizeFind: 3,
+                    });
+                } else if (storeName == "technicalnames") {
+                    setupAutocompleteOnFocus({
+                        inputId: "customerTechnical",
+                        suggestionsId: "technicalSuggestions",
+                        dataList: dataStore,
+                        codeId: "technicalname",
+                        arrayShowValue: ["technicalname"],
+                        arrayFindValue: ["technicalname"],
+                        // callbackFunction: setValueCustomerSale,
+                        sortField: "technicalname",
+                        // sizeFind: 3,
                     });
                 }
                 return dataStore;

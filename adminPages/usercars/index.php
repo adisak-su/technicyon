@@ -393,12 +393,10 @@ require_once("../../service/configData.php");
     <?php include_once('../../includes/pagesScript.php') ?>
     <?php include_once('../../includes/myScript.php') ?>
     <script src="../indexedDB/indexedDB.js?<?php echo time(); ?>"></script>
-
-    <!-- <script src="../serviceDB/startInitData.js?<?php echo time(); ?>"></script> -->
-
-    <script src="../js/renderPagination.js"></script>
+    <script src="../js/renderPagination.js?<?php echo time(); ?>"></script>
     <script src="../js/sortColumnBy.js?<?php echo time(); ?>"></script>
     <script src="../js/validateInput.js?<?php echo time(); ?>"></script>
+
     <script src="../js/autocomplete.js?<?php echo time(); ?>"></script>
     <script type="text/javascript">
         let usercars = [];

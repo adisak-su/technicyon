@@ -477,7 +477,8 @@
 
         function closeModal() {
             $('#progressModal').modal('hide');
-            window.location.assign("../index.php");
+            // window.location.assign("../index.php");
+            window.location.assign("../settings/index.php");
         }
 
         async function createProgressBar() {

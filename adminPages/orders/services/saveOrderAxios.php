@@ -33,6 +33,9 @@ try {
 				$sql = "DELETE FROM order_head WHERE orderId=:orderId";
 				$stmt = $conn->prepare($sql);
 				$stmt->execute($params);
+				// $sql = "DELETE FROM order_detail WHERE orderId=:orderId";
+				// $stmt = $conn->prepare($sql);
+				// $stmt->execute($params);
 			} else {
 				$orderId = getCountOrder($conn);
 				$orderId = "F" . date("Y") . substr("0000" . $orderId, -5);

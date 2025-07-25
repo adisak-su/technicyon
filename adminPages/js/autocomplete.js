@@ -16,14 +16,15 @@ function setupAutocompleteOnFocus({
 
     input.addEventListener("focus", function () {
         // Create a new 'change' event
+        if(this.readOnly) return;
         this.select();
-        var event = new Event("input");
         let value = this?.value ?? "";
         if (!value || value.length == 0) {
             this.value = "";
         }
         // if(value.length < sizeFind) return;
         // Dispatch it.
+        var event = new Event("input");
         input.dispatchEvent(event);
         return;
     });

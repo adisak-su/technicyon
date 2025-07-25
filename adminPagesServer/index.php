@@ -8,5 +8,5 @@ if (!isset($payload['adminID'])) {
     header('Location: ../login.php');
 } else {
     // header('Location: adminPages/indexedDB/syncDataAPI.php');
-    header('Location: orders');
+    header('Location: settings');
 }

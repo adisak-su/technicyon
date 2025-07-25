@@ -2,14 +2,14 @@
 function _isActive($data, $data2 = "")
 {
     $array = explode('/', $_SERVER['REQUEST_URI']);
-    $key = array_search("adminPages", $array);
+    $key = array_search('adminPages', $array);
     $name = $array[$key + 1];
     return $name === $data ? 'active' : '';
 }
 function isActive($data)
 {
     $array = explode('/', $_SERVER['REQUEST_URI']);
-    $key = array_search("adminPages", $array);
+    $key = array_search('adminPages', $array);
     $name = $array[$key + 1];
     foreach($data as $item) {
         if($name === $item) {
@@ -17,17 +17,14 @@ function isActive($data)
         }
     }
     return "";
-    // return $name === $data ? 'active' : '';
 }
 function isActive2($data1, $data2)
 {
     $array = explode('/', $_SERVER['REQUEST_URI']);
-    $key = array_search("adminPages", $array);
+    $key = array_search('adminPages', $array);
     $name1 = $array[$key + 1];
     $name2 = $array[$key + 2];
     return ($name1 === $data1) && ($name2 === $data2) ? 'active' : '';
-    // $name = $array[$key + 1];
-    // return $name === $data ? 'active' : '';
 }
 
 ?>
